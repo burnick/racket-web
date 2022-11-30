@@ -19,7 +19,7 @@ const Login: React.FC = () => {
   const onFinish = useCallback(
     (values: { email: string; remember: boolean }) => {
       mutate(values.email)
-      if (!isLoading && isSuccess) {
+      if (isSuccess) {
         setUserCreated(true)
       }
     },
