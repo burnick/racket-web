@@ -19,9 +19,6 @@ const Login: React.FC = () => {
   const onFinish = useCallback(
     (values: { email: string; remember: boolean }) => {
       mutate(values.email)
-      if (isSuccess) {
-        setUserCreated(true)
-      }
     },
     [isLoading, isSuccess, mutate]
   )
@@ -33,6 +30,13 @@ const Login: React.FC = () => {
   const handleReset = useCallback(() => {
     form.resetFields()
   }, [form])
+
+  useEffect(() => {
+    if (isSuccess) {
+      setUserCreated(true)
+    }
+  }, [isSuccess])
+
   useEffect(() => {
     if (isLoading) {
       messageApi.open({
