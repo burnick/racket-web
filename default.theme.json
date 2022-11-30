@@ -1,0 +1,34 @@
+{
+  "colors": {
+    "primary": "#483D8B",
+    "darkSlateBlue": "#483D8B",
+    "purple": "#4B0082",
+    "white": "#ffffff",
+    "offWhite": "##f8f8ff",
+    "indigo": "#4B0082",
+    "midnightBlue": "#191970",
+    "black": "#000000",
+    "gray": "#E8E8E8",
+    "lightgray": "#eeeeee",
+    "dimgray": "#696969",
+    "fbBlue": "#3b5998",
+    "danger": "#DC143C"
+  },
+  "container": {
+    "display": "flex",
+    "align-items": "flex-start",
+    "flex-direction": "column",
+    "text-align": "center",
+    "background-color": "black",
+    "flex-grow": 4,
+    "height": "100%",
+    "padding": 0,
+    "margin": 0,
+    "overflow-x": "hidden"
+  },
+  "title": {
+    "font-size": "1.5em",
+    "text-align": "center",
+    "color": "palevioletred"
+  }
+}
