@@ -20,7 +20,7 @@ const Login: React.FC = () => {
     (values: { email: string; remember: boolean }) => {
       mutate(values.email)
     },
-    [isLoading, isSuccess, mutate]
+    [mutate]
   )
 
   const onFinishFailed = (errorInfo: unknown) => {
