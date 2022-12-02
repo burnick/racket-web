@@ -5,19 +5,52 @@ import styled from 'styled-components'
 interface CardProps {
   title: string
   width?: number
+  loading?: boolean
+  bordered?: boolean
   children: React.ReactNode
 }
 
-const PanelCard = ({ title, width = 500, children }: CardProps) => {
+const PanelCard = ({
+  title,
+  width = 35,
+  loading = false,
+  bordered = false,
+  children,
+}: CardProps) => {
   return (
-    <StyledCard title={title} bordered={false} width={width}>
+    <StyledCard
+      bordered={bordered}
+      title={title}
+      width={width}
+      loading={loading}
+    >
       {children}
     </StyledCard>
   )
 }
 
 const StyledCard = styled(Card)<{ width: number }>`
-  width: ${({ width }) => width}px;
+  width: ${({ width }) => width}%;
+
+  .ant-card-head {
+    min-height: 50px;
+    background: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.white};
+  }
+
+  .ant-card-head-title {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .ant-card-body {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (pointer: none), (pointer: coarse) {
+    width: 90%;
+  }
 `
 
 export default React.memo(PanelCard)
