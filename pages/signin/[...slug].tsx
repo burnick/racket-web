@@ -5,12 +5,12 @@ import PanelCard from 'components/PanelCard'
 
 const SignIn = () => {
   const router = useRouter()
-  const [signId] = (router.query.slug as string[]) || []
+  const [secret] = (router.query.slug as string[]) || []
 
   return (
     <Container>
       <PanelCard title="Validating sign-in....">
-        <p>Slug: {signId}</p>
+        <p>Slug: {secret}</p>
       </PanelCard>
     </Container>
   )
@@ -24,4 +24,4 @@ const Container = styled.div`
   color: #fff;
 `
 
-export default React.memo(SignIn)
+export default SignIn
