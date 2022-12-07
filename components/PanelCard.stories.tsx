@@ -1,7 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import PanelCard from './PanelCard';
-import theme from '../default.theme.json';
 export default {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
@@ -20,4 +19,5 @@ export const ShortTitle = Template.bind({});
 
 ShortTitle.args = {
   title: 'test',
+  children: 'text',
 };

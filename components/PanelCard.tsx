@@ -46,6 +46,7 @@ const StyledCard = styled(Card)<{ width: number }>`
   .ant-card-body {
     overflow: hidden;
     text-overflow: ellipsis;
+    min-height: 190px;
   }
 
   @media (pointer: none), (pointer: coarse) {
