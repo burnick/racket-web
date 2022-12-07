@@ -11,7 +11,7 @@ export const withMaxWidth: DecoratorFn = (StoryFn) => {
         margin: 'auto',
         padding: 5,
         overflow: 'hidden',
-        minHeight: '350px',
+        height: '95vh',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F0F0F0',

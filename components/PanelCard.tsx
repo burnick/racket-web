@@ -36,6 +36,7 @@ const StyledCard = styled(Card)<{ width: number }>`
     min-height: 50px;
     background: ${(props) => props.theme.colors.primary};
     color: ${(props) => props.theme.colors.white};
+    text-transform: capitalize;
   }
 
   .ant-card-head-title {
