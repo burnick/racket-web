@@ -11,7 +11,7 @@ interface CardProps {
 }
 
 const PanelCard = ({
-  title,
+  title = 'test',
   width = 35,
   loading = false,
   bordered = false,
@@ -26,8 +26,8 @@ const PanelCard = ({
     >
       {children}
     </StyledCard>
-  )
-}
+  );
+};
 
 const StyledCard = styled(Card)<{ width: number }>`
   width: ${({ width }) => width}%;
@@ -51,6 +51,6 @@ const StyledCard = styled(Card)<{ width: number }>`
   @media (pointer: none), (pointer: coarse) {
     width: 90%;
   }
-`
+`;
 
 export default React.memo(PanelCard)
