@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Head from 'next/head'
 import styled from 'styled-components'
 import { Button, Form, Input, message } from 'antd'
@@ -14,8 +14,8 @@ const Login: React.FC = () => {
   const [form] = Form.useForm()
   const [messageApi, contextHolder] = message.useMessage()
   const { mutate, isLoading, isSuccess, isError } = SendEmailService()
-  const [userCreated, setUserCreated] = useState<boolean>(false)
   const email = Form.useWatch('email', form)
+
   const onFinish = useCallback(
     (values: { email: string; remember: boolean }) => {
       mutate(values.email)
@@ -32,18 +32,16 @@ const Login: React.FC = () => {
   }, [form])
 
   useEffect(() => {
-    if (isSuccess) {
-      setUserCreated(true)
-    }
-  }, [isSuccess])
-
-  useEffect(() => {
     if (isLoading) {
       messageApi.open({
         type: 'success',
         content: 'Please wait sending create user request',
         duration: 5,
       })
+    }
+
+    return () => {
+      message.destroy()
     }
   }, [isLoading, messageApi])
 
@@ -54,6 +52,9 @@ const Login: React.FC = () => {
         content: 'Unable to create user',
         duration: 10,
       })
+    }
+    return () => {
+      message.destroy()
     }
   }, [isError, messageApi])
 
@@ -70,9 +71,9 @@ const Login: React.FC = () => {
           <meta property="og:title" content="Racket.ph" key="title" />
         </Head>
         <PanelCard title="Login">
-          {userCreated && <>Please check your email</>}
+          {isSuccess && <>Please check your email</>}
 
-          {!userCreated && (
+          {!isSuccess && (
             <Form
               name="basic"
               labelCol={{ span: 8 }}
