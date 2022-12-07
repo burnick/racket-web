@@ -15,7 +15,6 @@ export const withMaxWidth: DecoratorFn = (StoryFn) => {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F0F0F0',
-        border: '1px solid red',
       }}
     >
       <ThemeProvider theme={theme}>
