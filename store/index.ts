@@ -8,6 +8,7 @@ import storage from 'redux-persist/lib/storage';
 const userPersistConfig = {
   key: 'user',
   storage,
+  timeout: 3600 * 60,
 };
 
 const persistedReducer = persistReducer(userPersistConfig, userReducer);
