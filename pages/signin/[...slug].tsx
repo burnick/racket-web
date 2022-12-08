@@ -1,5 +1,5 @@
 import React from 'react';
-// import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import PanelCard from 'components/PanelCard';
@@ -7,13 +7,14 @@ import { SignInService } from 'hooks/useSignInService';
 import { useAppDispatch } from 'store/hooks';
 import { addUser } from 'store/slice/user';
 import { store } from 'store';
+import Router from 'next/router';
 
 const SignIn = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [secret] = (router.query.slug as string[]) || [];
   const state = store.getState();
-  const { data: userDetails, isLoading } = SignInService({ secret });
+  const { data: userDetails, isLoading, isError } = SignInService({ secret });
 
   if (userDetails && userDetails.uid) {
     dispatch(
@@ -25,7 +26,11 @@ const SignIn = () => {
       })
     );
     console.log(state);
-    //return NextResponse.redirect(new URL('/', '/signin'));
+    Router.push('/');
+  }
+
+  if (isError) {
+    Router.push('/login');
   }
 
   return (

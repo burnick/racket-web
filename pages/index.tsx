@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
-import Head from 'next/head'
+import React, { useState } from 'react';
+import Head from 'next/head';
 import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
-} from '@ant-design/icons'
-import type { MenuProps } from 'antd'
-import { Breadcrumb, Layout, Menu } from 'antd'
+} from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Breadcrumb, Layout, Menu } from 'antd';
+import Middleware from './middleware';
 
-const { Header, Content, Footer, Sider } = Layout
+const { Header, Content, Footer, Sider } = Layout;
 
-type MenuItem = Required<MenuProps>['items'][number]
+type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
   label: React.ReactNode,
   key: React.Key,
@@ -24,7 +25,7 @@ function getItem(
     icon,
     children,
     label,
-  } as MenuItem
+  } as MenuItem;
 }
 
 const items: MenuItem[] = [
@@ -40,11 +41,11 @@ const items: MenuItem[] = [
     getItem('Team 2', '8'),
   ]),
   getItem('Files', '9', <FileOutlined />),
-]
+];
 const Home = () => {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(false);
   return (
-    <>
+    <Middleware>
       <Head>
         <title>Racket.ph</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -83,8 +84,8 @@ const Home = () => {
           </Footer>
         </Layout>
       </Layout>
-    </>
-  )
-}
+    </Middleware>
+  );
+};
 
-export default Home
+export default Home;

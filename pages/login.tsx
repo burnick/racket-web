@@ -36,7 +36,7 @@ const Login: React.FC = () => {
       messageApi.open({
         type: 'success',
         content: 'Please wait sending create user request',
-        duration: 5,
+        duration: 2,
       });
     }
 

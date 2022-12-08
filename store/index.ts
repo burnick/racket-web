@@ -40,19 +40,6 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
 });
 
-if (typeof window !== 'undefined') {
-  store.subscribe(() => {
-    throttle(
-      () =>
-        localStorage.setItem(
-          'userReduxState',
-          JSON.stringify(store.getState())
-        ),
-      1000
-    );
-  });
-}
-
 export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
