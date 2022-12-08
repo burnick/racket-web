@@ -1,20 +1,41 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-import styled from 'styled-components'
-import PanelCard from 'components/PanelCard'
+import React from 'react';
+// import { NextResponse } from 'next/server';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import PanelCard from 'components/PanelCard';
+import { SignInService } from 'hooks/useSignInService';
+import { useAppDispatch } from 'store/hooks';
+import { addUser } from 'store/slice/user';
+import { store } from 'store';
 
 const SignIn = () => {
-  const router = useRouter()
-  const [secret] = (router.query.slug as string[]) || []
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [secret] = (router.query.slug as string[]) || [];
+  const state = store.getState();
+  const { data: userDetails, isLoading } = SignInService({ secret });
+
+  if (userDetails && userDetails.uid) {
+    dispatch(
+      addUser({
+        ...userDetails,
+        displayName: !userDetails.displayName
+          ? userDetails.nickname
+          : userDetails.displayName,
+      })
+    );
+    console.log(state);
+    //return NextResponse.redirect(new URL('/', '/signin'));
+  }
 
   return (
     <Container>
-      <PanelCard title="Validating sign-in....">
-        <p>Slug: {secret}</p>
+      <PanelCard title="Validating sign-in...." loading={isLoading}>
+        <p>Please wait</p>
       </PanelCard>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -22,6 +43,6 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   color: #fff;
-`
+`;
 
-export default SignIn
+export default SignIn;

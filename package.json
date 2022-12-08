@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
+    "@reduxjs/toolkit": "^1.9.1",
     "@storybook/addon-actions": "^6.5.13",
     "@storybook/addon-essentials": "^6.5.13",
     "@storybook/addon-interactions": "^6.5.13",
@@ -46,7 +47,9 @@
     "eslint-plugin-storybook": "^0.6.7",
     "husky": "^8.0.2",
     "lint-staged": "^13.0.4",
-    "prettier": "^2.8.0"
+    "prettier": "^2.8.0",
+    "react-redux": "^8.0.5",
+    "redux-persist": "^6.0.0"
   },
   "resolutions": {
     "styled-components": "^5"

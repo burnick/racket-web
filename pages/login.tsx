@@ -1,35 +1,35 @@
-import React, { useCallback, useEffect } from 'react'
-import Head from 'next/head'
-import styled from 'styled-components'
-import { Button, Form, Input, message } from 'antd'
-import PanelCard from 'components/PanelCard'
-import { SendEmailService } from 'hooks/useSendEmailService'
+import React, { useCallback, useEffect } from 'react';
+import Head from 'next/head';
+import styled from 'styled-components';
+import { Button, Form, Input, message } from 'antd';
+import PanelCard from 'components/PanelCard';
+import { SendEmailService } from 'hooks/useSendEmailService';
 
-const { Item } = Form
+const { Item } = Form;
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
-}
+};
 
 const Login: React.FC = () => {
-  const [form] = Form.useForm()
-  const [messageApi, contextHolder] = message.useMessage()
-  const { mutate, isLoading, isSuccess, isError } = SendEmailService()
-  const email = Form.useWatch('email', form)
+  const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
+  const { mutate, isLoading, isSuccess, isError } = SendEmailService();
+  const email = Form.useWatch('email', form);
 
   const onFinish = useCallback(
     (values: { email: string; remember: boolean }) => {
-      mutate(values.email)
+      mutate(values.email);
     },
     [mutate]
-  )
+  );
 
   const onFinishFailed = (errorInfo: unknown) => {
-    console.log('Failed:', errorInfo)
-  }
+    console.log('Failed:', errorInfo);
+  };
 
   const handleReset = useCallback(() => {
-    form.resetFields()
-  }, [form])
+    form.resetFields();
+  }, [form]);
 
   useEffect(() => {
     if (isLoading) {
@@ -37,13 +37,13 @@ const Login: React.FC = () => {
         type: 'success',
         content: 'Please wait sending create user request',
         duration: 5,
-      })
+      });
     }
 
     return () => {
-      message.destroy()
-    }
-  }, [isLoading, messageApi])
+      message.destroy();
+    };
+  }, [isLoading, messageApi]);
 
   useEffect(() => {
     if (isError) {
@@ -51,12 +51,12 @@ const Login: React.FC = () => {
         type: 'error',
         content: 'Unable to create user',
         duration: 10,
-      })
+      });
     }
     return () => {
-      message.destroy()
-    }
-  }, [isError, messageApi])
+      message.destroy();
+    };
+  }, [isError, messageApi]);
 
   return (
     <>
@@ -124,8 +124,8 @@ const Login: React.FC = () => {
         </PanelCard>
       </Container>
     </>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -133,8 +133,9 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   color: #fff;
-`
-const StyledItem = styled(Item)``
+`;
+
+const StyledItem = styled(Item)``;
 
 const ButtonsContainer = styled(Item)`
   .ant-form-item-control-input-content {
@@ -146,6 +147,6 @@ const ButtonsContainer = styled(Item)`
     flex-direction: row;
     gap: 10px;
   }
-`
+`;
 
-export default Login
+export default Login;

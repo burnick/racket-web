@@ -4,6 +4,9 @@ import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'styled-components';
 import theme from 'default.theme.json';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider } from 'react-redux';
+import { persistor, store } from 'store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
@@ -21,7 +24,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Component {...pageProps} />
+          </PersistGate>
+        </Provider>
       </QueryClientProvider>
     </ThemeProvider>
   );
