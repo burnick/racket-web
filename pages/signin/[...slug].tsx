@@ -5,14 +5,12 @@ import PanelCard from 'components/PanelCard';
 import { SignInService } from 'hooks/useSignInService';
 import { useAppDispatch } from 'store/hooks';
 import { addUser } from 'store/slice/user';
-import { store } from 'store';
 import Router from 'next/router';
 
 const SignIn = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [secret] = (router.query.slug as string[]) || [];
-  const state = store.getState();
   const { data: userDetails, isLoading, isError } = SignInService({ secret });
 
   if (userDetails && userDetails.uid) {
@@ -24,7 +22,6 @@ const SignIn = () => {
           : userDetails.displayName,
       })
     );
-    console.log(state);
     Router.push('/');
   }
 
