@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "test-storybook": "test-storybook"
   },
   "dependencies": {
     "@prisma/client": "^4.6.1",
@@ -36,6 +37,7 @@
     "@storybook/builder-webpack5": "^6.5.13",
     "@storybook/manager-webpack5": "^6.5.13",
     "@storybook/react": "^6.5.13",
+    "@storybook/test-runner": "^0.9.1",
     "@storybook/testing-library": "^0.0.13",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
