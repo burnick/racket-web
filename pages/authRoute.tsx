@@ -2,11 +2,11 @@ import Router from 'next/router';
 import { store } from 'store';
 import { useEffect, useState } from 'react';
 
-export interface IAuthRouteProps {
+export interface AuthRouteProps {
   children?: React.ReactNode;
 }
 
-const Middleware: React.FunctionComponent<IAuthRouteProps> = ({ children }) => {
+const AuthRoute: React.FunctionComponent<AuthRouteProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const state = store.getState();
 
@@ -22,4 +22,4 @@ const Middleware: React.FunctionComponent<IAuthRouteProps> = ({ children }) => {
   return <>{isLoggedIn && children}</>;
 };
 
-export default Middleware;
+export default AuthRoute;

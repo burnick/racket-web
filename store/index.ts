@@ -19,7 +19,8 @@ const userPersistConfig = {
     // Create a transformer by passing the reducer key and configuration. Values
     // shown below are the available configurations with default values
     expireReducer('user', {
-      expireSeconds: ONE_DAY,
+      expireSeconds:
+        process.env.NODE_ENV !== 'production' ? ONE_DAY : ONE_HOUR * 2,
       autoExpire: true,
     }),
     // You can add more `expireReducer` calls here for different reducers

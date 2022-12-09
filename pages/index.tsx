@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
-import Middleware from './middleware';
+import Middleware from 'pages/authRoute';
 import { removeUser } from 'store/slice/user';
 import { useAppDispatch } from 'store/hooks';
 import Router from 'next/router';
