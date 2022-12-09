@@ -1,5 +1,4 @@
 import React from 'react';
-import { NextResponse } from 'next/server';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import PanelCard from 'components/PanelCard';

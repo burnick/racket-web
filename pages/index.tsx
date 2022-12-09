@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Head from 'next/head';
 import {
   DesktopOutlined,
@@ -6,10 +6,14 @@ import {
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
+  LogoutOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import Middleware from './middleware';
+import { removeUser } from 'store/slice/user';
+import { useAppDispatch } from 'store/hooks';
+import Router from 'next/router';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -41,9 +45,24 @@ const items: MenuItem[] = [
     getItem('Team 2', '8'),
   ]),
   getItem('Files', '9', <FileOutlined />),
+  getItem(
+    'Logout',
+    '10',
+    <LogoutOutlined
+      onClick={() => {
+        const dispatch = useAppDispatch();
+
+        dispatch(removeUser());
+        Router.push('/login');
+      }}
+    />
+  ),
 ];
+
 const Home = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useAppDispatch();
+
   return (
     <Middleware>
       <Head>

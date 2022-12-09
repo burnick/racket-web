@@ -18,7 +18,11 @@ export const UsersSlice = createSlice({
       state.user = action.payload;
       return state;
     },
-    removeUser: () => initialState,
+    removeUser: (state) => {
+      state = initialState;
+      console.log(state);
+      return state;
+    },
   },
 });
 

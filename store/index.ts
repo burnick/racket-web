@@ -1,14 +1,30 @@
 import { configureStore } from '@reduxjs/toolkit';
 //import jobsReducer from './slice/jobs';
 import userReducer from './slice/user';
-import throttle from 'lodash/throttle';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import expireReducer from 'redux-persist-expire';
+
+const ONE_SECOND = 1;
+const ONE_MINUTE = ONE_SECOND * 60;
+const ONE_HOUR = ONE_MINUTE * 60;
+const ONE_DAY = ONE_HOUR * 24;
+// const ONE_YEAR = ONE_DAY * 365;
 
 const userPersistConfig = {
   key: 'user',
   storage,
-  timeout: 3600 * 60,
+  debug: process.env.NODE_ENV !== 'production',
+  transforms: [
+    // Create a transformer by passing the reducer key and configuration. Values
+    // shown below are the available configurations with default values
+    expireReducer('user', {
+      expireSeconds: ONE_DAY,
+      autoExpire: true,
+    }),
+    // You can add more `expireReducer` calls here for different reducers
+    // that you may want to expire
+  ],
 };
 
 const persistedReducer = persistReducer(userPersistConfig, userReducer);

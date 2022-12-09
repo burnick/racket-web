@@ -1,17 +1,18 @@
 import Router from 'next/router';
 import { store } from 'store';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface IAuthRouteProps {
   children?: React.ReactNode;
 }
 
 const Middleware: React.FunctionComponent<IAuthRouteProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const state = store.getState();
 
   useEffect(() => {
-    if (state.user.uid) {
+    console.log(state);
+    if (state.user && state.user?.uid) {
       setIsLoggedIn(true);
     } else {
       Router.push('/login');
