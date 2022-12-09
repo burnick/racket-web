@@ -45,23 +45,17 @@ const items: MenuItem[] = [
     getItem('Team 2', '8'),
   ]),
   getItem('Files', '9', <FileOutlined />),
-  getItem(
-    'Logout',
-    '10',
-    <LogoutOutlined
-      onClick={() => {
-        const dispatch = useAppDispatch();
-
-        dispatch(removeUser());
-        Router.push('/login');
-      }}
-    />
-  ),
+  getItem('Logout', '10', <LogoutOutlined />),
 ];
 
 const Home = () => {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useAppDispatch();
+
+  const handleLogout = useCallback(() => {
+    dispatch(removeUser());
+    Router.push('/login');
+  }, [dispatch]);
 
   return (
     <Middleware>
@@ -93,7 +87,8 @@ const Home = () => {
             </Breadcrumb>
             <div
               className="site-layout-background"
-              style={{ padding: 24, minHeight: 360 }}
+              style={{ padding: 24, minHeight: 360, color: 'black' }}
+              onClick={handleLogout}
             >
               Bill is a cat.
             </div>
