@@ -49,7 +49,7 @@ const Login: React.FC = () => {
     if (isError) {
       messageApi.open({
         type: 'error',
-        content: 'Unable to create user',
+        content: 'Unable to send login',
         duration: 10,
       });
     }

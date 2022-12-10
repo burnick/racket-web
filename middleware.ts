@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
-  // React.useEffect(() => {
-  //   const resultUser = localStorage.getItem('persist:user');
-  //   if (resultUser) setUser(JSON.parse(resultUser));
-  // }, []);
+  const isInBeta = req.cookies.get('user');
+  if (!isInBeta) {
+    return NextResponse.next();
+  }
   // console.log(user);
   //checks go here
 
@@ -15,5 +15,5 @@ export function middleware(req: NextRequest) {
 // Supports both a single string value or an array of matchers
 export const config = {
   //matcher: ['/about/:path*', '/dashboard/:path*'],
-  matcher: ['/middleware'],
+  matcher: ['/login', '/middleware'],
 };

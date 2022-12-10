@@ -14,7 +14,7 @@ const sendProp = async (secret: string) => {
       ...userResponse,
     });
 
-    return response ? response : false;
+    return response;
   }
 
   return userResponse;

@@ -13,7 +13,7 @@ const sendProp = async (email: string) => {
       email,
     });
 
-    return response ? response : false;
+    return response;
   }
 
   return userResponse;
