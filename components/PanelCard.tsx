@@ -1,26 +1,35 @@
-import React from 'react'
-import { Card } from 'antd'
-import styled from 'styled-components'
+import React from 'react';
+import { Card } from 'antd';
+import styled from 'styled-components';
 
 interface CardProps {
-  title: string
-  width?: number
-  loading?: boolean
-  bordered?: boolean
-  children: React.ReactNode
+  title: string;
+  hoverable?: boolean;
+  width?: number;
+  loading?: boolean;
+  bordered?: boolean;
+
+  description?: string;
+  children: React.ReactNode;
 }
+
+const { Meta } = Card;
 
 const PanelCard = ({
   title = 'test',
   width = 35,
   loading = false,
+  hoverable = false,
+  description = '',
   bordered = false,
+
   children,
 }: CardProps) => {
   return (
     <StyledCard
+      hoverable
       bordered={bordered}
-      title={title}
+      title={<MetaStyled title={title} description={description} />}
       width={width}
       loading={loading}
     >
@@ -55,4 +64,10 @@ const StyledCard = styled(Card)<{ width: number }>`
   }
 `;
 
-export default React.memo(PanelCard)
+const MetaStyled = styled(Meta)`
+  .ant-card-meta-title {
+    color: ${(props) => props.theme.colors.white};
+  }
+`;
+
+export default React.memo(PanelCard);

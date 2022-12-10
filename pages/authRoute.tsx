@@ -1,3 +1,4 @@
+import React, { SyntheticEvent } from 'react';
 import Router from 'next/router';
 import { store } from 'store';
 import { useEffect, useState } from 'react';
@@ -15,14 +16,15 @@ const onIdle = () => {
 };
 
 const AuthRoute: React.FunctionComponent<AuthRouteProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const state = store.getState();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    // console.log(state);
-    if (state.user && state.user?.uid) {
+    if (!isLoggedIn && state.user && state.user?.uid) {
       setIsLoggedIn(true);
-    } else {
+    }
+
+    if (!state) {
       Router.push('/login');
     }
   }, []);
