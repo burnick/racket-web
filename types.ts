@@ -1,8 +1,14 @@
+enum Roles {
+  ADMIN = 'admin',
+  USER = 'user',
+}
+
 export interface UserProps {
   uid: string;
   displayName: string;
   email: string;
   nickname: string;
+  role?: Roles;
   updated_at?: EpochTimeStamp;
   created_at?: EpochTimeStamp;
 }

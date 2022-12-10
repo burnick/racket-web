@@ -11,7 +11,7 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = ({ children }) => {
   const state = store.getState();
 
   useEffect(() => {
-    console.log(state);
+    // console.log(state);
     if (state.user && state.user?.uid) {
       setIsLoggedIn(true);
     } else {
