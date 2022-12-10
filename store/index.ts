@@ -20,7 +20,7 @@ const userPersistConfig = {
     // shown below are the available configurations with default values
     expireReducer('user', {
       expireSeconds:
-        process.env.NODE_ENV !== 'production' ? ONE_DAY : ONE_HOUR * 2,
+        process.env.NODE_ENV !== 'production' ? ONE_DAY : ONE_HOUR * 8,
       autoExpire: true,
     }),
     // You can add more `expireReducer` calls here for different reducers
