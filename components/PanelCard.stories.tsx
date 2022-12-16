@@ -19,5 +19,5 @@ export const ShortTitle = Template.bind({});
 
 ShortTitle.args = {
   title: 'test',
-  children: 'text',
+  children: 'Test text',
 };
