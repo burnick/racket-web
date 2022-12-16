@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
-    forceSwcTransforms: true,
+    forceSwcTransforms: false,
   },
   compiler: {
     styledComponents: {
@@ -15,6 +15,6 @@ const nextConfig = {
     API_URL: process.env.API_URL,
     APP_SECRET: process.env.APP_SECRET,
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

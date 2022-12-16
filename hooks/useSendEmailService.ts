@@ -21,7 +21,7 @@ const sendProp = async (email: string) => {
 
 export const SendEmailService = () => {
   const result = async (email: string) => {
-    return await sendProp(email, true);
+    return await sendProp(email);
   };
   return useMutation(result);
 };
