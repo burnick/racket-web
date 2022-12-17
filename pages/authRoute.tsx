@@ -23,8 +23,7 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = ({ children }) => {
     if (!isLoggedIn && state.user && state.user?.uid) {
       setIsLoggedIn(true);
     }
-
-    if (!state) {
+    if (!state?.user.uid) {
       Router.push('/login');
     }
   }, []);

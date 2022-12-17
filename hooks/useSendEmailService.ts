@@ -7,16 +7,11 @@ const sendProp = async (email: string) => {
     return false;
   }
 
-  const { data: userResponse } = await useAxios.get(`users/email/${email}`);
-  if (!userResponse) {
-    const { data: response } = await useAxios.post(`users`, {
-      email,
-    });
+  const { data: response } = await useAxios.post(`users`, {
+    email,
+  });
 
-    return response;
-  }
-
-  return userResponse;
+  return response;
 };
 
 export const SendEmailService = () => {
