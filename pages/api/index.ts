@@ -1,9 +1,10 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 
 type Data = {
   name: string;
 };
-export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
+const Api = (res: NextApiResponse<Data>) => {
   /**Example response for api */
   res.status(200).json({ name: 'John Doe' });
 };
+export default Api;

@@ -27,7 +27,7 @@ const PanelCard = ({
 }: CardProps) => {
   return (
     <StyledCard
-      hoverable
+      hoverable={hoverable}
       bordered={bordered}
       title={<MetaStyled title={title} description={description} />}
       width={width}

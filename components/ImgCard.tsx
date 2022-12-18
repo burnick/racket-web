@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card } from 'antd';
-import styled from 'styled-components';
+import { Card, Image } from 'antd';
 
 interface CardProps {
   title: string;
@@ -27,7 +26,7 @@ const PanelCard = ({
       hoverable
       bordered={bordered}
       style={{ width }}
-      cover={<img alt="example" src={imgUrl} />}
+      cover={<Image alt="example" src={imgUrl} />}
       loading={loading}
     >
       <Meta title={title} description={description} />

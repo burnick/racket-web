@@ -28,7 +28,7 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = ({ children }) => {
     if (!state?.user.uid) {
       Router.push('/login');
     }
-  }, []);
+  }, [isLoggedIn, state.user]);
 
   useIdleTimer({
     timeout: 1000 * 60 * 20,
