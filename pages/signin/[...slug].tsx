@@ -6,6 +6,7 @@ import { SignInService } from 'hooks/useSignInService';
 import { useAppDispatch } from 'store/hooks';
 import { addUser } from 'store/slice/user';
 import Router from 'next/router';
+import { Spin } from 'antd';
 
 const SignIn = () => {
   const router = useRouter();
@@ -32,7 +33,9 @@ const SignIn = () => {
   return (
     <Container>
       <PanelCard title="Validating sign-in...." loading={isLoading}>
-        <p>Please wait</p>
+        <p>
+          Please wait <Spin size="small" />
+        </p>
       </PanelCard>
     </Container>
   );
