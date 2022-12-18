@@ -71,7 +71,9 @@ const Login: React.FC = () => {
           <meta property="og:title" content="Racket.ph" key="title" />
         </Head>
         <PanelCard title="Login">
-          {isSuccess && <>Please check your email</>}
+          {isSuccess && (
+            <p>Please check your email client, you may close this window</p>
+          )}
 
           {!isSuccess && (
             <Form
