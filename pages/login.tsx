@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input, message, Checkbox } from 'antd';
 import PanelCard from 'components/PanelCard';
 import { SendEmailService } from 'hooks/useSendEmailService';
 
@@ -100,13 +100,13 @@ const Login: React.FC = () => {
                 <Input disabled={isLoading} />
               </StyledItem>
 
-              {/* <StyledItem
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{ offset: 8, span: 16 }}
-          >
-            <Checkbox>Remember me</Checkbox>
-          </StyledItem> */}
+              <StyledItem
+                name="remember"
+                valuePropName="checked"
+                wrapperCol={{ offset: 8, span: 16 }}
+              >
+                <Checkbox>Remember me</Checkbox>
+              </StyledItem>
 
               <ButtonsContainer {...tailLayout}>
                 <Button
