@@ -33,6 +33,7 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = ({ children }) => {
   useIdleTimer({
     timeout: 1000 * 60 * 20,
     onIdle,
+    debounce: 5000,
   });
 
   return (
