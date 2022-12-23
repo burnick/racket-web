@@ -1,22 +1,21 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { Layout } from 'antd';
 import Middleware from 'pages/authRoute';
-import { removeUser } from 'store/slice/user';
-import { useAppDispatch } from 'store/hooks';
-import Router from 'next/router';
+// import { removeUser } from 'store/slice/user';
+// import { useAppDispatch } from 'store/hooks';
+// import Router from 'next/router';
 import Header from 'components/Header';
 import Menu from 'components/Menu';
 const { Content } = Layout;
 
 const Home = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const handleLogout = useCallback(() => {
-    dispatch(removeUser());
-    Router.push('/login');
-  }, [dispatch]);
+  // const handleLogout = useCallback(() => {
+  //   dispatch(removeUser());
+  //   Router.push('/login');
+  // }, [dispatch]);
 
   return (
     <Middleware>

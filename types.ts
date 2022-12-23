@@ -29,3 +29,12 @@ export interface JobProps {
   lng: number;
   expirationDate: Date;
 }
+
+export type ButtonTypes =
+  | 'link'
+  | 'text'
+  | 'default'
+  | 'ghost'
+  | 'primary'
+  | 'dashed'
+  | undefined;

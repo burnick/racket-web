@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { Button, Form, Input, message, Checkbox } from 'antd';
+import { Form, Input, message, Checkbox } from 'antd';
 import PanelCard from 'components/PanelCard';
+import Button from 'components/Button';
 import { SendEmailService } from 'hooks/useSendEmailService';
 
 const { Item } = Form;
@@ -70,9 +71,12 @@ const Login: React.FC = () => {
           />
           <meta property="og:title" content="Racket.ph" key="title" />
         </Head>
-        <PanelCard title="Login" width={30}>
+        <PanelCard title={isSuccess ? 'Magic link sent' : 'Login'} width={30}>
           {isSuccess && (
-            <p>Please check your email client, you may close this window</p>
+            <>
+              <p>Please check your email client</p>
+              <p>you may now close this window/page</p>
+            </>
           )}
 
           {!isSuccess && (
@@ -117,7 +121,7 @@ const Login: React.FC = () => {
                   Submit
                 </Button>
 
-                <Button htmlType="button" onClick={handleReset}>
+                <Button htmlType="reset" onClick={handleReset}>
                   Reset
                 </Button>
               </ButtonsContainer>
