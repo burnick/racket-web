@@ -70,7 +70,7 @@ const Login: React.FC = () => {
           />
           <meta property="og:title" content="Racket.ph" key="title" />
         </Head>
-        <PanelCard title="Login">
+        <PanelCard title="Login" width={30}>
           {isSuccess && (
             <p>Please check your email client, you may close this window</p>
           )}

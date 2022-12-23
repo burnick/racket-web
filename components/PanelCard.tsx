@@ -40,7 +40,6 @@ const PanelCard = ({
 
 const StyledCard = styled(Card)<{ width: number }>`
   width: ${({ width }) => width}%;
-  max-width: 50%;
 
   .ant-card-head {
     min-height: 50px;
@@ -59,9 +58,10 @@ const StyledCard = styled(Card)<{ width: number }>`
     text-overflow: ellipsis;
     min-height: 190px;
   }
+  min-width: 300px;
 
   @media (pointer: none), (pointer: coarse) {
-    width: 90%;
+    width: 50%;
   }
 `;
 
