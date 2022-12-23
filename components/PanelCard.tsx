@@ -40,6 +40,7 @@ const PanelCard = ({
 
 const StyledCard = styled(Card)<{ width: number }>`
   width: ${({ width }) => width}%;
+  max-width: 50%;
 
   .ant-card-head {
     min-height: 50px;
