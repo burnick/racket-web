@@ -6,7 +6,7 @@ import Image from 'next/image';
 const Header = () => {
   return (
     <StyledHeader>
-      <Image src="/racketlogo.png" width={65} height={65} alt={'racket logo'} />
+      <Image src="/racketlogo.png" width={75} height={65} alt={'racket logo'} />
     </StyledHeader>
   );
 };
