@@ -50,7 +50,7 @@ const Login: React.FC = () => {
     if (isError) {
       messageApi.open({
         type: 'error',
-        content: 'Unable to send login',
+        content: 'Unable to send login email link, please try again later',
         duration: 10,
       });
     }

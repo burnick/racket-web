@@ -1,7 +1,7 @@
 import { Layout } from 'antd';
 import React, { useState } from 'react';
-import type { MenuProps, MenuTheme } from 'antd';
-import { Menu, Switch } from 'antd';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
 import {
   AppstoreOutlined,
   MailOutlined,
@@ -43,13 +43,13 @@ const items: MenuItem[] = [
       getItem('Option 8', '8'),
     ]),
   ]),
-
-  getItem('Navigation Three', 'sub4', <SettingOutlined />, [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-    getItem('Option 11', '11'),
-    getItem('Option 12', '12'),
+  getItem('Information', 'sub4', <SettingOutlined />, [
+    getItem('About us', '9'),
+    // getItem('Option 10', '10'),
+    // getItem('Option 11', '11'),
+    // getItem('Option 12', '12'),
   ]),
+  getItem('Logout', 'sub5', <SettingOutlined />, []),
 ];
 
 const App = () => {

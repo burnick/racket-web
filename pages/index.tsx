@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Head from 'next/head';
 import { Layout } from 'antd';
 import Middleware from 'pages/authRoute';
-// import { removeUser } from 'store/slice/user';
-// import { useAppDispatch } from 'store/hooks';
-// import Router from 'next/router';
+import { removeUser } from 'store/slice/user';
+import { useAppDispatch } from 'store/hooks';
+import Router from 'next/router';
 import Header from 'components/Header';
 import Menu from 'components/Menu';
+import styled from 'styled-components';
 const { Content } = Layout;
 
 const Home = () => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  // const handleLogout = useCallback(() => {
-  //   dispatch(removeUser());
-  //   Router.push('/login');
-  // }, [dispatch]);
+  const handleLogout = useCallback(() => {
+    dispatch(removeUser());
+    Router.push('/login');
+  }, [dispatch]);
 
   return (
     <Middleware>
@@ -28,11 +29,19 @@ const Home = () => {
         <Header />
         <Layout>
           <Menu />
-          <Content>main content</Content>
+          <ContentStyled>
+            <a onClick={handleLogout}>main content</a>
+          </ContentStyled>
         </Layout>
       </Layout>
     </Middleware>
   );
 };
+
+const ContentStyled = styled(Content)`
+  padding: 10px;
+  box-sizing: border-box;
+  color: black;
+`;
 
 export default Home;

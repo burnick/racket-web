@@ -33,8 +33,8 @@ const SignIn = () => {
   return (
     <Container>
       <PanelCard title="Validating sign-in...." loading={isLoading}>
-        <p>{!isError ? 'Please wait' : 'Error: unknown secret key'}</p>
         <Spin size="small" />
+        <p>{!isError ? 'Please wait' : 'Error: something went wrong...'}</p>
       </PanelCard>
     </Container>
   );
