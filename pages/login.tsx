@@ -12,6 +12,7 @@ const tailLayout = {
 };
 
 const Login: React.FC = () => {
+  // console.log('environment', process.env.NODE_ENV);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const { mutate, isLoading, isSuccess, isError } = SendEmailService();

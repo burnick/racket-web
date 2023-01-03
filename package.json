@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "yarn config set script-shell \"/bin/bash\"; source ~/.nvm/nvm.sh; nvm use; next dev -p 8080",
-    "build": "yarn config set script-shell \"/bin/bash\"; source ~/.nvm/nvm.sh; nvm use; next build ",
-    "start": "NODE_ENV=production; next start -p 8080",
+    "build": "yarn config set script-shell \"/bin/bash\"; source ~/.nvm/nvm.sh; nvm use;APP_ENV=production; next build ",
+    "start": "APP_ENV=production; next start -p 8080",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
