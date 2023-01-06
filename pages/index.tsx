@@ -6,6 +6,7 @@ import { JobService } from 'hooks/useJobService';
 import InputSlider from 'components/InputSlider';
 import dynamic from 'next/dynamic';
 import isEqual from 'lodash/isEqual';
+import JobList from 'components/JobList';
 
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
@@ -26,7 +27,7 @@ const App = ({
   const refSliderElem = useRef<HTMLInputElement | null>(null);
   const { GetAllJobs } = JobService();
   const [radius, setRadius] = useState<number>(userRadius);
-  const [page /*, setPage*/] = useState(0);
+  const [page, setPage] = useState(0);
   const [location, setLocation] = useState({
     lat: userLat,
     lng: userLng,
@@ -73,20 +74,45 @@ const App = ({
 
   return (
     <MainPage>
-      <MapContainer>
-        <OpenMaps
-          radius={radius}
-          marker={{
-            ...location,
-          }}
-          multipleMarkers={jobListing?.data?.map((job: JobProps) => job)}
-          setMarkers={setLocation}
+      <Container>
+        <MapContainer>
+          <OpenMaps
+            radius={radius}
+            marker={{
+              ...location,
+            }}
+            multipleMarkers={jobListing?.data?.map((job: JobProps) => job)}
+            setMarkers={setLocation}
+          />
+        </MapContainer>
+        <InputSlider
+          value={radius}
+          inputRef={refSliderElem}
+          disabled={isError}
         />
-      </MapContainer>
-      <InputSlider value={radius} inputRef={refSliderElem} disabled={isError} />
+        {jobListing?.data && (
+          <JobList
+            jobListing={jobListing?.data}
+            page={page}
+            setPage={setPage}
+          />
+        )}
+      </Container>
     </MainPage>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  margin: 0 auto;
+  box-sizing: border-box;
+`;
 
 const MapContainer = styled.div`
   display: flex;
