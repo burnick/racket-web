@@ -6,7 +6,6 @@ import { removeUser } from 'store/slice/user';
 import { useAppDispatch } from 'store/hooks';
 import Router from 'next/router';
 import Header from 'components/Header';
-import type { MenuProps } from 'antd';
 import {
   // AppstoreOutlined,
   // MailOutlined,
@@ -34,7 +33,6 @@ const MainPage = ({ children }: MainPageProps) => {
   const showPopConfirm = useCallback(() => {
     console.log('Clicked show button');
     setOpen((current) => !current);
-    console.log(open);
   }, []);
 
   const hidePopConfirm = useCallback(() => {
@@ -79,7 +77,14 @@ const MainPage = ({ children }: MainPageProps) => {
         ),
       },
     ],
-    [open]
+    [
+      open,
+      handleAbout,
+      handleHome,
+      handleLogout,
+      hidePopConfirm,
+      showPopConfirm,
+    ]
   );
 
   return (

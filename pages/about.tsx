@@ -1,3 +1,4 @@
+import React from 'react';
 import MainPage from 'components/MainPage';
 import styled from 'styled-components';
 

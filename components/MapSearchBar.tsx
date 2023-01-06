@@ -3,7 +3,8 @@ import { SetMarkerProps } from 'types';
 import { useMap } from 'react-leaflet';
 import 'leaflet-control-geocoder/dist/Control.Geocoder.js';
 import 'leaflet-control-geocoder/dist/Control.Geocoder.css';
-import L from 'leaflet';
+import L, { LatLng } from 'leaflet';
+import { Geocoder, geocoders } from 'leaflet-control-geocoder';
 
 interface MapSearchBarProps extends SetMarkerProps {
   radius: number;
@@ -16,8 +17,7 @@ interface MapSearchBarProps extends SetMarkerProps {
 //   shadowUrl: 'https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png',
 // });
 
-const Control = L.Control as any;
-const geocoder = Control.Geocoder.nominatim({
+const geocoder = new geocoders.Nominatim({
   geocodingQueryParams: {
     limit: 3,
     addressdetails: 1,
@@ -30,7 +30,7 @@ const MapSearchBar = ({ setMarkers }: MapSearchBarProps) => {
   const map = useMap();
 
   useEffect(() => {
-    Control.geocoder({
+    new Geocoder({
       query: '',
       placeholder: 'Search your address',
       defaultMarkGeocode: false,
@@ -40,7 +40,7 @@ const MapSearchBar = ({ setMarkers }: MapSearchBarProps) => {
         'markgeocode',
         (e: {
           geocode: {
-            center: any;
+            center: LatLng;
             name:
               | string
               | ((prevState: string) => string)
@@ -49,8 +49,8 @@ const MapSearchBar = ({ setMarkers }: MapSearchBarProps) => {
               | L.Popup;
           };
         }) => {
-          let latlng = e.geocode.center;
-          let address = e.geocode.name.toString();
+          const latlng = e.geocode.center;
+          const address = e.geocode.name.toString();
           if (setMarkers) setMarkers({ ...latlng, address: address });
         }
       )

@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 enum Roles {
   ADMIN = 'admin',
   USER = 'user',
