@@ -8,7 +8,7 @@ const Header = () => {
     <StyledHeader>
       <Image
         src="/racketlogo.png"
-        width={75}
+        width={85}
         height={65}
         alt={'racket logo'}
         priority={true}

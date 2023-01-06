@@ -1,109 +1,65 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import Head from 'next/head';
-import { Layout, Menu, Popconfirm } from 'antd';
-import Middleware from 'pages/authRoute';
-import { removeUser } from 'store/slice/user';
-import { useAppDispatch } from 'store/hooks';
-import Router from 'next/router';
-import Header from 'components/Header';
-import type { MenuProps } from 'antd';
-import {
-  // AppstoreOutlined,
-  // MailOutlined,
-  // SettingOutlined,
-  BookOutlined,
-  LogoutOutlined,
-} from '@ant-design/icons';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-const { Content } = Layout;
+import MainPage from 'components/MainPage';
+import { JobProps, ManilaLatLong } from 'types';
+import { JobService } from 'hooks/useJobService';
+import dynamic from 'next/dynamic';
 
-type MenuItem = Required<MenuProps>['items'][number];
+const OpenMaps = dynamic(() => import('components/OpenMaps'), {
+  ssr: false,
+});
+interface AppProps {
+  userRadius?: number;
+  userLat?: number;
+  userLng?: number;
+  address?: string;
+}
 
-const Home = () => {
-  const dispatch = useAppDispatch();
-  const [collapsed, setCollapsed] = useState(false);
-  const [open, setOpen] = useState(false);
-  const handleLogout = useCallback(() => {
-    setOpen(false);
-    dispatch(removeUser());
-    Router.push('/login');
-  }, [dispatch]);
+const App = ({
+  userRadius = 100000,
+  userLat = ManilaLatLong.lat,
+  userLng = ManilaLatLong.lng,
+  address = ManilaLatLong.address,
+}: AppProps) => {
+  const { GetAllJobs } = JobService();
+  const [radius, setRadius] = useState<number>(userRadius);
+  const [page, setPage] = useState(0);
+  const [location, setLocation] = useState({
+    lat: userLat,
+    lng: userLng,
+    address,
+  });
 
-  const showPopConfirm = useCallback(() => {
-    console.log('Clicked show button');
-    setOpen((current) => !current);
-    console.log(open);
-  }, []);
-
-  const hidePopConfirm = useCallback(() => {
-    console.log('Clicked cancel button');
-    setOpen(false);
-  }, []);
-
-  const menuItems = useMemo(
-    () => [
-      {
-        key: 4,
-        icon: <BookOutlined />,
-        label: <>About us</>,
-      },
-      {
-        key: 5,
-        icon: <LogoutOutlined />,
-        label: (
-          <Popconfirm
-            title="Are you sure?"
-            open={open}
-            onOpenChange={showPopConfirm}
-            onConfirm={handleLogout}
-            // okButtonProps={{ loading: confirmLoading }}
-            onCancel={hidePopConfirm}
-          >
-            Logout
-          </Popconfirm>
-        ),
-      },
-    ],
-    [open]
-  );
+  const { data: jobListing, isLoading } = GetAllJobs({
+    page,
+    total: 50,
+    lng: userLat,
+    lat: userLng,
+    radius,
+  });
 
   return (
-    <Middleware>
-      <Head>
-        <title>Racket.ph</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta property="og:title" content="Racket.ph" key="title" />
-      </Head>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Header />
-        <Layout>
-          <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={(value) => setCollapsed(value)}
-          >
-            <Menu mode="inline" items={menuItems} />
-          </Sider>
-          <ContentStyled>main content</ContentStyled>
-        </Layout>
-      </Layout>
-    </Middleware>
+    <MainPage>
+      <MapContainer>
+        <OpenMaps
+          radius={radius}
+          marker={{
+            ...location,
+          }}
+          multipleMarkers={jobListing?.data?.map((job: JobProps) => job)}
+          setMarkers={setLocation}
+        />
+      </MapContainer>
+    </MainPage>
   );
 };
 
-const ContentStyled = styled(Content)`
-  padding: 10px;
-  box-sizing: border-box;
-  color: black;
+const MapContainer = styled.div`
+  display: flex;
+  position: relative;
+  height: 30vh;
+  width: 100%;
+  margin-bottom: 20px;
+  overflow: hidden;
 `;
-
-const Sider = styled(Layout.Sider)`
-  background: ${(props) => props.theme.colors.primary} !important;
-  color: ${(props) => props.theme.colors.white} !important;
-
-  .ant-layout-sider-trigger {
-    background: ${(props) => props.theme.colors.primary} !important;
-  }
-`;
-
-export default Home;
+export default App;
