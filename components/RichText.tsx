@@ -1,8 +1,7 @@
+import React from 'react';
 import dynamic from 'next/dynamic';
 import isUndefined from 'lodash/isUndefined';
-import React from 'react';
 import styled from 'styled-components';
-const ReactQuill = dynamic(import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 interface InputTextProps {
   placeholder?: string;
@@ -18,6 +17,8 @@ const RichText: React.FC<InputTextProps> = ({
   onChange,
   value,
 }) => {
+  const ReactQuill = dynamic(import('react-quill'), { ssr: false });
+
   return (
     <Container error={!isUndefined(errorMessage)}>
       <Title htmlFor={placeholder}>
