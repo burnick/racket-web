@@ -279,6 +279,7 @@ const SubmitExtendedContainer = styled.div`
 `;
 
 const SubmitButton = styled(Button)`
+  margin-top: 20px !important;
   width: 100%;
 `;
 

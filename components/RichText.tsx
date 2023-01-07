@@ -46,6 +46,7 @@ const Container = styled.div<{ error?: boolean }>`
   text-align: left;
   min-height: 185px;
   margin: 5px 0;
+  margin-bottom: 20px;
 `;
 const Title = styled.label`
   font-weight: bold;
@@ -53,7 +54,7 @@ const Title = styled.label`
   margin-bottom: 10px;
 `;
 const Error = styled.span`
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: small;
   display: inline-block;
   top: calc(100% - 0.7rem);
