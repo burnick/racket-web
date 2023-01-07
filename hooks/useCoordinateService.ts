@@ -55,7 +55,7 @@ export const CoordinateService = () => {
         consoleHelper(props);
         throw new Error('missing location props');
       }
-      const findLoc = await findCoordinates(props.uid as string);
+      const findLoc = await findCoordinates(props?.uid as string);
       if (findLoc.radius !== props.radius || findLoc.lat !== props.lat) {
         return await addCoordinates(props);
       }

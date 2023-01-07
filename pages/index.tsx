@@ -54,8 +54,7 @@ const LocationComponent = ({
   });
 
   useEffect(() => {
-    if (radius && location && userUid) {
-      console.log('waaa');
+    if (radius && location?.lng && userUid) {
       mutate({
         uid: userUid,
         ...location,
@@ -125,9 +124,9 @@ const App = () => {
         <Container>
           <LocationComponent
             userUid={state.user?.uid}
-            userLng={coordinatesData.lng}
-            userRadius={coordinatesData.radius}
-            userLat={coordinatesData.lat}
+            userLng={coordinatesData?.lng}
+            userRadius={coordinatesData?.radius}
+            userLat={coordinatesData?.lat}
           />
         </Container>
       )}
