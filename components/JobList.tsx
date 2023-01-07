@@ -70,7 +70,7 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
       ) : (
         jobListing?.map((jobDetails: JobProps, index: number) => {
           return (
-            <PanelCard title={'Job list'} key={`panel-${index}`}>
+            <PanelCard width={100} title={'Job list'} key={`panel-${index}`}>
               <Content>
                 Job Title:<Title> {jobDetails.title}</Title>
                 Salary:<Title> {jobDetails.salary}</Title>

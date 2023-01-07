@@ -104,7 +104,9 @@ const LocationComponent = ({
         />
       </MapContainer>
       <InputSlider value={radius} inputRef={refSliderElem} disabled={isError} />
-      <JobList jobListing={jobListing?.data} page={page} setPage={setPage} />
+      {jobListing?.data && (
+        <JobList jobListing={jobListing?.data} page={page} setPage={setPage} />
+      )}
     </>
   );
 };

@@ -3,7 +3,7 @@ import { Card } from 'antd';
 import styled from 'styled-components';
 
 interface CardProps {
-  title: string;
+  title?: string;
   hoverable?: boolean;
   width?: number;
   loading?: boolean;
@@ -16,7 +16,7 @@ interface CardProps {
 const { Meta } = Card;
 
 const PanelCard = ({
-  title = 'test',
+  title,
   width = 35,
   loading = false,
   hoverable = false,
@@ -29,7 +29,9 @@ const PanelCard = ({
     <StyledCard
       hoverable={hoverable}
       bordered={bordered}
-      title={<MetaStyled title={title} description={description} />}
+      title={
+        title ? <MetaStyled title={title} description={description} /> : null
+      }
       width={width}
       loading={loading}
     >

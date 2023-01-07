@@ -48,12 +48,21 @@ const MainPage = ({ children }: MainPageProps) => {
     Router.push('/');
   }, []);
 
+  const handleJob = useCallback(() => {
+    Router.push('/postjob');
+  }, []);
+
   const menuItems = useMemo(
     () => [
       {
         key: 1,
         icon: <HomeOutlined />,
         label: <a onClick={handleHome}>Home</a>,
+      },
+      {
+        key: 2,
+        icon: <HomeOutlined />,
+        label: <a onClick={handleJob}>Post Job</a>,
       },
       {
         key: 4,
@@ -84,6 +93,7 @@ const MainPage = ({ children }: MainPageProps) => {
       handleLogout,
       hidePopConfirm,
       showPopConfirm,
+      handleJob,
     ]
   );
 
