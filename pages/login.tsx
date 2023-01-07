@@ -5,6 +5,7 @@ import { Form, Input, message, Checkbox } from 'antd';
 import PanelCard from 'components/PanelCard';
 import Button from 'components/Button';
 import { SendEmailService } from 'hooks/useSendEmailService';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const { Item } = Form;
 const tailLayout = {
@@ -17,13 +18,32 @@ const Login: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const { mutate, isLoading, isSuccess, isError } = SendEmailService();
   const email = Form.useWatch('email', form);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const onFinish = useCallback(
     (values: { email: string; remember: boolean }) => {
-      mutate(values.email);
+      if (!executeRecaptcha) {
+        console.log('Execute recaptcha not yet available');
+        return;
+      }
+      //mutate(values.email);
+      executeRecaptcha('enquiryFormSubmit').then((gReCaptchaToken) => {
+        console.log(gReCaptchaToken, 'response Google reCaptcha server');
+        submitEnquiryForm({ email: values.email, token: gReCaptchaToken });
+      });
     },
-    [mutate]
+    [executeRecaptcha]
   );
+
+  const submitEnquiryForm = ({
+    email,
+    token,
+  }: {
+    email: string;
+    token: string;
+  }) => {
+    mutate({ email, token });
+  };
 
   const onFinishFailed = (errorInfo: unknown) => {
     console.log('Failed:', errorInfo);
