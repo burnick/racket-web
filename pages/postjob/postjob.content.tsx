@@ -12,6 +12,8 @@ import InputDate from 'components/InputDate';
 import { JobTypes, JobProps } from 'types';
 import { JobService } from 'hooks/useJobService';
 import { Spin } from 'antd';
+import { ErrorContext } from 'components/ErrorContext';
+import { ErrorContextType } from 'types';
 
 interface PostJobProps {
   uid: string;
@@ -61,6 +63,7 @@ const PostJobContent = ({
   coordinatesData,
 }: PostJobProps) => {
   const { CreateJob } = JobService();
+  const { setErrorText } = React.useContext(ErrorContext) as ErrorContextType;
 
   const {
     mutate,
@@ -70,10 +73,16 @@ const PostJobContent = ({
   } = CreateJob();
 
   useEffect(() => {
-    if (isSuccessJob) {
-      console.log('Job details was saved');
+    if (isError) {
+      setErrorText('Error: unable to save or only one Job Post per user');
     }
-  }, [isSuccessJob]);
+  }, [isError, setErrorText]);
+
+  useEffect(() => {
+    if (isSuccessJob) {
+      setErrorText('Job details was saved');
+    }
+  }, [isSuccessJob, setErrorText]);
 
   const formik = useFormik({
     initialValues: {

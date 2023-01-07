@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import { persistor, store } from 'store';
 import { PersistGate } from 'redux-persist/integration/react';
+import ErrorProvider from 'components/ErrorContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,9 +26,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <Component {...pageProps} />
-          </PersistGate>
+          <ErrorProvider>
+            <PersistGate loading={null} persistor={persistor}>
+              <Component {...pageProps} />
+            </PersistGate>
+          </ErrorProvider>
         </Provider>
       </QueryClientProvider>
     </ThemeProvider>

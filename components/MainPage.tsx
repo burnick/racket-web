@@ -10,6 +10,7 @@ import {
   // AppstoreOutlined,
   // MailOutlined,
   // SettingOutlined,
+  ProjectOutlined,
   HomeOutlined,
   BookOutlined,
   LogoutOutlined,
@@ -61,7 +62,7 @@ const MainPage = ({ children }: MainPageProps) => {
       },
       {
         key: 2,
-        icon: <HomeOutlined />,
+        icon: <ProjectOutlined />,
         label: <a onClick={handleJob}>Post Job</a>,
       },
       {
