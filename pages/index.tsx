@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { store } from 'store';
 import MainPage from 'components/MainPage';
 import { JobProps, ManilaLatLong } from 'types';
 import { JobService } from 'hooks/useJobService';
+import { CoordinateService } from 'hooks/useCoordinateService';
 import InputSlider from 'components/InputSlider';
 import dynamic from 'next/dynamic';
 import isEqual from 'lodash/isEqual';
@@ -24,8 +26,10 @@ const App = ({
   userLng = ManilaLatLong.lng,
   address = ManilaLatLong.address,
 }: AppProps) => {
+  const state = store.getState();
   const refSliderElem = useRef<HTMLInputElement | null>(null);
   const { GetAllJobs } = JobService();
+  const { UpsertCoordinates } = CoordinateService();
   const [radius, setRadius] = useState<number>(userRadius);
   const [page, setPage] = useState(0);
   const [location, setLocation] = useState({
@@ -34,13 +38,25 @@ const App = ({
     address,
   });
 
-  const { data: jobListing, isError } = GetAllJobs({
+  const { data: jobListing } = GetAllJobs({
     page,
     total: 50,
     lng: userLat,
     lat: userLng,
     radius,
   });
+
+  const { mutate, isError } = UpsertCoordinates();
+  console.log('error coordinates', isError);
+  useEffect(() => {
+    if (radius && location && state?.user?.uid) {
+      mutate({
+        uid: state?.user?.uid,
+        ...location,
+        radius,
+      });
+    }
+  }, [radius, location, mutate]);
 
   useEffect(() => {
     const node = refSliderElem.current;
@@ -106,7 +122,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 1200px;
+
   justify-content: flex-start;
   align-items: center;
   padding: 10px;
