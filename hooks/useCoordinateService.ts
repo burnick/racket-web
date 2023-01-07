@@ -5,11 +5,11 @@ import consoleHelper from 'utils/consoleHelper';
 
 const addCoordinates = async (props: LocationProps) => {
   if (
-    !props.uid ||
-    !props.lng ||
-    !props.lat ||
-    !props.radius ||
-    props.radius <= 0
+    !props?.uid ||
+    !props?.lng ||
+    !props?.lat ||
+    !props?.radius ||
+    props?.radius <= 0
   ) {
     consoleHelper('missing coordinates props');
     return false;
