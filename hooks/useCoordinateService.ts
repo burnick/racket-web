@@ -17,7 +17,7 @@ const addCoordinates = async (props: LocationProps) => {
 
   return await useAxios.post(`coordinates`, {
     ...props,
-    radius: props.radius,
+    radius: props?.radius,
   });
 };
 
@@ -32,6 +32,9 @@ const findCoordinates = async (uid: string) => {
 export const CoordinateService = () => {
   const GetCoordinates = (uid: string) => {
     const getCoordinates = async () => {
+      if (!uid) {
+        return false;
+      }
       return await findCoordinates(uid);
     };
 

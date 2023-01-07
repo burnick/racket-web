@@ -92,10 +92,10 @@ export interface FBUserProps {
 }
 
 export interface LocationProps {
-  uid: string;
-  lat: number;
-  lng: number;
-  radius: number;
+  uid?: string;
+  lat?: number;
+  lng?: number;
+  radius?: number;
   address?: string;
   updated_at?: EpochTimeStamp;
   created_at?: EpochTimeStamp;
