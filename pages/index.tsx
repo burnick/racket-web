@@ -115,7 +115,7 @@ const App = () => {
 
   const { GetCoordinates } = CoordinateService();
 
-  const { data: coordinatesData, isLoading } = GetCoordinates(state.user.uid);
+  const { data: coordinatesData, isLoading } = GetCoordinates(state.user?.uid);
 
   return (
     <MainPage>
@@ -124,7 +124,7 @@ const App = () => {
       ) : (
         <Container>
           <LocationComponent
-            userUid={state.user.uid}
+            userUid={state.user?.uid}
             userLng={coordinatesData.lng}
             userRadius={coordinatesData.radius}
             userLat={coordinatesData.lat}

@@ -14,7 +14,7 @@ const SignIn = () => {
   const [secret] = (router.query.slug as string[]) || [];
   const { data: userDetails, isLoading, isError } = SignInService({ secret });
 
-  if (userDetails && userDetails.uid) {
+  if (userDetails && userDetails?.uid) {
     dispatch(
       addUser({
         ...userDetails,

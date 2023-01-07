@@ -46,11 +46,11 @@ export const CoordinateService = () => {
   const UpsertCoordinates = () => {
     const pushCoodinates = async (props: LocationProps) => {
       if (
-        !props.uid ||
-        !props.lat ||
-        !props.lng ||
-        !props.radius ||
-        props.radius <= 0
+        !props?.uid ||
+        !props?.lat ||
+        !props?.lng ||
+        !props?.radius ||
+        props?.radius <= 0
       ) {
         consoleHelper(props);
         throw new Error('missing location props');
