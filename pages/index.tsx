@@ -14,51 +14,57 @@ import JobList from 'components/JobList';
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
 });
+
 interface AppProps {
+  userUid: string;
   userRadius?: number;
   userLat?: number;
   userLng?: number;
   address?: string;
 }
 
-const App = () => {
-  const state = store.getState();
+const LocationComponent = ({
+  userUid,
+  userLat = ManilaLatLong.lat,
+  userLng = ManilaLatLong.lng,
+  address = ManilaLatLong.address,
+  userRadius = 10000,
+}: AppProps) => {
   const refSliderElem = useRef<HTMLInputElement | null>(null);
-  const { GetAllJobs } = JobService();
-  const { UpsertCoordinates, GetCoordinates } = CoordinateService();
-  const [radius, setRadius] = useState<number>(100000);
-  const [page, setPage] = useState(0);
-  const { data: coordinatesData, isLoading } = GetCoordinates(state.user.uid);
+  const node = refSliderElem.current;
 
+  const [page, setPage] = useState(0);
+  const { UpsertCoordinates } = CoordinateService();
+  const { GetAllJobs } = JobService();
+  const { mutate, isError } = UpsertCoordinates();
   const [location, setLocation] = useState({
-    lat: !isLoading ? coordinatesData.lat : ManilaLatLong.lat,
-    lng: !isLoading ? coordinatesData.lng : ManilaLatLong.lng,
-    address: !isLoading ? coordinatesData.address : ManilaLatLong.address,
+    lat: userLat,
+    lng: userLng,
+    address,
   });
+
+  const [radius, setRadius] = useState<number>(userRadius);
 
   const { data: jobListing } = GetAllJobs({
     page,
     total: 50,
-    lat: !isLoading ? coordinatesData.lat : ManilaLatLong.lat,
-    lng: !isLoading ? coordinatesData.lng : ManilaLatLong.lng,
+    lat: userLat,
+    lng: userLng,
     radius,
   });
 
-  const { mutate, isError } = UpsertCoordinates();
-
   useEffect(() => {
-    if (radius && location && state?.user?.uid) {
+    if (radius && location && userUid) {
+      console.log('waaa');
       mutate({
-        uid: state?.user?.uid,
+        uid: userUid,
         ...location,
         radius,
       });
     }
-  }, [radius, location, mutate]);
+  }, [radius, location, mutate, userUid]);
 
   useEffect(() => {
-    const node = refSliderElem.current;
-
     if (node) {
       node.addEventListener('touchend', () => {
         if (!isEqual(node.value, radius)) {
@@ -76,7 +82,7 @@ const App = () => {
     }
 
     return () => {
-      refSliderElem.current = null;
+      // refSliderElem.current = null;
       node?.removeEventListener('touchend', () => {
         console.log('remove touchend listener');
       });
@@ -84,7 +90,32 @@ const App = () => {
         console.log('remove mouseout listener');
       });
     };
-  }, [radius]);
+  }, [radius, node]);
+
+  return (
+    <>
+      <MapContainer>
+        <OpenMaps
+          radius={radius}
+          marker={{
+            ...location,
+          }}
+          multipleMarkers={jobListing?.data?.map((job: JobProps) => job)}
+          setMarkers={setLocation}
+        />
+      </MapContainer>
+      <InputSlider value={radius} inputRef={refSliderElem} disabled={isError} />
+      <JobList jobListing={jobListing?.data} page={page} setPage={setPage} />
+    </>
+  );
+};
+
+const App = () => {
+  const state = store.getState();
+
+  const { GetCoordinates } = CoordinateService();
+
+  const { data: coordinatesData, isLoading } = GetCoordinates(state.user.uid);
 
   return (
     <MainPage>
@@ -92,25 +123,11 @@ const App = () => {
         <Spin />
       ) : (
         <Container>
-          <MapContainer>
-            <OpenMaps
-              radius={radius}
-              marker={{
-                ...location,
-              }}
-              multipleMarkers={jobListing?.data?.map((job: JobProps) => job)}
-              setMarkers={setLocation}
-            />
-          </MapContainer>
-          <InputSlider
-            value={radius}
-            inputRef={refSliderElem}
-            disabled={isError}
-          />
-          <JobList
-            jobListing={jobListing?.data}
-            page={page}
-            setPage={setPage}
+          <LocationComponent
+            userUid={state.user.uid}
+            userLng={coordinatesData.lng}
+            userRadius={coordinatesData.radius}
+            userLat={coordinatesData.lat}
           />
         </Container>
       )}

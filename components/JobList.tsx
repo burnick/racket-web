@@ -58,40 +58,44 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
   }, [handleNavigation]);
 
   useEffect(() => {
-    if (jobListing && !isEqual(data, jobListing)) {
+    if (jobListing?.length > 0 && !isEqual(data, jobListing)) {
       setData([...data, ...jobListing]);
     }
   }, [jobListing, data]);
 
   return (
     <Container ref={elemRef}>
-      {jobListing.map((jobDetails: JobProps, index: number) => {
-        return (
-          <PanelCard title={'Job list'} key={`panel-${index}`}>
-            <Content>
-              Job Title:<Title> {jobDetails.title}</Title>
-              Salary:<Title> {jobDetails.salary}</Title>
-              Type:<Title> {jobDetails.employmentType}</Title>
-              Address:<Title> {jobDetails.address}</Title>
-              {jobDetails.phone && (
-                <>
-                  Phone:
-                  <HideShowContact phone={jobDetails.phone} />
-                </>
-              )}
-              Expiration date:
-              <Title>
-                {moment(jobDetails.expirationDate).format('YYYY-MM-DD')}
-              </Title>
-              Email: <HideShowContact email={jobDetails.email} />
-              Description:
-              <div
-                dangerouslySetInnerHTML={{ __html: jobDetails.description }}
-              />
-            </Content>
-          </PanelCard>
-        );
-      })}
+      {jobListing?.length <= 0 ? (
+        <NoListing>No job listing found!</NoListing>
+      ) : (
+        jobListing?.map((jobDetails: JobProps, index: number) => {
+          return (
+            <PanelCard title={'Job list'} key={`panel-${index}`}>
+              <Content>
+                Job Title:<Title> {jobDetails.title}</Title>
+                Salary:<Title> {jobDetails.salary}</Title>
+                Type:<Title> {jobDetails.employmentType}</Title>
+                Address:<Title> {jobDetails.address}</Title>
+                {jobDetails.phone && (
+                  <>
+                    Phone:
+                    <HideShowContact phone={jobDetails.phone} />
+                  </>
+                )}
+                Expiration date:
+                <Title>
+                  {moment(jobDetails.expirationDate).format('YYYY-MM-DD')}
+                </Title>
+                Email: <HideShowContact email={jobDetails.email} />
+                Description:
+                <div
+                  dangerouslySetInnerHTML={{ __html: jobDetails.description }}
+                />
+              </Content>
+            </PanelCard>
+          );
+        })
+      )}
     </Container>
   );
 };
@@ -99,7 +103,7 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  padding: 5px;
+  text-align: center;
   overflow-x: hidden;
   overflow-y: auto;
 `;
@@ -118,6 +122,12 @@ const Title = styled.div`
   margin-left: 15%;
   font-weight: bold;
   text-align: left;
+`;
+
+const NoListing = styled.div`
+  font-weight: bold;
+  margin-top: 20%;
+  color: ${(props) => props.theme.colors.danger} !important;
 `;
 
 export default JobList;

@@ -11,6 +11,7 @@ const nextConfig = {
       displayName: true,
     },
   },
+  images: { unoptimized: true },
   env: {
     API_URL: process.env.API_URL,
     APP_SECRET: process.env.APP_SECRET,
