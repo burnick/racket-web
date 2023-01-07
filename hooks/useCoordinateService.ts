@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import useAxios from 'hooks/use-axios';
 import { LocationProps } from 'types';
 import consoleHelper from 'utils/consoleHelper';
@@ -30,6 +30,19 @@ const findCoordinates = async (uid: string) => {
 };
 
 export const CoordinateService = () => {
+  const GetCoordinates = (uid: string) => {
+    const getCoordinates = async () => {
+      return await findCoordinates(uid);
+    };
+
+    return useQuery(['fetchAllJobs', uid], getCoordinates, {
+      staleTime: 120000,
+      cacheTime: 120000,
+      refetchOnWindowFocus: false,
+      refetchInterval: 1800000,
+    });
+  };
+
   const UpsertCoordinates = () => {
     const pushCoodinates = async (props: LocationProps) => {
       if (
@@ -52,5 +65,5 @@ export const CoordinateService = () => {
     return useMutation(pushCoodinates);
   };
 
-  return { UpsertCoordinates };
+  return { UpsertCoordinates, GetCoordinates };
 };

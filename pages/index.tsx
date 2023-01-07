@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { Spin } from 'antd';
 import { store } from 'store';
 import MainPage from 'components/MainPage';
 import { JobProps, ManilaLatLong } from 'types';
@@ -20,34 +21,31 @@ interface AppProps {
   address?: string;
 }
 
-const App = ({
-  userRadius = 100000,
-  userLat = ManilaLatLong.lat,
-  userLng = ManilaLatLong.lng,
-  address = ManilaLatLong.address,
-}: AppProps) => {
+const App = () => {
   const state = store.getState();
   const refSliderElem = useRef<HTMLInputElement | null>(null);
   const { GetAllJobs } = JobService();
-  const { UpsertCoordinates } = CoordinateService();
-  const [radius, setRadius] = useState<number>(userRadius);
+  const { UpsertCoordinates, GetCoordinates } = CoordinateService();
+  const [radius, setRadius] = useState<number>(100000);
   const [page, setPage] = useState(0);
+  const { data: coordinatesData, isLoading } = GetCoordinates(state.user.uid);
+
   const [location, setLocation] = useState({
-    lat: userLat,
-    lng: userLng,
-    address,
+    lat: !isLoading ? coordinatesData.lat : ManilaLatLong.lat,
+    lng: !isLoading ? coordinatesData.lng : ManilaLatLong.lng,
+    address: !isLoading ? coordinatesData.address : ManilaLatLong.address,
   });
 
   const { data: jobListing } = GetAllJobs({
     page,
     total: 50,
-    lng: userLat,
-    lat: userLng,
+    lat: !isLoading ? coordinatesData.lat : ManilaLatLong.lat,
+    lng: !isLoading ? coordinatesData.lng : ManilaLatLong.lng,
     radius,
   });
 
   const { mutate, isError } = UpsertCoordinates();
-  console.log('error coordinates', isError);
+
   useEffect(() => {
     if (radius && location && state?.user?.uid) {
       mutate({
@@ -90,30 +88,32 @@ const App = ({
 
   return (
     <MainPage>
-      <Container>
-        <MapContainer>
-          <OpenMaps
-            radius={radius}
-            marker={{
-              ...location,
-            }}
-            multipleMarkers={jobListing?.data?.map((job: JobProps) => job)}
-            setMarkers={setLocation}
+      {isLoading ? (
+        <Spin />
+      ) : (
+        <Container>
+          <MapContainer>
+            <OpenMaps
+              radius={radius}
+              marker={{
+                ...location,
+              }}
+              multipleMarkers={jobListing?.data?.map((job: JobProps) => job)}
+              setMarkers={setLocation}
+            />
+          </MapContainer>
+          <InputSlider
+            value={radius}
+            inputRef={refSliderElem}
+            disabled={isError}
           />
-        </MapContainer>
-        <InputSlider
-          value={radius}
-          inputRef={refSliderElem}
-          disabled={isError}
-        />
-        {jobListing?.data && (
           <JobList
             jobListing={jobListing?.data}
             page={page}
             setPage={setPage}
           />
-        )}
-      </Container>
+        </Container>
+      )}
     </MainPage>
   );
 };
