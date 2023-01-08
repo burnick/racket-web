@@ -6,14 +6,13 @@
     "dev": "yarn config set script-shell \"/bin/bash\"; source ~/.nvm/nvm.sh; nvm use; next dev -p 8080",
     "build": "yarn config set script-shell \"/bin/bash\"; source ~/.nvm/nvm.sh; nvm use;APP_ENV=production; next build",
     "export": "yarn config set script-shell \"/bin/bash\"; source ~/.nvm/nvm.sh; nvm use;APP_ENV=production; next build && next export",
-    "start": "APP_ENV=production; next start -p 8080",
+    "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "test-storybook": "test-storybook"
   },
   "dependencies": {
-    "@prisma/client": "^4.7.1",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-animations": "^1.0.0",

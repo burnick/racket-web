@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <ErrorProvider>
             <PersistGate loading={null} persistor={persistor}>
               <GoogleReCaptchaProvider
-                reCaptchaKey={process.env.NEXT_RECAPTCHA_KEY}
+                reCaptchaKey={process.env.NEXT_RECAPTCHA_KEY as string}
                 scriptProps={{
                   async: false,
                   defer: false,

@@ -20,30 +20,26 @@ const Login: React.FC = () => {
   const email = Form.useWatch('email', form);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
+  const submitEnquiryForm = useCallback(
+    ({ email, token }: { email: string; token: string }) => {
+      mutate({ email, token });
+    },
+    [mutate]
+  );
+
   const onFinish = useCallback(
     (values: { email: string; remember: boolean }) => {
       if (!executeRecaptcha) {
         console.log('Execute recaptcha not yet available');
         return;
       }
-      //mutate(values.email);
       executeRecaptcha('enquiryFormSubmit').then((gReCaptchaToken) => {
         console.log(gReCaptchaToken, 'response Google reCaptcha server');
         submitEnquiryForm({ email: values.email, token: gReCaptchaToken });
       });
     },
-    [executeRecaptcha]
+    [executeRecaptcha, submitEnquiryForm]
   );
-
-  const submitEnquiryForm = ({
-    email,
-    token,
-  }: {
-    email: string;
-    token: string;
-  }) => {
-    mutate({ email, token });
-  };
 
   const onFinishFailed = (errorInfo: unknown) => {
     console.log('Failed:', errorInfo);
