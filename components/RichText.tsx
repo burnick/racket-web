@@ -30,6 +30,7 @@ const RichText: React.FC<InputTextProps> = ({
         name={name}
         id={placeholder}
         type={'text'}
+        onChange={onChange}
         error={!isUndefined(errorMessage)}
       />
       <ReactQuill
