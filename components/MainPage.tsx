@@ -82,7 +82,7 @@ const MainPage = ({ children }: MainPageProps) => {
             // okButtonProps={{ loading: confirmLoading }}
             onCancel={hidePopConfirm}
           >
-            Logout
+            <MenuContainer>Logout</MenuContainer>
           </Popconfirm>
         ),
       },
@@ -135,6 +135,11 @@ const Sider = styled(Layout.Sider)`
   .ant-layout-sider-trigger {
     background: ${(props) => props.theme.colors.primary} !important;
   }
+`;
+
+const MenuContainer = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
 export default MainPage;
