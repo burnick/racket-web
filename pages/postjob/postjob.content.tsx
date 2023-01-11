@@ -205,7 +205,9 @@ const PostJobContent = ({
           <RichText
             placeholder="Description"
             name="description"
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              formik.setFieldValue('description', e);
+            }}
             value={formik.values.description}
             errorMessage={formik.errors.description}
           />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import isUndefined from 'lodash/isUndefined';
 import styled from 'styled-components';
@@ -16,26 +16,18 @@ const RichText: React.FC<InputTextProps> = ({
   errorMessage,
   onChange,
   value,
-  name,
 }) => {
   const ReactQuill = dynamic(import('react-quill'), { ssr: false });
-
   return (
     <Container error={!isUndefined(errorMessage)}>
       <Title htmlFor={placeholder}>
         {placeholder ? placeholder : 'Placeholder'}
       </Title>
-      <Input
-        value={value}
-        name={name}
-        id={placeholder}
-        type={'text'}
-        onChange={onChange}
-        error={!isUndefined(errorMessage)}
-      />
       <ReactQuill
         theme="snow"
         value={value}
+        onChange={onChange}
+        id={placeholder}
         placeholder={placeholder}
         //error={!isUndefined(errorMessage)}
       />
@@ -72,11 +64,5 @@ const Error = styled.span`
   span {
     padding: 2px;
   }
-`;
-
-const Input = styled.input.attrs(
-  (props: { error: boolean; ref?: React.ForwardedRef<unknown> }) => props
-)`
-  display: hidden;
 `;
 export default RichText;
