@@ -44,7 +44,7 @@ const MapComponent = ({
     (async function init() {
       // delete L.Icon.Default.prototype._getIconUrl;
       L.Icon.Default.mergeOptions({
-        iconRetinaUrl: 'leaflet/images/marker-icon-2x.png',
+        iconRetinaUrl: 'leaflet/images/marker-icon.png',
         iconUrl: 'leaflet/images/marker-icon.png',
         shadowUrl: 'leaflet/images/marker-shadow.png',
       });
