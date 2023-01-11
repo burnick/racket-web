@@ -5,10 +5,7 @@ import { Form, Input, message, Checkbox } from 'antd';
 import PanelCard from 'components/PanelCard';
 import Button from 'components/Button';
 import { SendEmailService } from 'hooks/useSendEmailService';
-import {
-  GoogleReCaptchaProvider,
-  useGoogleReCaptcha,
-} from 'react-google-recaptcha-v3';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const { Item } = Form;
 const tailLayout = {
@@ -80,15 +77,7 @@ const Login: React.FC = () => {
   }, [isError, messageApi]);
 
   return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={process.env.NEXT_RECAPTCHA_KEY as string}
-      scriptProps={{
-        async: false,
-        defer: false,
-        appendTo: 'head',
-        nonce: undefined,
-      }}
-    >
+    <>
       {contextHolder}
       <Container>
         <Head>
@@ -157,7 +146,7 @@ const Login: React.FC = () => {
           )}
         </PanelCard>
       </Container>
-    </GoogleReCaptchaProvider>
+    </>
   );
 };
 
