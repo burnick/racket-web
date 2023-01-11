@@ -19,6 +19,12 @@ import L from 'leaflet';
 import MapSearchBar from 'components/MapSearchBar';
 import { MapComponentProps } from 'types';
 
+const DefaultIcon = L.icon({
+  iconUrl: 'leaflet/images/marker-icon.png',
+  shadowUrl: 'leaflet/images/marker-shadow.png',
+  iconRetinaUrl: 'leaflet/images/marker-icon-2x.png',
+});
+
 const MapComponent = ({
   radius,
   marker,
@@ -50,7 +56,7 @@ const MapComponent = ({
   return (
     <div style={{ height: '30vh' }}>
       {multipleMarkers?.map((marker, index) => (
-        <Marker position={marker} key={`marker_${index}`}>
+        <Marker position={marker} icon={DefaultIcon} key={`marker_${index}`}>
           <Popup>
             <span>{marker.address}</span>
           </Popup>
