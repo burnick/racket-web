@@ -22,7 +22,7 @@ import { MapComponentProps } from 'types';
 const DefaultIcon = L.icon({
   iconUrl: 'leaflet/images/marker-icon.png',
   shadowUrl: 'leaflet/images/marker-shadow.png',
-  iconRetinaUrl: 'leaflet/images/marker-icon-2x.png',
+  iconRetinaUrl: 'leaflet/images/marker-icon.png',
 });
 
 const MapComponent = ({
