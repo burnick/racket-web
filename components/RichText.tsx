@@ -10,14 +10,13 @@ interface InputTextProps {
   value: string;
   onChange: (value: string) => void;
 }
-
+const ReactQuill = dynamic(import('react-quill'), { ssr: false });
 const RichText: React.FC<InputTextProps> = ({
   placeholder,
   errorMessage,
   onChange,
   value,
 }) => {
-  const ReactQuill = dynamic(import('react-quill'), { ssr: false });
   return (
     <Container error={!isUndefined(errorMessage)}>
       <Title htmlFor={placeholder}>
