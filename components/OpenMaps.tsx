@@ -63,7 +63,7 @@ const MapComponent = ({
         </Marker>
       ))}
       {marker && (
-        <Marker position={marker}>
+        <Marker position={marker} icon={DefaultIcon}>
           <Popup>
             <span>{marker.address}</span>
           </Popup>
