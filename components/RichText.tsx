@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import isUndefined from 'lodash/isUndefined';
 import styled from 'styled-components';
