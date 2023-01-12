@@ -10,6 +10,7 @@ import InputSlider from 'components/InputSlider';
 import PostJobComponent from './postjob.content';
 import { ManilaLatLong } from 'types';
 import isEqual from 'lodash/isEqual';
+import Loading from 'components/Loading';
 
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
@@ -34,7 +35,11 @@ const PostJob = ({
   const node = refSliderElem.current;
   const { FindAllCategories } = CategoriesService();
   const { GetCoordinates, UpsertCoordinates } = CoordinateService();
-  const { mutate, isError } = UpsertCoordinates();
+  const {
+    mutate,
+    isError,
+    isLoading: coordinatesUpdatesLoading,
+  } = UpsertCoordinates();
   const [location, setLocation] = useState({
     lat: userLat,
     lng: userLng,
@@ -89,9 +94,11 @@ const PostJob = ({
     };
   }, [radius, node]);
 
-  const contentIsLoading = isCoordinatesLoading || isLoading;
   return (
     <MainPage>
+      {(coordinatesUpdatesLoading || isCoordinatesLoading || isLoading) && (
+        <Loading />
+      )}
       <Container>
         <MapContainer>
           <OpenMaps
@@ -107,15 +114,13 @@ const PostJob = ({
           inputRef={refSliderElem}
           disabled={isError}
         />
-        {contentIsLoading && <Spin tip={'Loading'} size="small" />}
-        {!contentIsLoading && (
-          <PostJobComponent
-            uid={state.user?.uid}
-            {...location}
-            categoriesData={categoriesData}
-            isLoading={isLoading}
-          />
-        )}
+
+        <PostJobComponent
+          uid={state.user?.uid}
+          {...location}
+          categoriesData={categoriesData}
+          isLoading={isLoading}
+        />
       </Container>
     </MainPage>
   );

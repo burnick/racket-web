@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Spin } from 'antd';
 import { store } from 'store';
 import MainPage from 'components/MainPage';
 import { JobProps, ManilaLatLong } from 'types';
@@ -10,6 +9,7 @@ import InputSlider from 'components/InputSlider';
 import dynamic from 'next/dynamic';
 import isEqual from 'lodash/isEqual';
 import JobList from 'components/JobList';
+import Loading from 'components/Loading';
 
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
@@ -107,7 +107,7 @@ const LocationComponent = ({
       {jobListing?.data ? (
         <JobList jobListing={jobListing?.data} page={page} setPage={setPage} />
       ) : (
-        <Spin />
+        <Loading />
       )}
     </>
   );
