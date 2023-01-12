@@ -1,8 +1,13 @@
 import { Dispatch, SetStateAction } from 'react';
+import { UserCredential } from 'firebase/auth';
 
 enum Roles {
   ADMIN = 'admin',
   USER = 'user',
+}
+
+export interface CurrentUserProps {
+  user: UserCredential;
 }
 
 export interface UserProps {

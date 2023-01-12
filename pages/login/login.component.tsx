@@ -1,11 +1,22 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { Form, Input, message, Checkbox } from 'antd';
+import { Form, Input, message, Checkbox, Button } from 'antd';
 import PanelCard from 'components/PanelCard';
-import Button from 'components/Button';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+} from 'firebase/auth';
+import { addUser } from 'store/slice/user';
+import { useAppDispatch } from 'store/hooks';
+import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 import { SendEmailService } from 'hooks/useSendEmailService';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import consoleHelper from 'utils/consoleHelper';
+import Router from 'next/router';
 
 const { Item } = Form;
 const tailLayout = {
@@ -13,8 +24,14 @@ const tailLayout = {
 };
 
 const Login: React.FC = () => {
-  // console.log('environment', process.env.NODE_ENV);
+  const auth = getAuth();
   const [form] = Form.useForm();
+  const [googleAuthorization, setGoogleAuthorization] = useState(false);
+  const [fbAuthorization, setFBAuthorization] = useState(false);
+  const dispatch = useAppDispatch();
+  const [currentUser, setCurrentUser] = useState<Record<string, any> | null>(
+    null
+  );
   const [messageApi, contextHolder] = message.useMessage();
   const { mutate, isLoading, isSuccess, isError } = SendEmailService();
   const email = Form.useWatch('email', form);
@@ -26,6 +43,40 @@ const Login: React.FC = () => {
     },
     [mutate]
   );
+
+  useEffect(() => {
+    if (currentUser && currentUser.uid) {
+      dispatch(
+        addUser({
+          uid: currentUser.uid,
+          displayName: currentUser.displayName ?? '',
+          email: currentUser.email ?? '',
+          nickname: currentUser.displayName ?? '',
+        })
+      );
+      Router.push('/');
+    }
+  }, [currentUser, mutate]);
+
+  useEffect(() => {
+    const AuthCheck = onAuthStateChanged(auth, (user) => {
+      console.log('user', user);
+      // if (user?.uid) {
+      //   setCurrentUser(user);
+      //   dispatch(
+      //     addUser({
+      //       uid: user.uid,
+      //       displayName: user.displayName ?? '',
+      //       email: user.email ?? '',
+      //       nickname: user.displayName ?? '',
+      //     })
+      //   );
+      //   Router.push('/');
+      // }
+    });
+
+    return () => AuthCheck();
+  }, [auth, dispatch]);
 
   const onFinish = useCallback(
     (values: { email: string; remember: boolean }) => {
@@ -48,6 +99,44 @@ const Login: React.FC = () => {
   const handleReset = useCallback(() => {
     form.resetFields();
   }, [form]);
+
+  const handleGoogleClick = useCallback(() => {
+    const signInWithGoogle = async () => {
+      setGoogleAuthorization(true);
+
+      signInWithPopup(auth, new GoogleAuthProvider())
+        .then((response) => {
+          if (response.user.uid) {
+            if (response.user.uid) {
+              setCurrentUser(response.user);
+            }
+          }
+        })
+        .catch((error) => {
+          consoleHelper(error);
+          setGoogleAuthorization(false);
+        });
+    };
+    signInWithGoogle();
+  }, [auth]);
+
+  const handleFBClick = useCallback(() => {
+    const signInWitFB = async () => {
+      setFBAuthorization(true);
+
+      signInWithPopup(auth, new FacebookAuthProvider())
+        .then((response) => {
+          if (response.user.uid) {
+            setCurrentUser(response.user);
+          }
+        })
+        .catch((error) => {
+          consoleHelper(error);
+          setFBAuthorization(false);
+        });
+    };
+    signInWitFB();
+  }, [auth]);
 
   useEffect(() => {
     if (isLoading) {
@@ -95,7 +184,20 @@ const Login: React.FC = () => {
               <p>you may now close this window/page</p>
             </>
           )}
+          <CustomButton
+            type="primary"
+            htmlType="button"
+            onClick={handleGoogleClick}
+            disabled={googleAuthorization}
+          >
+            <GIcon />
+            <CustomButtonText>Sign in with Google</CustomButtonText>
+          </CustomButton>
 
+          <FBButton onClick={handleFBClick} disabled={fbAuthorization}>
+            <FBIcon />
+            <ButtonText>Sign in with Facebook</ButtonText>
+          </FBButton>
           {!isSuccess && (
             <Form
               name="basic"
@@ -106,9 +208,10 @@ const Login: React.FC = () => {
               onFinishFailed={onFinishFailed}
               autoComplete="off"
               form={form}
+              disabled={true}
             >
               <StyledItem
-                label="Email"
+                label="Email (coming soon)"
                 name="email"
                 rules={[
                   {
@@ -133,7 +236,7 @@ const Login: React.FC = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  disabled={!email || isLoading}
+                  disabled={true || isLoading}
                 >
                   Submit
                 </Button>
@@ -169,6 +272,55 @@ const ButtonsContainer = styled(Item)`
     justify-content: center;
     flex-direction: row;
     gap: 10px;
+  }
+`;
+
+const GIcon = styled(GoogleOutlined)`
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  position: relative;
+  z-index: 0;
+`;
+
+const FBIcon = styled(FacebookOutlined)`
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  position: relative;
+  z-index: 0;
+`;
+
+const FBButton = styled(Button)`
+  background-color: ${({ theme }) => theme.colors.fbBlue} !important;
+  width: 100%;
+  span {
+    color: ${({ theme }) => theme.colors.white};
+  }
+`;
+
+const ButtonText = styled.span`
+  background-color: ${({ theme }) => theme.colors.fbBlue} !important;
+
+  span {
+    color: ${({ theme }) => theme.colors.white};
+  }
+`;
+
+const CustomButton = styled(Button)`
+  background-color: ${({ theme }) => theme.colors.white} !important;
+  border-color: ${({ theme }) => theme.colors.primary};
+  margin-bottom: 10px;
+  width: 100%;
+  span {
+    color: ${({ theme }) => theme.colors.black};
+  }
+`;
+
+const CustomButtonText = styled.span`
+  background-color: ${({ theme }) => theme.colors.white} !important;
+  span {
+    color: ${({ theme }) => theme.colors.black};
   }
 `;
 

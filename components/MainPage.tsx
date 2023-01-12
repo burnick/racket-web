@@ -6,6 +6,7 @@ import { removeUser } from 'store/slice/user';
 import { useAppDispatch } from 'store/hooks';
 import Router from 'next/router';
 import Header from 'components/Header';
+import { getAuth, signOut } from 'firebase/auth';
 import {
   // AppstoreOutlined,
   // MailOutlined,
@@ -23,13 +24,15 @@ interface MainPageProps {
 
 const MainPage = ({ children }: MainPageProps) => {
   const dispatch = useAppDispatch();
+  const auth = getAuth();
   const [collapsed, setCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
   const handleLogout = useCallback(() => {
     setOpen(false);
+    signOut(auth);
     dispatch(removeUser());
     Router.push('/login');
-  }, [dispatch]);
+  }, [dispatch, signOut]);
 
   const showPopConfirm = useCallback(() => {
     console.log('Clicked show button');

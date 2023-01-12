@@ -2,6 +2,7 @@ import React from 'react';
 import 'styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'styled-components';
+import { initializeApp } from 'firebase/app';
 import theme from 'default.theme.json';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
@@ -19,6 +20,15 @@ const queryClient = new QueryClient({
       staleTime: 5 * 60 * 1000,
     },
   },
+});
+
+initializeApp({
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTHDOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
 });
 
 export default function App({ Component, pageProps }: AppProps) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import Login from './login';
+import Login from './login.component';
 const LoginContainer = () => {
   return (
     <GoogleReCaptchaProvider
