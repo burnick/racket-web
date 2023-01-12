@@ -28,7 +28,7 @@ const LocationComponent = ({
   userLat = ManilaLatLong.lat,
   userLng = ManilaLatLong.lng,
   address = ManilaLatLong.address,
-  userRadius,
+  userRadius = 10000,
 }: AppProps) => {
   const refSliderElem = useRef<HTMLInputElement | null>(null);
   const node = refSliderElem.current;
