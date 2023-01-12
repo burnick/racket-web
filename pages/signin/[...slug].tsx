@@ -12,7 +12,8 @@ const SignIn = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [secret] = (router.query.slug as string[]) || [];
-  const { data: userDetails, isLoading, isError } = SignInService({ secret });
+  const { GetUser } = SignInService();
+  const { data: userDetails, isLoading, isError } = GetUser({ secret });
 
   if (userDetails && userDetails?.uid) {
     dispatch(

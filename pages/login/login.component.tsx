@@ -8,7 +8,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   signInWithPopup,
-  onAuthStateChanged,
+  //onAuthStateChanged,
 } from 'firebase/auth';
 import { addUser } from 'store/slice/user';
 import { useAppDispatch } from 'store/hooks';
@@ -18,6 +18,7 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import consoleHelper from 'utils/consoleHelper';
 import Router from 'next/router';
 import { UserProps } from 'types';
+import { SignInService } from 'hooks/useSignInService';
 
 const { Item } = Form;
 const tailLayout = {
@@ -35,7 +36,8 @@ const Login: React.FC = () => {
   const { mutate, isLoading, isSuccess, isError } = SendEmailService();
   //const email = Form.useWatch('email', form);
   const { executeRecaptcha } = useGoogleReCaptcha();
-
+  const { AddUser } = SignInService();
+  const { mutate: mutateCurrentUser, isSuccess: addUserSuccess } = AddUser();
   const submitEnquiryForm = useCallback(
     ({ email, token }: { email: string; token: string }) => {
       mutate({ email, token });
@@ -45,37 +47,54 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (currentUser && currentUser.uid) {
-      dispatch(
-        addUser({
-          uid: currentUser.uid,
-          displayName: currentUser.displayName ?? '',
-          email: currentUser.email ?? '',
-          nickname: currentUser.displayName ?? '',
-        })
-      );
-      Router.push('/');
+      if (!executeRecaptcha) {
+        console.log('Execute recaptcha not yet available');
+        return;
+      }
+      executeRecaptcha('enquiryFormSubmit').then((gReCaptchaToken) => {
+        console.log(gReCaptchaToken, 'response Google reCaptcha server');
+        mutateCurrentUser({ ...currentUser, token: gReCaptchaToken });
+      });
+
+      if (addUserSuccess) {
+        dispatch(
+          addUser({
+            uid: currentUser.uid,
+            displayName: currentUser.displayName ?? '',
+            email: currentUser.email ?? '',
+            nickname: currentUser.displayName ?? '',
+          })
+        );
+        Router.push('/');
+      }
     }
-  }, [currentUser, mutate, dispatch]);
+  }, [
+    currentUser,
+    dispatch,
+    addUserSuccess,
+    executeRecaptcha,
+    mutateCurrentUser,
+  ]);
 
-  useEffect(() => {
-    const AuthCheck = onAuthStateChanged(auth, (user) => {
-      console.log('user', user);
-      // if (user?.uid) {
-      //   setCurrentUser(user);
-      //   dispatch(
-      //     addUser({
-      //       uid: user.uid,
-      //       displayName: user.displayName ?? '',
-      //       email: user.email ?? '',
-      //       nickname: user.displayName ?? '',
-      //     })
-      //   );
-      //   Router.push('/');
-      // }
-    });
+  // useEffect(() => {
+  //   const AuthCheck = onAuthStateChanged(auth, (user) => {
+  //     console.log('user', user);
+  //     // if (user?.uid) {
+  //     //   setCurrentUser(user);
+  //     //   dispatch(
+  //     //     addUser({
+  //     //       uid: user.uid,
+  //     //       displayName: user.displayName ?? '',
+  //     //       email: user.email ?? '',
+  //     //       nickname: user.displayName ?? '',
+  //     //     })
+  //     //   );
+  //     Router.push('/');
+  //     // }
+  //   });
 
-    return () => AuthCheck();
-  }, [auth, dispatch]);
+  //   return () => AuthCheck();
+  // }, [auth, dispatch]);
 
   const onFinish = useCallback(
     (values: { email: string; remember: boolean }) => {
