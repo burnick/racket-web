@@ -48,11 +48,11 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (currentUser && currentUser.uid) {
       if (!executeRecaptcha) {
-        console.log('Execute recaptcha not yet available');
+        consoleHelper('Execute recaptcha not yet available');
         return;
       }
       executeRecaptcha('enquiryFormSubmit').then((gReCaptchaToken) => {
-        console.log(gReCaptchaToken, 'response Google reCaptcha server');
+        consoleHelper(gReCaptchaToken, 'response Google reCaptcha server');
         mutateCurrentUser({ ...currentUser, token: gReCaptchaToken });
       });
 
@@ -99,11 +99,11 @@ const Login: React.FC = () => {
   const onFinish = useCallback(
     (values: { email: string; remember: boolean }) => {
       if (!executeRecaptcha) {
-        console.log('Execute recaptcha not yet available');
+        consoleHelper('Execute recaptcha not yet available');
         return;
       }
       executeRecaptcha('enquiryFormSubmit').then((gReCaptchaToken) => {
-        console.log(gReCaptchaToken, 'response Google reCaptcha server');
+        consoleHelper(gReCaptchaToken, 'response Google reCaptcha server');
         submitEnquiryForm({ email: values.email, token: gReCaptchaToken });
       });
     },
