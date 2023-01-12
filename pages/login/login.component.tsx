@@ -223,8 +223,9 @@ const Login: React.FC = () => {
               form={form}
               disabled={true}
             >
+              * email login is disabled
               <StyledItem
-                label="Email (coming soon)"
+                label="Email"
                 name="email"
                 rules={[
                   {
@@ -234,9 +235,8 @@ const Login: React.FC = () => {
                   { required: true, message: 'Please input your email!' },
                 ]}
               >
-                <Input disabled={isLoading} />
+                <Input disabled={true || isLoading} />
               </StyledItem>
-
               <StyledItem
                 name="remember"
                 valuePropName="checked"
@@ -244,7 +244,6 @@ const Login: React.FC = () => {
               >
                 <Checkbox>Remember me</Checkbox>
               </StyledItem>
-
               <ButtonsContainer {...tailLayout}>
                 <Button
                   type="primary"
@@ -307,6 +306,7 @@ const FBIcon = styled(FacebookOutlined)`
 const FBButton = styled(Button)`
   background-color: ${({ theme }) => theme.colors.fbBlue} !important;
   width: 100%;
+  margin-bottom: 20px;
   span {
     color: ${({ theme }) => theme.colors.white};
   }
