@@ -35,7 +35,7 @@ const LocationComponent = ({
   const [page, setPage] = useState(0);
   const { UpsertCoordinates } = CoordinateService();
   const { GetAllJobs } = JobService();
-  const { mutate, isError } = UpsertCoordinates();
+  const { mutate, isError, isLoading } = UpsertCoordinates();
   const [location, setLocation] = useState({
     lat: userLat,
     lng: userLng,
@@ -54,6 +54,7 @@ const LocationComponent = ({
 
   useEffect(() => {
     if (radius && location?.lng && userUid) {
+      console.log('updating location', location, radius);
       mutate({
         uid: userUid,
         ...location,
@@ -66,7 +67,7 @@ const LocationComponent = ({
     if (node) {
       node.addEventListener('touchend', () => {
         if (!isEqual(node.value, radius)) {
-          console.log('radius changed via mobile', node.value);
+          //console.log('radius changed via mobile', node.value);
           setRadius(node.value as unknown as number);
         }
       });
@@ -74,7 +75,7 @@ const LocationComponent = ({
       node.addEventListener('mouseout', () => {
         if (!isEqual(node.value, radius)) {
           setRadius(node.value as unknown as number);
-          console.log('radius changed via desktop', node.value, radius);
+          //console.log('radius changed via desktop', node.value, radius);
         }
       });
     }

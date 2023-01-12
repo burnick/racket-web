@@ -12,8 +12,8 @@ import InputDate from 'components/InputDate';
 import { JobTypes, JobProps } from 'types';
 import { JobService } from 'hooks/useJobService';
 import { Spin } from 'antd';
-import { ErrorContext } from 'components/ErrorContext';
-import { ErrorContextType } from 'types';
+import { MessageNotificationContext } from 'components/MessageNotificationContext';
+import { MessageNotificationContextType } from 'types';
 
 interface PostJobProps {
   uid: string;
@@ -66,7 +66,9 @@ const PostJobContent = ({
   categoriesData,
 }: PostJobProps) => {
   const { CreateJob } = JobService();
-  const { setErrorText } = React.useContext(ErrorContext) as ErrorContextType;
+  const { setMessageText } = React.useContext(
+    MessageNotificationContext
+  ) as MessageNotificationContextType;
 
   const {
     mutate,
@@ -77,15 +79,15 @@ const PostJobContent = ({
 
   useEffect(() => {
     if (isError) {
-      setErrorText('Error: unable to save or only one Job Post per user');
+      setMessageText('Error: unable to save or only one Job Post per user');
     }
-  }, [isError, setErrorText]);
+  }, [isError, setMessageText]);
 
   useEffect(() => {
     if (isSuccessJob) {
-      setErrorText('Job details was saved');
+      setMessageText('Job details was saved');
     }
-  }, [isSuccessJob, setErrorText]);
+  }, [isSuccessJob, setMessageText]);
 
   const formik = useFormik({
     initialValues: {

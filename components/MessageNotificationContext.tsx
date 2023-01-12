@@ -3,21 +3,22 @@ import { fadeInDown } from 'react-animations';
 import React, { useEffect, useState, createContext, useCallback } from 'react';
 import hexToRgb from 'utils/hexToRgb';
 import isEmpty from 'lodash/isEmpty';
-import { ErrorContextType } from 'types';
+import { MessageNotificationContextType } from 'types';
 import { CloseOutlined } from '@ant-design/icons';
 
-export const ErrorContext = createContext<ErrorContextType | null>(null);
+export const MessageNotificationContext =
+  createContext<MessageNotificationContextType | null>(null);
 
-interface ErrorProviderProps {
+interface MessageProviderProps {
   children: React.ReactNode;
 }
-const ErrorProvider = ({ children }: ErrorProviderProps) => {
-  const [errorText, setErrorText] = useState('');
+const MessageProvider = ({ children }: MessageProviderProps) => {
+  const [messageText, setMessageText] = useState('');
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
-    if (errorText) {
+    if (messageText) {
       timeout = setTimeout(() => {
-        setErrorText('');
+        setMessageText('');
       }, 1000 * 10);
     }
 
@@ -25,20 +26,26 @@ const ErrorProvider = ({ children }: ErrorProviderProps) => {
       //cleanup on unload
       clearTimeout(timeout);
     };
-  }, [errorText]);
+  }, [messageText]);
 
-  const handleClose = useCallback(() => setErrorText(''), []);
+  const handleClose = useCallback(() => setMessageText(''), []);
 
   return (
-    <ErrorContext.Provider value={{ errorText, setErrorText }}>
-      <Container isHidden={isEmpty(errorText)}>
-        {!isEmpty(errorText) && <ErrorContainer> {errorText}</ErrorContainer>}
-        <CloseContainer isHidden={isEmpty(errorText)}>
-          <CloseOutlined onClick={handleClose} />
-        </CloseContainer>
+    <MessageNotificationContext.Provider
+      value={{ messageText, setMessageText }}
+    >
+      <Container isHidden={isEmpty(messageText)}>
+        {!isEmpty(messageText) && (
+          <MessageContainer>
+            <MessageTextContainer>{messageText}</MessageTextContainer>
+            <CloseContainer isHidden={isEmpty(messageText)}>
+              <CloseOutlined onClick={handleClose} />
+            </CloseContainer>
+          </MessageContainer>
+        )}
       </Container>
       {children}
-    </ErrorContext.Provider>
+    </MessageNotificationContext.Provider>
   );
 };
 
@@ -47,23 +54,25 @@ const fadeInDownAnimation = keyframes`${fadeInDown}`;
 
 const Container = styled.div<{ isHidden: boolean }>`
   position: absolute;
+  display: flex;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 200vh;
   z-index: 9999999999999999;
   background-color: ${({ theme }) => hexToRgb(theme.colors.primary, 0.3)};
   ${({ isHidden }) => isHidden && `display: none`};
+  overflow: hidden;
 `;
 
-const ErrorContainer = styled.div`
+const MessageContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
-  height: 10%;
+  height: auto;
   padding: 10px;
   background-color: ${({ theme }) => theme.colors.danger};
   color: ${({ theme }) => theme.colors.white};
@@ -74,19 +83,26 @@ const ErrorContainer = styled.div`
   animation: 3s ${fadeInDownAnimation} forwards;
 `;
 
+const MessageTextContainer = styled.div`
+  flex: 1;
+  padding: 0px 10px 10px 10px;
+  min-height: 10px;
+  overflow: hidden;
+`;
+
 const CloseContainer = styled.div<{ isHidden: boolean }>`
   display: flex;
   position: relative;
-  width: 99%;
   justify-content: right;
-  margin-top: 40px;
-  padding-right: 2%;
+  padding-right: 10px;
   visibility: inherit;
   animation: 3s ${fadeInDownAnimation} forwards;
   svg {
-    filter: invert(100%);
+    filter: invert(0);
+    width: 20px;
+    height: 20px;
   }
   ${({ isHidden }) => isHidden && `display: none`};
 `;
 
-export default React.memo(ErrorProvider);
+export default React.memo(MessageProvider);

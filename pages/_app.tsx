@@ -7,8 +7,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import { persistor, store } from 'store';
 import { PersistGate } from 'redux-persist/integration/react';
-import ErrorProvider from 'components/ErrorContext';
-
+import ErrorProvider from 'components/MessageNotificationContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {

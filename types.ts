@@ -134,9 +134,9 @@ export interface JobProps {
   expirationDate: Date;
 }
 
-export type ErrorContextType = {
-  errorText: string;
-  setErrorText: Dispatch<SetStateAction<string>>;
+export type MessageNotificationContextType = {
+  messageText: string;
+  setMessageText: Dispatch<SetStateAction<string>>;
 };
 
 export enum ManilaLatLong {

@@ -9,6 +9,7 @@ import { Spin } from 'antd';
 import InputSlider from 'components/InputSlider';
 import PostJobComponent from './postjob.content';
 import { ManilaLatLong } from 'types';
+import isEqual from 'lodash/isEqual';
 
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
@@ -19,15 +20,18 @@ interface AppProps {
   userLat?: number;
   userLng?: number;
   address?: string;
+  userRadius: number;
 }
 
 const PostJob = ({
   userLat = ManilaLatLong.lat,
   userLng = ManilaLatLong.lng,
   address = ManilaLatLong.address,
+  userRadius = 10000,
 }: AppProps) => {
   const state = store.getState();
   const refSliderElem = useRef<HTMLInputElement | null>(null);
+  const node = refSliderElem.current;
   const { FindAllCategories } = CategoriesService();
   const { GetCoordinates, UpsertCoordinates } = CoordinateService();
   const { mutate, isError } = UpsertCoordinates();
@@ -39,11 +43,16 @@ const PostJob = ({
 
   const { data: coordinatesData, isLoading: isCoordinatesLoading } =
     GetCoordinates(state.user?.uid);
-  const [radius, setRadius] = useState<number>(coordinatesData?.radius);
+
+  const [radius, setRadius] = useState<number>(
+    coordinatesData ? coordinatesData.radius : userRadius
+  );
+
   const { data: categoriesData, isLoading } = FindAllCategories();
 
   useEffect(() => {
     if (radius && location?.lng) {
+      console.log('updating location', location, radius);
       mutate({
         uid: state.user.uid,
         ...location,
@@ -51,6 +60,34 @@ const PostJob = ({
       });
     }
   }, [radius, location, mutate]);
+
+  useEffect(() => {
+    if (node) {
+      node.addEventListener('touchend', () => {
+        if (!isEqual(node.value, radius)) {
+          //console.log('radius changed via mobile', node.value);
+          setRadius(node.value as unknown as number);
+        }
+      });
+
+      node.addEventListener('mouseout', () => {
+        if (!isEqual(node.value, radius)) {
+          setRadius(node.value as unknown as number);
+          //console.log('radius changed via desktop', node.value, radius);
+        }
+      });
+    }
+
+    return () => {
+      // refSliderElem.current = null;
+      node?.removeEventListener('touchend', () => {
+        console.log('remove touchend listener');
+      });
+      node?.removeEventListener('mouseout', () => {
+        console.log('remove mouseout listener');
+      });
+    };
+  }, [radius, node]);
 
   const contentIsLoading = isCoordinatesLoading || isLoading;
   return (
