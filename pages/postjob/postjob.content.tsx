@@ -17,10 +17,11 @@ import { ErrorContextType } from 'types';
 
 interface PostJobProps {
   uid: string;
-
-  categoriesData: Record<string, string>[] | undefined;
-  coordinatesData: Record<string, string>;
+  lat: number;
+  lng: number;
+  address: string;
   isLoading: boolean;
+  categoriesData: Record<string, string>[] | undefined;
 }
 
 const phoneRegExp =
@@ -59,8 +60,10 @@ const validationSchema = yup.object({
 const PostJobContent = ({
   uid,
   isLoading,
+  lat,
+  lng,
+  address,
   categoriesData,
-  coordinatesData,
 }: PostJobProps) => {
   const { CreateJob } = JobService();
   const { setErrorText } = React.useContext(ErrorContext) as ErrorContextType;
@@ -93,10 +96,10 @@ const PostJobContent = ({
       salary: 300,
       link: '',
       email: '',
-      address: coordinatesData?.address,
+      address: address,
       phone: '',
-      lat: parseInt(coordinatesData?.lat),
-      lng: parseInt(coordinatesData?.lng),
+      lat: lat,
+      lng: lng,
       description: '',
       expirationDate: new Date(moment().add(1, 'months').calendar()),
     },
@@ -113,9 +116,7 @@ const PostJobContent = ({
     <PanelCard width={100}>
       {createJobIsLoading && <Spin />}
       <FormContainer onSubmit={formik.handleSubmit}>
-        <AddressContainer>
-          Current Location: {coordinatesData?.address}
-        </AddressContainer>
+        <AddressContainer>Current Location: {address}</AddressContainer>
         <InputContainer>
           <InputText
             placeholder="Job Title"

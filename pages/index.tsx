@@ -17,7 +17,7 @@ const OpenMaps = dynamic(() => import('components/OpenMaps'), {
 
 interface AppProps {
   userUid: string;
-  userRadius?: number;
+  userRadius: number;
   userLat?: number;
   userLng?: number;
   address?: string;
@@ -28,11 +28,10 @@ const LocationComponent = ({
   userLat = ManilaLatLong.lat,
   userLng = ManilaLatLong.lng,
   address = ManilaLatLong.address,
-  userRadius = 10000,
+  userRadius,
 }: AppProps) => {
   const refSliderElem = useRef<HTMLInputElement | null>(null);
   const node = refSliderElem.current;
-
   const [page, setPage] = useState(0);
   const { UpsertCoordinates } = CoordinateService();
   const { GetAllJobs } = JobService();
