@@ -32,7 +32,7 @@ const MainPage = ({ children }: MainPageProps) => {
     signOut(auth);
     dispatch(removeUser());
     Router.push('/login');
-  }, [dispatch, signOut]);
+  }, [dispatch, auth]);
 
   const showPopConfirm = useCallback(() => {
     console.log('Clicked show button');

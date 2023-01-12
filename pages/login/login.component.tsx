@@ -17,6 +17,7 @@ import { SendEmailService } from 'hooks/useSendEmailService';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import consoleHelper from 'utils/consoleHelper';
 import Router from 'next/router';
+import { UserProps } from 'types';
 
 const { Item } = Form;
 const tailLayout = {
@@ -29,12 +30,10 @@ const Login: React.FC = () => {
   const [googleAuthorization, setGoogleAuthorization] = useState(false);
   const [fbAuthorization, setFBAuthorization] = useState(false);
   const dispatch = useAppDispatch();
-  const [currentUser, setCurrentUser] = useState<Record<string, any> | null>(
-    null
-  );
+  const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
   const [messageApi, contextHolder] = message.useMessage();
   const { mutate, isLoading, isSuccess, isError } = SendEmailService();
-  const email = Form.useWatch('email', form);
+  //const email = Form.useWatch('email', form);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const submitEnquiryForm = useCallback(
@@ -56,7 +55,7 @@ const Login: React.FC = () => {
       );
       Router.push('/');
     }
-  }, [currentUser, mutate]);
+  }, [currentUser, mutate, dispatch]);
 
   useEffect(() => {
     const AuthCheck = onAuthStateChanged(auth, (user) => {
@@ -106,10 +105,16 @@ const Login: React.FC = () => {
 
       signInWithPopup(auth, new GoogleAuthProvider())
         .then((response) => {
-          if (response.user.uid) {
-            if (response.user.uid) {
-              setCurrentUser(response.user);
-            }
+          const responseUser = response.user;
+          if (responseUser && responseUser.uid) {
+            setCurrentUser({
+              uid: responseUser.uid,
+              displayName:
+                responseUser.displayName || `unknown${responseUser.uid}`,
+              email: responseUser.email || '',
+              nickname:
+                responseUser.displayName || `unknown${responseUser.uid}`,
+            });
           }
         })
         .catch((error) => {
@@ -126,8 +131,16 @@ const Login: React.FC = () => {
 
       signInWithPopup(auth, new FacebookAuthProvider())
         .then((response) => {
-          if (response.user.uid) {
-            setCurrentUser(response.user);
+          const responseUser = response.user;
+          if (responseUser && responseUser.uid) {
+            setCurrentUser({
+              uid: responseUser.uid,
+              displayName:
+                responseUser.displayName || `unknown${responseUser.uid}`,
+              email: responseUser.email || '',
+              nickname:
+                responseUser.displayName || `unknown${responseUser.uid}`,
+            });
           }
         })
         .catch((error) => {
