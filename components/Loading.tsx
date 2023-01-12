@@ -3,14 +3,13 @@ import styled from 'styled-components';
 import { Spin } from 'antd';
 
 const Container = styled.div`
-  position: absolute;
+  position: relative;
   display: flex;
   flex-position: row;
   left: 50%;
   top: 50%;
   transform: translate(-0%, -0%);
   color: #ffffff;
-
   top: 0;
   left: 0;
   height: 100%;
