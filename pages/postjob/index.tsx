@@ -5,7 +5,6 @@ import { CategoriesService } from 'hooks/useCategoriesService';
 import { CoordinateService } from 'hooks/useCoordinateService';
 import { store } from 'store';
 import dynamic from 'next/dynamic';
-import { Spin } from 'antd';
 import InputSlider from 'components/InputSlider';
 import PostJobComponent from './postjob.content';
 import { ManilaLatLong } from 'types';
@@ -64,7 +63,7 @@ const PostJob = ({
         radius,
       });
     }
-  }, [radius, location, mutate]);
+  }, [radius, location, mutate, state.user.uid]);
 
   useEffect(() => {
     if (node) {

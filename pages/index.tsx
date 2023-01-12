@@ -104,7 +104,7 @@ const LocationComponent = ({
         />
       </MapContainer>
       <InputSlider value={radius} inputRef={refSliderElem} disabled={isError} />
-      {jobListing?.data ? (
+      {!isLoading && jobListing?.data ? (
         <JobList jobListing={jobListing?.data} page={page} setPage={setPage} />
       ) : (
         <Loading />
@@ -123,7 +123,7 @@ const App = () => {
   return (
     <MainPage>
       {isLoading ? (
-        <Spin />
+        <Loading />
       ) : (
         <Container>
           <LocationComponent
