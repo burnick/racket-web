@@ -241,6 +241,9 @@ const Login: React.FC = () => {
               autoComplete="off"
               form={form}
               disabled={true}
+              style={{
+                display: 'none',
+              }}
             >
               * email login is disabled
               <StyledItem
