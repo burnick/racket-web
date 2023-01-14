@@ -6,7 +6,7 @@ import { CoordinateService } from 'hooks/useCoordinateService';
 import { store } from 'store';
 import dynamic from 'next/dynamic';
 import InputSlider from 'components/InputSlider';
-import PostJobComponent from './postjob.content';
+import PostJobComponent from './postjob.component';
 import { ManilaLatLong } from 'types';
 import isEqual from 'lodash/isEqual';
 import Loading from 'components/Loading';
@@ -20,14 +20,12 @@ interface AppProps {
   userLat?: number;
   userLng?: number;
   address?: string;
-  userRadius: number;
 }
 
 const PostJob = ({
   userLat = ManilaLatLong.lat,
   userLng = ManilaLatLong.lng,
   address = ManilaLatLong.address,
-  userRadius = 10000,
 }: AppProps) => {
   const state = store.getState();
   const refSliderElem = useRef<HTMLInputElement | null>(null);
@@ -49,21 +47,26 @@ const PostJob = ({
     GetCoordinates(state.user?.uid);
 
   const [radius, setRadius] = useState<number>(
-    coordinatesData ? coordinatesData.radius : userRadius
+    coordinatesData ? coordinatesData.radius : 10000
   );
 
   const { data: categoriesData, isLoading } = FindAllCategories();
 
   useEffect(() => {
-    if (radius && location?.lng) {
-      console.log('updating location', location, radius);
+    if (coordinatesData?.radius !== radius && location?.lng) {
+      console.log(
+        'updating location',
+        coordinatesData?.radius,
+        location,
+        radius
+      );
       mutate({
         uid: state.user.uid,
         ...location,
         radius,
       });
     }
-  }, [radius, location, mutate, state.user.uid]);
+  }, [radius, location, mutate, state.user.uid, coordinatesData]);
 
   useEffect(() => {
     if (node) {

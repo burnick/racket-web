@@ -112,7 +112,7 @@ const Content = styled.div`
   flex-direction: column;
   min-height: 100px;
   width: 100%;
-  justify-content: flex-start;
+  justify-content: center;
   padding: 2%;
   overflow-x: hidden;
   text-align: left;

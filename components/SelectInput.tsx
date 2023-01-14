@@ -88,9 +88,9 @@ const Error = styled.span`
 const InputSelect = styled.select<{ error?: boolean }>`
   height: 39px;
   margin: 10px 0;
-  border: 2px solid
+  border: 1px solid
     ${({ theme, error }) =>
-      error ? theme.colors.danger : theme.colors.lightgray};
+      error ? theme.colors.danger : theme.colors.primary};
 
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   padding: 2px;

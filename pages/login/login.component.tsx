@@ -209,79 +209,81 @@ const Login: React.FC = () => {
           />
           <meta property="og:title" content="Racket.ph" key="title" />
         </Head>
-        <PanelCard title={isSuccess ? 'Magic link sent' : 'Login'} width={30}>
-          {isSuccess && (
-            <>
-              <p>Please check your email client</p>
-              <p>you may now close this window/page</p>
-            </>
-          )}
-          <CustomButton
-            type="primary"
-            htmlType="button"
-            onClick={handleGoogleClick}
-            disabled={googleAuthorization}
-          >
-            <GIcon />
-            <CustomButtonText>Sign in with Google</CustomButtonText>
-          </CustomButton>
-
-          <FBButton onClick={handleFBClick} disabled={fbAuthorization}>
-            <FBIcon />
-            <ButtonText>Sign in with Facebook</ButtonText>
-          </FBButton>
-          {!isSuccess && (
-            <Form
-              name="basic"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-              form={form}
-              disabled={true}
-              style={{
-                display: 'none',
-              }}
+        <PanelCardContainer>
+          <PanelCard title={isSuccess ? 'Magic link sent' : 'Login'} width={30}>
+            {isSuccess && (
+              <>
+                <p>Please check your email client</p>
+                <p>you may now close this window/page</p>
+              </>
+            )}
+            <CustomButton
+              type="primary"
+              htmlType="button"
+              onClick={handleGoogleClick}
+              disabled={googleAuthorization}
             >
-              * email login is disabled
-              <StyledItem
-                label="Email"
-                name="email"
-                rules={[
-                  {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!',
-                  },
-                  { required: true, message: 'Please input your email!' },
-                ]}
-              >
-                <Input disabled={true || isLoading} />
-              </StyledItem>
-              <StyledItem
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{ offset: 8, span: 16 }}
-              >
-                <Checkbox>Remember me</Checkbox>
-              </StyledItem>
-              <ButtonsContainer {...tailLayout}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  disabled={true || isLoading}
-                >
-                  Submit
-                </Button>
+              <GIcon />
+              <CustomButtonText>Sign in with Google</CustomButtonText>
+            </CustomButton>
 
-                <Button htmlType="reset" onClick={handleReset}>
-                  Reset
-                </Button>
-              </ButtonsContainer>
-            </Form>
-          )}
-        </PanelCard>
+            <FBButton onClick={handleFBClick} disabled={fbAuthorization}>
+              <FBIcon />
+              <ButtonText>Sign in with Facebook</ButtonText>
+            </FBButton>
+            {!isSuccess && (
+              <Form
+                name="basic"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
+                form={form}
+                disabled={true}
+                style={{
+                  display: 'none',
+                }}
+              >
+                * email login is disabled
+                <StyledItem
+                  label="Email"
+                  name="email"
+                  rules={[
+                    {
+                      type: 'email',
+                      message: 'The input is not valid E-mail!',
+                    },
+                    { required: true, message: 'Please input your email!' },
+                  ]}
+                >
+                  <Input disabled={true || isLoading} />
+                </StyledItem>
+                <StyledItem
+                  name="remember"
+                  valuePropName="checked"
+                  wrapperCol={{ offset: 8, span: 16 }}
+                >
+                  <Checkbox>Remember me</Checkbox>
+                </StyledItem>
+                <ButtonsContainer {...tailLayout}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    disabled={true || isLoading}
+                  >
+                    Submit
+                  </Button>
+
+                  <Button htmlType="reset" onClick={handleReset}>
+                    Reset
+                  </Button>
+                </ButtonsContainer>
+              </Form>
+            )}
+          </PanelCard>
+        </PanelCardContainer>
       </Container>
     </>
   );
@@ -293,6 +295,10 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   color: #fff;
+`;
+
+const PanelCardContainer = styled.div`
+  max-width: 550px;
 `;
 
 const StyledItem = styled(Item)``;

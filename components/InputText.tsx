@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import isUndefined from 'lodash/isUndefined';
+import { Input } from 'antd';
+import ClockCircleOutlined from '@ant-design/icons/ClockCircleOutlined';
 
 interface InputTextProps {
   placeholder?: string;
@@ -23,13 +25,14 @@ const InputText: React.FC<InputTextProps> = ({
       <Title htmlFor={placeholder}>
         {placeholder ? placeholder : 'Placeholder'}
       </Title>
-      <Input
+      <StyledInput
         {...props}
         id={placeholder}
         name={name}
-        placeholder={placeholder}
+        placeholder={!isUndefined(errorMessage) ? errorMessage : placeholder}
         type={'text'}
-        error={!isUndefined(errorMessage)}
+        status={!isUndefined(errorMessage) ? 'error' : ''}
+        prefix={!isUndefined(errorMessage) ? <ClockCircleOutlined /> : null}
       />
       <Error role="alert" arial-aria-live="assertive">
         <span>{errorMessage}</span>
@@ -60,15 +63,10 @@ const Error = styled.span`
     padding: 2px;
   }
 `;
-const Input = styled.input.attrs(
-  (props: { error: boolean; ref?: React.ForwardedRef<unknown> }) => props
-)`
+const StyledInput = styled(Input)`
   height: 40px;
   margin-bottom: 0px;
-
-  border: 2px solid
-    ${(props) =>
-      props.error ? props.theme.colors.danger : props.theme.colors.lightgray};
+  border: 1px solid ${({ theme }) => theme.colors.primary};
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   padding: 10px;
   border-radius: 10px;

@@ -71,9 +71,9 @@ const Input = styled.input.attrs(
 )`
   height: 40px;
   margin-bottom: 0px;
-  border: 2px solid
+  border: 1px solid
     ${(props) =>
-      props.error ? props.theme.colors.danger : props.theme.colors.lightgray};
+      props.error ? props.theme.colors.danger : props.theme.colors.primary};
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   padding: 10px;
   border-radius: 10px;

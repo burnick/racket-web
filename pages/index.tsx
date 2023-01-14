@@ -53,15 +53,15 @@ const LocationComponent = ({
   });
 
   useEffect(() => {
-    if (radius && location?.lng && userUid) {
-      console.log('updating location', location, radius);
+    if (userRadius !== radius && location?.lng && userUid) {
+      console.log('updating location', userRadius, location, radius);
       mutate({
         uid: userUid,
         ...location,
         radius,
       });
     }
-  }, [radius, location, mutate, userUid]);
+  }, [radius, location, mutate, userUid, userRadius]);
 
   useEffect(() => {
     if (node) {
@@ -142,7 +142,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-
   justify-content: flex-start;
   align-items: center;
   padding: 10px;

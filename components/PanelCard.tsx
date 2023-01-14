@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 import styled from 'styled-components';
+import isEmpty from 'lodash/isEmpty';
 
 interface CardProps {
   title?: string;
@@ -8,7 +9,6 @@ interface CardProps {
   width?: number;
   loading?: boolean;
   bordered?: boolean;
-
   description?: string;
   children: React.ReactNode;
 }
@@ -34,14 +34,24 @@ const PanelCard = ({
       }
       width={width}
       loading={loading}
+      withtitle={title}
     >
       {children}
     </StyledCard>
   );
 };
 
-const StyledCard = styled(Card)<{ width: number }>`
+const StyledCard = styled(Card)<{ width: number; withtitle?: string }>`
   width: ${({ width }) => width}%;
+  min-width: 300px;
+
+  ${({ withtitle }) =>
+    !withtitle &&
+    `display: flex;
+    text-align: center;
+    justify-content: center;
+    `}
+  margin-bottom: 30px;
 
   .ant-card-head {
     min-height: 50px;
@@ -56,14 +66,20 @@ const StyledCard = styled(Card)<{ width: number }>`
   }
 
   .ant-card-body {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     min-height: 190px;
   }
-  min-width: 300px;
 
   @media (pointer: none), (pointer: coarse) {
-    width: 50%;
+    width: 100%;
+    max-width: 100%;
   }
 `;
 

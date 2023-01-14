@@ -115,9 +115,14 @@ const PostJobContent = ({
   });
 
   return (
-    <PanelCard width={100}>
+    <PanelCard width={80}>
       {createJobIsLoading && <Spin />}
-      <FormContainer onSubmit={formik.handleSubmit}>
+      <FormContainer
+        onSubmit={formik.handleSubmit}
+        style={{
+          maxWidth: '1000px',
+        }}
+      >
         <AddressContainer>Current Location: {address}</AddressContainer>
         <InputContainer>
           <InputText
@@ -238,7 +243,6 @@ const PostJobContent = ({
 };
 
 const FormContainer = styled.form`
-  display: flex;
   padding: 2%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(35%, 1fr));

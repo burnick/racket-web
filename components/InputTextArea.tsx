@@ -37,8 +37,7 @@ const Input = styled.textarea.attrs(
 )`
   min-height: 50px;
   margin: 10px 0; // add top and bottom margin
-  border: 2px solid #eee;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid ${({ theme }) => theme.colors.primary};
   padding: 10px;
   border-radius: 10px;
   @media (pointer: none), (pointer: coarse) {
