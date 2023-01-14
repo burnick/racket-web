@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
 import styled from 'styled-components';
-import isEmpty from 'lodash/isEmpty';
 
 interface CardProps {
   title?: string;
