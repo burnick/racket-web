@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import MainPage from 'components/MainPage';
 import styled from 'styled-components';
 import { CategoriesService } from 'hooks/useCategoriesService';
 import { CoordinateService } from 'hooks/useCoordinateService';

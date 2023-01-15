@@ -35,7 +35,7 @@ initializeApp({
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  console.log(router.pathname);
+
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
