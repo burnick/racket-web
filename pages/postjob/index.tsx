@@ -97,7 +97,7 @@ const PostJob = ({
   }, [radius, node]);
 
   return (
-    <MainPage>
+    <>
       {(coordinatesUpdatesLoading || isCoordinatesLoading || isLoading) && (
         <Loading />
       )}
@@ -124,7 +124,7 @@ const PostJob = ({
           isLoading={isLoading}
         />
       </Container>
-    </MainPage>
+    </>
   );
 };
 const Container = styled.div`

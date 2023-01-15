@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { store } from 'store';
-import MainPage from 'components/MainPage';
+
 import { JobProps, ManilaLatLong } from 'types';
 import { JobService } from 'hooks/useJobService';
 import { CoordinateService } from 'hooks/useCoordinateService';
@@ -125,7 +125,7 @@ const App = () => {
   const { data: coordinatesData, isLoading } = GetCoordinates(state.user?.uid);
 
   return (
-    <MainPage>
+    <>
       {isLoading ? (
         <Loading />
       ) : (
@@ -138,7 +138,7 @@ const App = () => {
           />
         </Container>
       )}
-    </MainPage>
+    </>
   );
 };
 

@@ -3,11 +3,7 @@ import MainPage from 'components/MainPage';
 import styled from 'styled-components';
 
 const About = () => {
-  return (
-    <MainPage>
-      <Container>About Page</Container>
-    </MainPage>
-  );
+  return <Container>About Page</Container>;
 };
 
 const Container = styled.div`

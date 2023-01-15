@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from 'store';
 import { PersistGate } from 'redux-persist/integration/react';
 import ErrorProvider from 'components/MessageNotificationContext';
+import MainPage from 'components/MainPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,7 +40,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <ErrorProvider>
             <PersistGate loading={null} persistor={persistor}>
               <Hydrate state={pageProps.dehydratedState}>
-                <Component {...pageProps} />
+                <MainPage>
+                  <Component {...pageProps} />
+                </MainPage>
               </Hydrate>
             </PersistGate>
           </ErrorProvider>
