@@ -20,7 +20,6 @@ export const UsersSlice = createSlice({
     },
     removeUser: (state) => {
       state = initialState;
-      console.log(state);
       return state;
     },
   },

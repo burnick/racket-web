@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Spin } from 'antd';
+import hexToRgb from 'utils/hexToRgb';
 
 const Container = styled.div`
   position: relative;
@@ -13,7 +14,8 @@ const Container = styled.div`
   top: 0;
   left: 0;
   height: 100%;
-  background-color: #000000;
+  background-color: ${(props) =>
+    hexToRgb(props.theme.colors.primary, 0.5)} !important;
   opacity: 0.5;
   justify-content: center;
   align-items: center;
