@@ -1,41 +1,11 @@
 import { useQuery, useMutation } from 'react-query';
-import useAxios from 'hooks/use-axios';
 import { UserProps } from 'types';
 import consoleHelper from 'utils/consoleHelper';
+import * as api from 'api/users';
 
 interface ExtraUserProps extends UserProps {
   token?: string;
 }
-const findingUser = async (secret: string) => {
-  if (!secret) {
-    console.error('missing value');
-    return false;
-  }
-
-  const { data: userResponse } = await useAxios.get(`users/signin/${secret}`);
-  if (!userResponse) {
-    const { data: response } = await useAxios.post(`users`, {
-      ...userResponse,
-    });
-
-    return response;
-  }
-
-  return userResponse;
-};
-
-const addingUser = async ({ user }: { user: UserProps }) => {
-  if (!user.uid) {
-    console.error('missing value');
-    return false;
-  }
-
-  const { data: response } = await useAxios.post(`users`, {
-    ...user,
-  });
-
-  return response;
-};
 
 export const SignInService = () => {
   const GetUser = ({ secret }: { secret: string }) => {
@@ -44,7 +14,7 @@ export const SignInService = () => {
         return null;
         // throw new Error('missing secret value');
       }
-      return await findingUser(secret);
+      return await api.findUser(secret);
     };
 
     return useQuery(['signInUser', secret], findUser, {
@@ -60,7 +30,7 @@ export const SignInService = () => {
         consoleHelper(props);
         throw new Error('missing user props');
       }
-      return addingUser({ user: props });
+      return api.createUser({ user: props });
     };
 
     return useMutation(createAUser);

@@ -1,36 +1,7 @@
 import { useQuery, useMutation } from 'react-query';
 import useAxios from 'hooks/use-axios';
 import { JobProps } from 'types';
-
-const createJob = async (props: JobProps) => {
-  if (!props.uid || !props.email) {
-    console.error('missing props for job create');
-    return false;
-  }
-
-  return await useAxios.post(`jobs`, {
-    ...props,
-    category: parseInt(props.category),
-    expirationDate: new Date(props.expirationDate),
-  } as any);
-};
-
-const getAllJobs = async ({
-  page = 1,
-  total = 10,
-  lng,
-  lat,
-  radius,
-}: {
-  page?: number;
-  total?: number;
-  lng: number;
-  lat: number;
-  radius: number;
-}) =>
-  await useAxios.get(
-    `jobs?page=${page}&total=${total}&lng=${lng}&lat=${lat}&radius=${radius}`
-  );
+import * as api from 'api/jobs';
 
 export const JobService = () => {
   const GetAllJobs = (props: {
@@ -41,7 +12,7 @@ export const JobService = () => {
     radius: number;
   }) => {
     const findJobs = async () => {
-      return await getAllJobs(props);
+      return await api.getJobs(props);
     };
 
     return useQuery(['fetchAllJobs', props], findJobs, {
@@ -65,7 +36,7 @@ export const JobService = () => {
       ) {
         throw new Error('missing jobs props');
       }
-      return await createJob(props);
+      return await api.createJob(props);
     };
 
     return useMutation(CreateAJob);

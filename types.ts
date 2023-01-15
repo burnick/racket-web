@@ -160,3 +160,8 @@ export interface Messages {
   userId: string;
   text: string;
 }
+
+export interface EmailProps {
+  email: string;
+  token: string;
+}

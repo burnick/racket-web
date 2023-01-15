@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import isEqual from 'lodash/isEqual';
 import JobList from 'components/JobList';
 import Loading from 'components/Loading';
+import { useRouter } from 'next/router';
 
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
@@ -30,6 +31,9 @@ const LocationComponent = ({
   address = ManilaLatLong.address,
   userRadius = 10000,
 }: AppProps) => {
+  const router = useRouter();
+  const { somepage } = router.query;
+  console.log(somepage);
   const refSliderElem = useRef<HTMLInputElement | null>(null);
   const node = refSliderElem.current;
   const [page, setPage] = useState(0);

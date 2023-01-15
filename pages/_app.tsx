@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'styled-components';
 import { initializeApp } from 'firebase/app';
 import theme from 'default.theme.json';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import { persistor, store } from 'store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -38,7 +38,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <Provider store={store}>
           <ErrorProvider>
             <PersistGate loading={null} persistor={persistor}>
-              <Component {...pageProps} />
+              <Hydrate state={pageProps.dehydratedState}>
+                <Component {...pageProps} />
+              </Hydrate>
             </PersistGate>
           </ErrorProvider>
         </Provider>
