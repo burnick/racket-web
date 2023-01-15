@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { store } from 'store';
 
@@ -17,7 +17,7 @@ const OpenMaps = dynamic(() => import('components/OpenMaps'), {
 
 interface AppProps {
   userUid: string;
-  userRadius: number;
+  userRadius?: number;
   userLat?: number;
   userLng?: number;
   address?: string;
@@ -30,8 +30,6 @@ const LocationComponent = ({
   address = ManilaLatLong.address,
   userRadius = 10000,
 }: AppProps) => {
-  const refSliderElem = useRef<HTMLInputElement | null>(null);
-  const node = refSliderElem.current;
   const [page, setPage] = useState(0);
   const { UpsertCoordinates } = CoordinateService();
   const { GetAllJobs } = JobService();
@@ -42,7 +40,9 @@ const LocationComponent = ({
     address,
   });
 
-  const [radius, setRadius] = useState<number>(userRadius);
+  const [radius, setRadius] = useState<number>(
+    userRadius ? userRadius : 100000
+  );
 
   const { data: jobListing } = GetAllJobs({
     page,
@@ -53,7 +53,7 @@ const LocationComponent = ({
   });
 
   useEffect(() => {
-    if (userRadius !== radius && location?.lng && userUid) {
+    if (!isEqual(userRadius, radius) && location?.lng && userUid) {
       console.log('updating location', userRadius, location, radius);
       mutate({
         uid: userUid,
@@ -62,34 +62,6 @@ const LocationComponent = ({
       });
     }
   }, [radius, location, mutate, userUid, userRadius]);
-
-  useEffect(() => {
-    if (node) {
-      node.addEventListener('touchend', () => {
-        if (!isEqual(node.value, radius)) {
-          //console.log('radius changed via mobile', node.value);
-          setRadius(node.value as unknown as number);
-        }
-      });
-
-      node.addEventListener('mouseout', () => {
-        if (!isEqual(node.value, radius)) {
-          setRadius(node.value as unknown as number);
-          //console.log('radius changed via desktop', node.value, radius);
-        }
-      });
-    }
-
-    return () => {
-      // refSliderElem.current = null;
-      node?.removeEventListener('touchend', () => {
-        console.log('remove touchend listener');
-      });
-      node?.removeEventListener('mouseout', () => {
-        console.log('remove mouseout listener');
-      });
-    };
-  }, [radius, node]);
 
   return (
     <>
@@ -103,7 +75,11 @@ const LocationComponent = ({
           setMarkers={setLocation}
         />
       </MapContainer>
-      <InputSlider value={radius} inputRef={refSliderElem} disabled={isError} />
+      <InputSlider
+        value={radius}
+        setInputValue={setRadius}
+        disabled={isError}
+      />
       {!isLoading && jobListing?.data ? (
         <JobList jobListing={jobListing?.data} page={page} setPage={setPage} />
       ) : (

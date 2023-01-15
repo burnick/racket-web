@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CategoriesService } from 'hooks/useCategoriesService';
 import { CoordinateService } from 'hooks/useCoordinateService';
@@ -27,8 +27,6 @@ const PostJob = ({
   address = ManilaLatLong.address,
 }: AppProps) => {
   const state = store.getState();
-  const refSliderElem = useRef<HTMLInputElement | null>(null);
-  const node = refSliderElem.current;
   const { FindAllCategories } = CategoriesService();
   const { GetCoordinates, UpsertCoordinates } = CoordinateService();
   const {
@@ -46,13 +44,13 @@ const PostJob = ({
     GetCoordinates(state.user?.uid);
 
   const [radius, setRadius] = useState<number>(
-    coordinatesData ? coordinatesData.radius : 10000
+    coordinatesData?.radius ? parseInt(coordinatesData.radius) : 100000
   );
 
   const { data: categoriesData, isLoading } = FindAllCategories();
 
   useEffect(() => {
-    if (coordinatesData?.radius !== radius && location?.lng) {
+    if (!isEqual(coordinatesData?.radius, radius) && location?.lng) {
       console.log(
         'updating location',
         coordinatesData?.radius,
@@ -66,34 +64,6 @@ const PostJob = ({
       });
     }
   }, [radius, location, mutate, state.user.uid, coordinatesData]);
-
-  useEffect(() => {
-    if (node) {
-      node.addEventListener('touchend', () => {
-        if (!isEqual(node.value, radius)) {
-          //console.log('radius changed via mobile', node.value);
-          setRadius(node.value as unknown as number);
-        }
-      });
-
-      node.addEventListener('mouseout', () => {
-        if (!isEqual(node.value, radius)) {
-          setRadius(node.value as unknown as number);
-          //console.log('radius changed via desktop', node.value, radius);
-        }
-      });
-    }
-
-    return () => {
-      // refSliderElem.current = null;
-      node?.removeEventListener('touchend', () => {
-        console.log('remove touchend listener');
-      });
-      node?.removeEventListener('mouseout', () => {
-        console.log('remove mouseout listener');
-      });
-    };
-  }, [radius, node]);
 
   return (
     <>
@@ -112,7 +82,7 @@ const PostJob = ({
         </MapContainer>
         <InputSlider
           value={radius}
-          inputRef={refSliderElem}
+          setInputValue={setRadius}
           disabled={isError}
         />
 
