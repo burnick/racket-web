@@ -32,7 +32,7 @@ const InputText: React.FC<InputTextProps> = ({
         placeholder={!isUndefined(errorMessage) ? errorMessage : placeholder}
         type={'text'}
         status={!isUndefined(errorMessage) ? 'error' : ''}
-        prefix={!isUndefined(errorMessage) ? <ClockCircleOutlined /> : null}
+        prefix={!isUndefined(errorMessage) ? <ClockCircleOutlined /> : ''}
       />
       <Error role="alert" arial-aria-live="assertive">
         <span>{errorMessage}</span>
