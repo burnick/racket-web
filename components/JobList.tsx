@@ -69,8 +69,8 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
         <NoListing>No job listing found!</NoListing>
       ) : (
         <List
-          header={<div>Header</div>}
-          footer={<div>Footer</div>}
+          // header={<div>Header</div>}
+          // footer={<div>Footer</div>}
           bordered
           itemLayout="vertical"
           dataSource={jobListing}
