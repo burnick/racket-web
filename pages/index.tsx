@@ -1,116 +1,29 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { store } from 'store';
-import { addLocation } from 'store/slice/location';
-import { useDispatch } from 'react-redux';
-import { JobProps, ManilaLatLong } from 'types';
-import { JobService } from 'hooks/useJobService';
 import { CoordinateService } from 'hooks/useCoordinateService';
-import InputSlider from 'components/InputSlider';
-import dynamic from 'next/dynamic';
-import isEqual from 'lodash/isEqual';
-import JobList from 'components/JobList';
 import Loading from 'components/Loading';
-// import consoleHelper from 'utils/consoleHelper';
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
-
-const OpenMaps = dynamic(() => import('components/OpenMaps'), {
-  ssr: false,
-});
-
-interface AppProps {
-  userUid: string;
-  userRadius?: number;
-  userLat?: number;
-  userLng?: number;
-  address?: string;
-}
-
-const LocationComponent = ({
-  userUid,
-  userLat = ManilaLatLong.lat,
-  userLng = ManilaLatLong.lng,
-  address = ManilaLatLong.address,
-  userRadius = 10000,
-}: AppProps) => {
-  const [page, setPage] = useState<number>(0);
-  const [bigMap, setBigMap] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const { UpsertCoordinates } = CoordinateService();
-  const { GetAllJobs } = JobService();
-  const { mutate, isError, isLoading } = UpsertCoordinates();
-
-  const [location, setLocation] = useState({
-    lat: userLat,
-    lng: userLng,
-    address,
-  });
-
-  const [radius, setRadius] = useState<number>(
-    userRadius ? userRadius : 100000
-  );
-
-  const { data: jobListing } = GetAllJobs({
-    page,
-    total: 50,
-    lat: userLat,
-    lng: userLng,
-    radius,
-  });
-
-  useEffect(() => {
-    if (!isEqual(userRadius, radius) && location?.lng) {
-      dispatch(addLocation({ ...location, radius }));
-    }
-  }, [radius, location, dispatch, userRadius]);
-
-  useEffect(() => {
-    if (!isEqual(userRadius, radius) && location?.lng && userUid) {
-      console.log('updating location', userRadius, location, radius);
-      mutate({
-        uid: userUid,
-        ...location,
-        radius,
-      });
-    }
-  }, [radius, location, mutate, userUid, userRadius]);
-
-  const handleMapClick = useCallback(() => setBigMap((value) => !value), []);
-
-  return (
-    <>
-      <MapContainer bigMap={bigMap}>
-        <OpenMaps
-          radius={radius}
-          marker={{
-            ...location,
-          }}
-          multipleMarkers={jobListing?.data?.map((job: JobProps) => job)}
-          setMarkers={setLocation}
-        />
-        {!bigMap ? (
-          <ArrowDownStyled onClick={handleMapClick} />
-        ) : (
-          <ArrowUpStyled onClick={handleMapClick} />
-        )}
-      </MapContainer>
-      <InputSlider value={radius} onChange={setRadius} disabled={isError} />
-      {!isLoading && jobListing?.data ? (
-        <JobList jobListing={jobListing?.data} page={page} setPage={setPage} />
-      ) : (
-        <Loading />
-      )}
-    </>
-  );
-};
+import LocationMap from 'components/LocationMap';
+import { JobService } from 'hooks/useJobService';
+import JobList from 'components/JobList';
 
 const App = () => {
+  const [page, setPage] = useState<number>(0);
   const state = store.getState();
   const stateUid = state.user.user?.uid;
   const stateLocation = state.location?.location;
   const { GetCoordinates } = CoordinateService();
+  const { GetAllJobs } = JobService();
 
   const { data: coordinatesData, isLoading } = GetCoordinates(stateUid);
+
+  const { data: jobListing } = GetAllJobs({
+    page,
+    total: 50,
+    lat: coordinatesData?.lat,
+    lng: coordinatesData?.lng,
+    radius: coordinatesData?.radius || 30000,
+  });
 
   return (
     <>
@@ -118,7 +31,7 @@ const App = () => {
         <Loading />
       ) : (
         <Container>
-          <LocationComponent
+          <LocationMap
             userUid={stateUid}
             userLng={
               stateLocation?.lng ? stateLocation?.lng : coordinatesData?.lng
@@ -131,7 +44,17 @@ const App = () => {
             userLat={
               stateLocation?.lat ? stateLocation?.lat : coordinatesData?.lat
             }
+            jobListing={jobListing?.data}
           />
+          {!isLoading && jobListing?.data ? (
+            <JobList
+              jobListing={jobListing?.data}
+              page={page}
+              setPage={setPage}
+            />
+          ) : (
+            <Loading />
+          )}
         </Container>
       )}
     </>
@@ -149,35 +72,4 @@ const Container = styled.div`
   box-sizing: border-box;
 `;
 
-const MapContainer = styled.div<{ bigMap: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  height: 30vh;
-  width: 100%;
-  margin-bottom: 20px;
-  overflow: hidden;
-  ${({ bigMap }) =>
-    bigMap &&
-    `
-  height: 650px;
-  `};
-`;
-
-const ArrowDownStyled = styled(CaretDownOutlined)`
-  svg {
-    width: 30px;
-    height: 30px;
-    color: ${(props) => props.theme.colors.primary};
-  }
-`;
-
-const ArrowUpStyled = styled(CaretUpOutlined)`
-  svg {
-    width: 30px;
-    height: 30px;
-    color: ${(props) => props.theme.colors.primary};
-  }
-`;
 export default App;

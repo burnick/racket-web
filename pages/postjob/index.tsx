@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { addLocation } from 'store/slice/location';
 import { CategoriesService } from 'hooks/useCategoriesService';
 import { CoordinateService } from 'hooks/useCoordinateService';
 import { store } from 'store';
-import dynamic from 'next/dynamic';
-import InputSlider from 'components/InputSlider';
 import PostJobComponent from './postjob.component';
 import { ManilaLatLong } from 'types';
-import isEqual from 'lodash/isEqual';
 import Loading from 'components/Loading';
-import { useDispatch } from 'react-redux';
-
-const OpenMaps = dynamic(() => import('components/OpenMaps'), {
-  ssr: false,
-});
+import LocationMap from 'components/LocationMap';
 
 interface AppProps {
   userUid: string;
@@ -38,53 +30,24 @@ const LocationComponent = ({
   address = ManilaLatLong.address,
   userRadius = 10000,
 }: AppProps) => {
-  const { UpsertCoordinates } = CoordinateService();
-  const dispatch = useDispatch();
   const { GetCategories } = CategoriesService();
-  const [radius, setRadius] = useState<number>(userRadius);
-  const { mutate, isError, isLoading } = UpsertCoordinates();
 
-  const [location, setLocation] = useState({
-    lat: userLat,
-    lng: userLng,
-    address,
-  });
-
-  const { data: categoriesData } = GetCategories();
-
-  useEffect(() => {
-    if (!isEqual(userRadius, radius) && location?.lng) {
-      dispatch(addLocation({ ...location, radius }));
-    }
-  }, [radius, location, dispatch, userRadius]);
-
-  useEffect(() => {
-    if (!isEqual(userRadius, radius) && location?.lng && userUid) {
-      console.log('updating location', userRadius, location, radius);
-      mutate({
-        uid: userUid,
-        ...location,
-        radius,
-      });
-    }
-  }, [radius, location, mutate, userUid, userRadius]);
+  const { data: categoriesData, isLoading } = GetCategories();
 
   return (
     <Container>
-      <MapContainer>
-        <OpenMaps
-          radius={radius}
-          marker={{
-            ...location,
-          }}
-          setMarkers={setLocation}
-        />
-      </MapContainer>
-      <InputSlider value={radius} onChange={setRadius} disabled={isError} />
+      <LocationMap
+        userUid={userUid}
+        userLng={userLng}
+        userRadius={userRadius}
+        userLat={userLat}
+      />
 
       <PostJobComponent
         uid={userUid}
-        {...location}
+        lng={userLng}
+        lat={userLat}
+        address={address}
         categoriesData={categoriesData}
         isLoading={isLoading}
       />
@@ -130,15 +93,6 @@ const Container = styled.div`
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-`;
-
-const MapContainer = styled.div`
-  display: flex;
-  position: relative;
-  height: 30vh;
-  width: 100%;
-  margin-bottom: 20px;
-  overflow: hidden;
 `;
 
 export default PostJob;
