@@ -12,6 +12,7 @@ import moment from 'moment';
 import consoleHelper from 'utils/consoleHelper';
 import isEqual from 'lodash/isEqual';
 import HideShowContact from 'components/HideShowContact';
+import { List } from 'antd';
 
 interface JobListProps {
   jobListing: JobProps[];
@@ -67,33 +68,54 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
       {jobListing?.length <= 0 ? (
         <NoListing>No job listing found!</NoListing>
       ) : (
-        jobListing?.map((jobDetails: JobProps, index: number) => {
-          return (
-            <PanelCard width={100} key={`panel-${index}`}>
-              <Content>
-                Job Title:<Title> {jobDetails.title}</Title>
-                Salary:<Title> {jobDetails.salary}</Title>
-                Type:<Title> {jobDetails.employmentType}</Title>
-                Address:<Title> {jobDetails.address}</Title>
-                {jobDetails.phone && (
-                  <>
-                    Phone:
-                    <HideShowContact phone={jobDetails.phone} />
-                  </>
-                )}
-                Expiration date:
-                <Title>
-                  {moment(jobDetails.expirationDate).format('YYYY-MM-DD')}
-                </Title>
-                Email: <HideShowContact email={jobDetails.email} />
-                Description:
-                <div
-                  dangerouslySetInnerHTML={{ __html: jobDetails.description }}
-                />
-              </Content>
-            </PanelCard>
-          );
-        })
+        <List
+          header={<div>Header</div>}
+          footer={<div>Footer</div>}
+          bordered
+          itemLayout="vertical"
+          dataSource={jobListing}
+          renderItem={(item) => (
+            <List.Item>
+              <PanelCard width={100} key={`panel-${item.id}`}>
+                <Content>
+                  <p>
+                    <Title>Title:</Title>
+                    {item.title}
+                  </p>
+                  <p>
+                    <Title>Salary:</Title> {item.salary}
+                  </p>
+                  <p>
+                    <Title>Type:</Title> {item.employmentType}
+                  </p>
+                  <p>
+                    <Title>Address:</Title> {item.address}
+                  </p>
+                  {item.phone && (
+                    <p>
+                      <Title>Phone:</Title>{' '}
+                      <HideShowContact phone={item.phone} />
+                    </p>
+                  )}
+                  <p>
+                    <Title>Expiration date:</Title>{' '}
+                    {moment(item.expirationDate).format('YYYY-MM-DD')}
+                  </p>
+                  {item.email && (
+                    <p>
+                      <Title>Email:</Title>{' '}
+                      <HideShowContact email={item.email} />
+                    </p>
+                  )}
+                  <p>
+                    <Title>Description:</Title>
+                  </p>
+                  <p dangerouslySetInnerHTML={{ __html: item.description }} />
+                </Content>
+              </PanelCard>
+            </List.Item>
+          )}
+        />
       )}
     </Container>
   );
@@ -118,9 +140,12 @@ const Content = styled.div`
 `;
 
 const Title = styled.div`
-  margin-left: 15%;
   font-weight: bold;
   text-align: left;
+  display: inline;
+  font-size: 18px;
+  width: 10%;
+  margin-right: 10px;
 `;
 
 const NoListing = styled.div`
