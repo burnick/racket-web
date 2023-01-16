@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { Layout, Menu, Popconfirm } from 'antd';
 import Middleware from 'pages/authRoute';
 import { removeUser } from 'store/slice/user';
+import { removeLocation } from 'store/slice/location';
 import { useAppDispatch } from 'store/hooks';
 import Router from 'next/router';
 import Header from 'components/Header';
@@ -31,6 +32,7 @@ const MainPage = ({ children }: MainPageProps) => {
     setOpen(false);
     signOut(auth);
     dispatch(removeUser());
+    dispatch(removeLocation());
     Router.push('/login');
   }, [dispatch, auth]);
 
