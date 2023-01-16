@@ -83,7 +83,7 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
                     {item.title}
                   </p>
                   <p>
-                    <Title>Salary:</Title> {item.salary}
+                    <Title>Salary:</Title> {item.salary} per day
                   </p>
                   <p>
                     <Title>Type:</Title> {item.employmentType}
