@@ -58,7 +58,8 @@ const InputSlider = ({
   return (
     <Container>
       <Row>
-        <Col span={4}>Radius:</Col>
+        <Col span={2} />
+        <Col span={2}>Radius:</Col>
         <Col span={16}>
           <Slider
             min={1}
