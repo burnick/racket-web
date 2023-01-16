@@ -93,7 +93,7 @@ const PostJob = () => {
   const { GetCoordinates } = CoordinateService();
 
   const { data: coordinatesData, isLoading } = GetCoordinates(state.user?.uid);
-
+  console.log('coordinatesData', coordinatesData?.radius);
   return (
     <>
       {isLoading ? (
