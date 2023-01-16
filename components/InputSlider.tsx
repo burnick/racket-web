@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Col, Row, Slider, InputNumber } from 'antd';
 import customStyle from 'default.theme.json';
@@ -46,9 +46,14 @@ const InputSlider = ({
 }: {
   value: number;
   disabled?: boolean;
-  onChange?: ((value: number | null) => void) | undefined;
+  onChange: (value: number) => void;
 }) => {
   const MAX = 30000;
+  const [sliderValue, setSliderValue] = useState(value);
+
+  const handleOnChange = (value: number | null) => {
+    if (value) onChange(value);
+  };
 
   return (
     <Container>
@@ -58,8 +63,9 @@ const InputSlider = ({
           <Slider
             min={1}
             max={MAX}
-            onChange={onChange}
-            value={value}
+            onChange={setSliderValue}
+            onAfterChange={handleOnChange}
+            value={sliderValue}
             step={1}
             disabled={disabled}
             trackStyle={{ background: `${customStyle.colors.primary}` }}
@@ -75,8 +81,8 @@ const InputSlider = ({
             min={1}
             max={MAX}
             style={{ margin: '0 16px' }}
-            value={value}
-            onChange={onChange}
+            value={sliderValue}
+            onChange={handleOnChange}
           />
         </Col>
       </Row>

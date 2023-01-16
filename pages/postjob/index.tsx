@@ -69,10 +69,6 @@ const LocationComponent = ({
     }
   }, [radius, location, mutate, userUid, userRadius]);
 
-  const handleOnChange = (value: number | null) => {
-    if (value) setRadius(value);
-  };
-
   return (
     <Container>
       <MapContainer>
@@ -84,11 +80,7 @@ const LocationComponent = ({
           setMarkers={setLocation}
         />
       </MapContainer>
-      <InputSlider
-        value={radius}
-        onChange={handleOnChange}
-        disabled={isError}
-      />
+      <InputSlider value={radius} onChange={setRadius} disabled={isError} />
 
       <PostJobComponent
         uid={userUid}
