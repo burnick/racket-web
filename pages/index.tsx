@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { store } from 'store';
 import { addLocation } from 'store/slice/location';
@@ -12,6 +12,7 @@ import isEqual from 'lodash/isEqual';
 import JobList from 'components/JobList';
 import Loading from 'components/Loading';
 // import consoleHelper from 'utils/consoleHelper';
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
@@ -32,9 +33,9 @@ const LocationComponent = ({
   address = ManilaLatLong.address,
   userRadius = 10000,
 }: AppProps) => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState<number>(0);
+  const [bigMap, setBigMap] = useState<boolean>(false);
   const dispatch = useDispatch();
-
   const { UpsertCoordinates } = CoordinateService();
   const { GetAllJobs } = JobService();
   const { mutate, isError, isLoading } = UpsertCoordinates();
@@ -74,9 +75,11 @@ const LocationComponent = ({
     }
   }, [radius, location, mutate, userUid, userRadius]);
 
+  const handleMapClick = useCallback(() => setBigMap((value) => !value), []);
+
   return (
     <>
-      <MapContainer>
+      <MapContainer bigMap={bigMap}>
         <OpenMaps
           radius={radius}
           marker={{
@@ -85,6 +88,11 @@ const LocationComponent = ({
           multipleMarkers={jobListing?.data?.map((job: JobProps) => job)}
           setMarkers={setLocation}
         />
+        {!bigMap ? (
+          <ArrowDownStyled onClick={handleMapClick} />
+        ) : (
+          <ArrowUpStyled onClick={handleMapClick} />
+        )}
       </MapContainer>
       <InputSlider value={radius} onChange={setRadius} disabled={isError} />
       {!isLoading && jobListing?.data ? (
@@ -141,12 +149,35 @@ const Container = styled.div`
   box-sizing: border-box;
 `;
 
-const MapContainer = styled.div`
+const MapContainer = styled.div<{ bigMap: boolean }>`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   height: 30vh;
   width: 100%;
   margin-bottom: 20px;
   overflow: hidden;
+  ${({ bigMap }) =>
+    bigMap &&
+    `
+  height: 650px;
+  `};
+`;
+
+const ArrowDownStyled = styled(CaretDownOutlined)`
+  svg {
+    width: 30px;
+    height: 30px;
+    color: ${(props) => props.theme.colors.primary};
+  }
+`;
+
+const ArrowUpStyled = styled(CaretUpOutlined)`
+  svg {
+    width: 30px;
+    height: 30px;
+    color: ${(props) => props.theme.colors.primary};
+  }
 `;
 export default App;
