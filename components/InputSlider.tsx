@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Col, Row, Slider } from 'antd';
+import { Col, Row, Slider, InputNumber } from 'antd';
 
 // const InputStyled = styled.input`
 //   height: 7px;
@@ -40,12 +40,12 @@ import { Col, Row, Slider } from 'antd';
 
 const InputSlider = ({
   value,
-  setInputValue,
+  onChange,
   disabled = false,
 }: {
   value: number;
   disabled?: boolean;
-  setInputValue: (value: number) => void;
+  onChange?: ((value: number | null) => void) | undefined;
 }) => {
   const MAX = 30000;
 
@@ -57,14 +57,21 @@ const InputSlider = ({
           <Slider
             min={1}
             max={MAX}
-            onChange={setInputValue}
+            onChange={onChange}
             value={value}
             step={1}
             disabled={disabled}
           />
         </Col>
-        <Col span={2} />
-        <Col span={2}>{value}</Col>
+        <Col span={4}>
+          <InputNumber
+            min={1}
+            max={MAX}
+            style={{ margin: '0 16px' }}
+            value={value}
+            onChange={onChange}
+          />
+        </Col>
       </Row>
     </Container>
   );

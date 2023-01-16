@@ -74,6 +74,11 @@ const LocationComponent = ({
     }
   }, [radius, location, mutate, userUid, userRadius]);
 
+  const handleOnChange = (value: number | null) => {
+    console.log(value);
+    if (value) setRadius(value);
+  };
+
   return (
     <>
       <MapContainer>
@@ -88,7 +93,7 @@ const LocationComponent = ({
       </MapContainer>
       <InputSlider
         value={radius}
-        setInputValue={setRadius}
+        onChange={handleOnChange}
         disabled={isError}
       />
       {!isLoading && jobListing?.data ? (
