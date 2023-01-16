@@ -31,9 +31,11 @@ const LocationComponent = ({
   userRadius = 10000,
 }: AppProps) => {
   const [page, setPage] = useState(0);
+
   const { UpsertCoordinates } = CoordinateService();
   const { GetAllJobs } = JobService();
   const { mutate, isError, isLoading } = UpsertCoordinates();
+
   const [location, setLocation] = useState({
     lat: userLat,
     lng: userLng,

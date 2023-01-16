@@ -21,78 +21,91 @@ interface AppProps {
   address?: string;
 }
 
-const PostJob = ({
+interface AppProps {
+  userUid: string;
+  userRadius?: number;
+  userLat?: number;
+  userLng?: number;
+  address?: string;
+}
+
+const LocationComponent = ({
+  userUid,
   userLat = ManilaLatLong.lat,
   userLng = ManilaLatLong.lng,
   address = ManilaLatLong.address,
+  userRadius = 10000,
 }: AppProps) => {
-  const state = store.getState();
-  const { FindAllCategories } = CategoriesService();
-  const { GetCoordinates, UpsertCoordinates } = CoordinateService();
-  const {
-    mutate,
-    isError,
-    isLoading: coordinatesUpdatesLoading,
-  } = UpsertCoordinates();
+  const { UpsertCoordinates } = CoordinateService();
+  const { GetCategories } = CategoriesService();
+  const [radius, setRadius] = useState<number>(userRadius);
+  const { mutate, isError, isLoading } = UpsertCoordinates();
+
   const [location, setLocation] = useState({
     lat: userLat,
     lng: userLng,
     address,
   });
 
-  const { data: coordinatesData, isLoading: isCoordinatesLoading } =
-    GetCoordinates(state.user?.uid);
-
-  const [radius, setRadius] = useState<number>(
-    coordinatesData?.radius ? parseInt(coordinatesData.radius) : 100000
-  );
-
-  const { data: categoriesData, isLoading } = FindAllCategories();
+  const { data: categoriesData } = GetCategories();
 
   useEffect(() => {
-    if (!isEqual(coordinatesData?.radius, radius) && location?.lng) {
-      console.log(
-        'updating location',
-        coordinatesData?.radius,
-        location,
-        radius
-      );
+    if (!isEqual(userRadius, radius) && location?.lng && userUid) {
+      console.log('updating location', userRadius, location, radius);
       mutate({
-        uid: state.user.uid,
+        uid: userUid,
         ...location,
         radius,
       });
     }
-  }, [radius, location, mutate, state.user.uid, coordinatesData]);
+  }, [radius, location, mutate, userUid, userRadius]);
+
+  return (
+    <Container>
+      <MapContainer>
+        <OpenMaps
+          radius={radius}
+          marker={{
+            ...location,
+          }}
+          setMarkers={setLocation}
+        />
+      </MapContainer>
+      <InputSlider
+        value={radius}
+        setInputValue={setRadius}
+        disabled={isError}
+      />
+
+      <PostJobComponent
+        uid={userUid}
+        {...location}
+        categoriesData={categoriesData}
+        isLoading={isLoading}
+      />
+    </Container>
+  );
+};
+
+const PostJob = () => {
+  const state = store.getState();
+
+  const { GetCoordinates } = CoordinateService();
+
+  const { data: coordinatesData, isLoading } = GetCoordinates(state.user?.uid);
 
   return (
     <>
-      {(coordinatesUpdatesLoading || isCoordinatesLoading || isLoading) && (
+      {isLoading ? (
         <Loading />
+      ) : (
+        <LocationComponent
+          userUid={state.user?.uid}
+          userLng={coordinatesData?.lng}
+          userRadius={coordinatesData?.radius}
+          userLat={coordinatesData?.lat}
+        />
       )}
-      <Container>
-        <MapContainer>
-          <OpenMaps
-            radius={radius}
-            marker={{
-              ...location,
-            }}
-            setMarkers={setLocation}
-          />
-        </MapContainer>
-        <InputSlider
-          value={radius}
-          setInputValue={setRadius}
-          disabled={isError}
-        />
-
-        <PostJobComponent
-          uid={state.user?.uid}
-          {...location}
-          categoriesData={categoriesData}
-          isLoading={isLoading}
-        />
-      </Container>
     </>
   );
 };

@@ -1,7 +1,6 @@
 import React, {
   useEffect,
   useCallback,
-  useRef,
   useState,
   Dispatch,
   SetStateAction,
@@ -21,7 +20,7 @@ interface JobListProps {
 }
 
 const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
-  const elemRef = useRef<HTMLDivElement | null>(null);
+  const elemRef = React.useRef<HTMLDivElement | null>(null);
 
   const [data, setData] = useState<JobProps[]>(jobListing);
 
@@ -45,7 +44,7 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
   );
 
   useEffect(() => {
-    const node = elemRef.current;
+    const node = elemRef?.current;
     if (node) {
       node.addEventListener('scroll', (event) => handleNavigation(event));
     }
