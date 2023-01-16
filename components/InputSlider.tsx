@@ -54,7 +54,7 @@ const InputSlider = ({
       <Row>
         <Col span={4}>Radius:</Col>
         <Col span={16}>
-          <Slider
+          <StyledSlider
             min={1}
             max={MAX}
             onChange={onChange}
@@ -80,6 +80,23 @@ const InputSlider = ({
 const Container = styled.div`
   padding: 10px;
   width: 100%;
+`;
+
+const StyledSlider = styled(Slider)`
+  .ant-slider-track {
+    background-color: ${(props) => props.theme.colors.primary};
+
+    &:hover {
+      background-color: ${(props) => props.theme.colors.primary};
+    }
+  }
+
+  .ant-slider-handle::after {
+    box-shadow: 0 0 0 2px ${(props) => props.theme.colors.primary};
+    &:hover {
+      background-color: ${(props) => props.theme.colors.primary};
+    }
+  }
 `;
 
 export default InputSlider;
