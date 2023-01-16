@@ -35,12 +35,12 @@ const MainPage = ({ children }: MainPageProps) => {
   }, [dispatch, auth]);
 
   const showPopConfirm = useCallback(() => {
-    console.log('Clicked show button');
+    // /console.log('Clicked show button');
     setOpen((current) => !current);
   }, []);
 
   const hidePopConfirm = useCallback(() => {
-    console.log('Clicked cancel button');
+    //console.log('Clicked cancel button');
     setOpen(false);
   }, []);
 

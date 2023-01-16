@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { store } from 'store';
-
+import { addLocation } from 'store/slice/location';
+import { useDispatch } from 'react-redux';
 import { JobProps, ManilaLatLong } from 'types';
 import { JobService } from 'hooks/useJobService';
 import { CoordinateService } from 'hooks/useCoordinateService';
@@ -10,6 +11,7 @@ import dynamic from 'next/dynamic';
 import isEqual from 'lodash/isEqual';
 import JobList from 'components/JobList';
 import Loading from 'components/Loading';
+// import consoleHelper from 'utils/consoleHelper';
 
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
@@ -31,6 +33,7 @@ const LocationComponent = ({
   userRadius = 10000,
 }: AppProps) => {
   const [page, setPage] = useState(0);
+  const dispatch = useDispatch();
 
   const { UpsertCoordinates } = CoordinateService();
   const { GetAllJobs } = JobService();
@@ -53,6 +56,12 @@ const LocationComponent = ({
     lng: userLng,
     radius,
   });
+
+  useEffect(() => {
+    if (!isEqual(userRadius, radius) && location?.lng) {
+      dispatch(addLocation({ ...location, radius }));
+    }
+  }, [radius, location, dispatch, userRadius]);
 
   useEffect(() => {
     if (!isEqual(userRadius, radius) && location?.lng && userUid) {
@@ -93,10 +102,11 @@ const LocationComponent = ({
 
 const App = () => {
   const state = store.getState();
-
+  const stateUid = state.user.user?.uid;
+  const stateLocation = state.location?.location;
   const { GetCoordinates } = CoordinateService();
 
-  const { data: coordinatesData, isLoading } = GetCoordinates(state.user?.uid);
+  const { data: coordinatesData, isLoading } = GetCoordinates(stateUid);
 
   return (
     <>
@@ -105,10 +115,18 @@ const App = () => {
       ) : (
         <Container>
           <LocationComponent
-            userUid={state.user?.uid}
-            userLng={coordinatesData?.lng}
-            userRadius={coordinatesData?.radius}
-            userLat={coordinatesData?.lat}
+            userUid={stateUid}
+            userLng={
+              stateLocation?.lng ? stateLocation?.lng : coordinatesData?.lng
+            }
+            userRadius={
+              stateLocation?.radius
+                ? stateLocation?.radius
+                : coordinatesData?.radius
+            }
+            userLat={
+              stateLocation?.lat ? stateLocation?.lat : coordinatesData?.lat
+            }
           />
         </Container>
       )}

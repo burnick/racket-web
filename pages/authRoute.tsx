@@ -6,6 +6,7 @@ import { Spin } from 'antd';
 import { useIdleTimer } from 'react-idle-timer';
 import { removeUser } from 'store/slice/user';
 import styled from 'styled-components';
+//import consoleHelper from 'utils/consoleHelper';
 
 export interface AuthRouteProps {
   children?: React.ReactNode;
@@ -22,10 +23,10 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (!isLoggedIn && state.user && state.user?.uid) {
+    if (!isLoggedIn && state.user && state.user.user?.uid) {
       setIsLoggedIn(true);
     }
-    if (!state || !state?.user || !state?.user?.uid) {
+    if (!state || !state?.user || !state?.user.user?.uid) {
       Router.push('/login');
     }
   }, [isLoggedIn, state.user, state]);

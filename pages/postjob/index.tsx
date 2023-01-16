@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { addLocation } from 'store/slice/location';
 import { CategoriesService } from 'hooks/useCategoriesService';
 import { CoordinateService } from 'hooks/useCoordinateService';
 import { store } from 'store';
@@ -9,6 +10,7 @@ import PostJobComponent from './postjob.component';
 import { ManilaLatLong } from 'types';
 import isEqual from 'lodash/isEqual';
 import Loading from 'components/Loading';
+import { useDispatch } from 'react-redux';
 
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
@@ -37,6 +39,7 @@ const LocationComponent = ({
   userRadius = 10000,
 }: AppProps) => {
   const { UpsertCoordinates } = CoordinateService();
+  const dispatch = useDispatch();
   const { GetCategories } = CategoriesService();
   const [radius, setRadius] = useState<number>(userRadius);
   const { mutate, isError, isLoading } = UpsertCoordinates();
@@ -48,6 +51,12 @@ const LocationComponent = ({
   });
 
   const { data: categoriesData } = GetCategories();
+
+  useEffect(() => {
+    if (!isEqual(userRadius, radius) && location?.lng) {
+      dispatch(addLocation({ ...location, radius }));
+    }
+  }, [radius, location, dispatch, userRadius]);
 
   useEffect(() => {
     if (!isEqual(userRadius, radius) && location?.lng && userUid) {
@@ -89,21 +98,29 @@ const LocationComponent = ({
 
 const PostJob = () => {
   const state = store.getState();
-
+  const stateUid = state.user.user?.uid;
+  const stateLocation = state.location?.location;
   const { GetCoordinates } = CoordinateService();
+  const { data: coordinatesData, isLoading } = GetCoordinates(stateUid);
 
-  const { data: coordinatesData, isLoading } = GetCoordinates(state.user?.uid);
-  console.log('coordinatesData', coordinatesData?.radius);
   return (
     <>
       {isLoading ? (
         <Loading />
       ) : (
         <LocationComponent
-          userUid={state.user?.uid}
-          userLng={coordinatesData?.lng}
-          userRadius={coordinatesData?.radius}
-          userLat={coordinatesData?.lat}
+          userUid={stateUid}
+          userLng={
+            stateLocation?.lng ? stateLocation?.lng : coordinatesData?.lng
+          }
+          userRadius={
+            stateLocation?.radius
+              ? stateLocation?.radius
+              : coordinatesData?.radius
+          }
+          userLat={
+            stateLocation?.lat ? stateLocation?.lat : coordinatesData?.lat
+          }
         />
       )}
     </>

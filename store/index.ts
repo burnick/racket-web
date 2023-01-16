@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
 //import jobsReducer from './slice/jobs';
 import userReducer from './slice/user';
+import locationReducer from './slice/location';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import expireReducer from 'redux-persist-expire';
@@ -10,6 +12,11 @@ const ONE_MINUTE = ONE_SECOND * 60;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
 // const ONE_YEAR = ONE_DAY * 365;
+
+const rootPersistConfig = {
+  key: 'root',
+  storage,
+};
 
 const userPersistConfig = {
   key: 'user',
@@ -28,18 +35,14 @@ const userPersistConfig = {
   ],
 };
 
-const persistedReducer = persistReducer(userPersistConfig, userReducer);
+//const persistedReducer = persistReducer(userPersistConfig, userReducer);
 
-/**
- * to combine reducers 
- * const rootReducer = combineReducers({
+const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
-  notes: notesReducer
-})
+  location: locationReducer,
+});
 
-const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
- * 
- */
+//const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 
 export const store = configureStore({
   preloadedState: {},
@@ -47,8 +50,7 @@ export const store = configureStore({
   //   // job: jobsReducer,
   //   user: persistedReducer,
   // },
-  reducer: persistedReducer,
-
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware({
       serializableCheck: false,
