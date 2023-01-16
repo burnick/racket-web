@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Col, Row, Slider, InputNumber } from 'antd';
+import customStyle from 'default.theme.json';
 
 // const InputStyled = styled.input`
 //   height: 7px;
@@ -54,13 +55,19 @@ const InputSlider = ({
       <Row>
         <Col span={4}>Radius:</Col>
         <Col span={16}>
-          <StyledSlider
+          <Slider
             min={1}
             max={MAX}
             onChange={onChange}
             value={value}
             step={1}
             disabled={disabled}
+            trackStyle={{ background: `${customStyle.colors.primary}` }}
+            handleStyle={{
+              boxShadow: `0 0 0 2px ${customStyle.colors.primary}`,
+              borderRadius: '50%',
+              zIndex: 99999,
+            }}
           />
         </Col>
         <Col span={4}>
@@ -80,23 +87,6 @@ const InputSlider = ({
 const Container = styled.div`
   padding: 10px;
   width: 100%;
-`;
-
-const StyledSlider = styled(Slider)`
-  .ant-slider-track {
-    background-color: ${(props) => props.theme.colors.primary};
-
-    &:hover {
-      background-color: ${(props) => props.theme.colors.primary};
-    }
-  }
-
-  .ant-slider-handle::after {
-    box-shadow: 0 0 0 2px ${(props) => props.theme.colors.primary};
-    &:hover {
-      background-color: ${(props) => props.theme.colors.primary};
-    }
-  }
 `;
 
 export default InputSlider;
