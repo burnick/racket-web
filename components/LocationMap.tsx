@@ -79,7 +79,6 @@ const LocationMap = ({
     return <Loading />;
   }
 
-  console.log(jobListing.data);
   return (
     <>
       <MapContainer bigMap={bigMap}>
