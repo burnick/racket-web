@@ -8,6 +8,8 @@ import InputSlider from 'components/InputSlider';
 import dynamic from 'next/dynamic';
 import isEqual from 'lodash/isEqual';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
+import { JobService } from 'hooks/useJobService';
+import Loading from './Loading';
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
 });
@@ -18,7 +20,8 @@ interface LocationMapProps {
   userLat?: number;
   userLng?: number;
   address?: string;
-  jobListing?: JobProps[];
+  //jobListing?: JobProps[];
+  showJobLocations?: boolean;
 }
 
 const LocationMap = ({
@@ -26,13 +29,15 @@ const LocationMap = ({
   userLat = ManilaLatLong.lat,
   userLng = ManilaLatLong.lng,
   address = ManilaLatLong.address,
-  jobListing,
+  // jobListing,
   userRadius = 10000,
+  showJobLocations = false,
 }: LocationMapProps) => {
   const [bigMap, setBigMap] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { UpsertCoordinates } = CoordinateService();
   const { mutate, isError } = UpsertCoordinates();
+  const { GetAllJobs } = JobService();
 
   const [location, setLocation] = useState({
     lat: userLat,
@@ -63,6 +68,17 @@ const LocationMap = ({
 
   const handleMapClick = useCallback(() => setBigMap((value) => !value), []);
 
+  const { data: jobListing, isLoading } = GetAllJobs({
+    total: 50,
+    lat: userLat,
+    lng: userLng,
+    radius: userRadius || 30000,
+  });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <MapContainer bigMap={bigMap}>
@@ -72,7 +88,9 @@ const LocationMap = ({
             ...location,
           }}
           multipleMarkers={
-            jobListing ? jobListing?.map((job: JobProps) => job) : []
+            showJobLocations && jobListing?.data
+              ? jobListing.data?.map((job: JobProps) => job)
+              : []
           }
           setMarkers={setLocation}
         />

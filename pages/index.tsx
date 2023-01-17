@@ -4,7 +4,6 @@ import { store } from 'store';
 import { CoordinateService } from 'hooks/useCoordinateService';
 import Loading from 'components/Loading';
 import LocationMap from 'components/LocationMap';
-import { JobService } from 'hooks/useJobService';
 import JobList from 'components/JobList';
 
 const App = () => {
@@ -13,17 +12,8 @@ const App = () => {
   const stateUid = state.user.user?.uid;
   const stateLocation = state.location?.location;
   const { GetCoordinates } = CoordinateService();
-  const { GetAllJobs } = JobService();
 
   const { data: coordinatesData, isLoading } = GetCoordinates(stateUid);
-
-  const { data: jobListing } = GetAllJobs({
-    page,
-    total: 50,
-    lat: coordinatesData?.lat,
-    lng: coordinatesData?.lng,
-    radius: coordinatesData?.radius || 30000,
-  });
 
   return (
     <>
@@ -44,17 +34,16 @@ const App = () => {
             userLat={
               stateLocation?.lat ? stateLocation?.lat : coordinatesData?.lat
             }
-            jobListing={jobListing?.data}
+            showJobLocations={true}
           />
-          {!isLoading && jobListing?.data ? (
-            <JobList
-              jobListing={jobListing?.data}
-              page={page}
-              setPage={setPage}
-            />
-          ) : (
-            <Loading />
-          )}
+
+          <JobList
+            lng={coordinatesData.lng}
+            lat={coordinatesData.lat}
+            radius={coordinatesData.radius || 30000}
+            page={page}
+            setPage={setPage}
+          />
         </Container>
       )}
     </>

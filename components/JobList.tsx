@@ -1,29 +1,46 @@
 import React, {
   useEffect,
   useCallback,
-  useState,
+  //useState,
   Dispatch,
   SetStateAction,
 } from 'react';
 import styled from 'styled-components';
 import PanelCard from 'components/PanelCard';
-import { JobProps } from 'types';
 import moment from 'moment';
 import consoleHelper from 'utils/consoleHelper';
-import isEqual from 'lodash/isEqual';
+//import isEqual from 'lodash/isEqual';
 import HideShowContact from 'components/HideShowContact';
 import { List } from 'antd';
+import { JobService } from 'hooks/useJobService';
+import Loading from './Loading';
+import { JobProps } from 'types';
 
 interface JobListProps {
-  jobListing: JobProps[];
+  lat: number;
+  lng: number;
+  radius: number;
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
 }
 
-const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
+const JobList = ({
+  lat,
+  lng,
+  radius = 300000,
+  page = 0,
+  setPage,
+}: JobListProps) => {
   const elemRef = React.useRef<HTMLDivElement | null>(null);
-
-  const [data, setData] = useState<JobProps[]>(jobListing);
+  const { GetAllJobs } = JobService();
+  const { data: jobListing, isLoading } = GetAllJobs({
+    page,
+    total: 50,
+    lat,
+    lng,
+    radius,
+  });
+  //const [data, setData] = useState<JobProps[]>([]);
 
   const handleNavigation = useCallback(
     (e: Event) => {
@@ -57,15 +74,13 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
     };
   }, [handleNavigation]);
 
-  useEffect(() => {
-    if (jobListing?.length > 0 && !isEqual(data, jobListing)) {
-      setData([...data, ...jobListing]);
-    }
-  }, [jobListing, data]);
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Container ref={elemRef}>
-      {jobListing?.length <= 0 ? (
+      {jobListing?.data?.length <= 0 ? (
         <NoListing>No job listing found!</NoListing>
       ) : (
         <List
@@ -73,8 +88,8 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
           // footer={<div>Footer</div>}
           bordered
           itemLayout="vertical"
-          dataSource={jobListing}
-          renderItem={(item) => (
+          dataSource={jobListing?.data}
+          renderItem={(item: JobProps) => (
             <List.Item>
               <PanelCard width={100} key={`panel-${item.id}`}>
                 <Content>
@@ -93,17 +108,17 @@ const JobList = ({ jobListing, page = 0, setPage }: JobListProps) => {
                   </p>
                   {item.phone && (
                     <p>
-                      <Title>Phone:</Title>{' '}
+                      <Title>Phone:</Title>
                       <HideShowContact phone={item.phone} />
                     </p>
                   )}
                   <p>
-                    <Title>Expiration date:</Title>{' '}
+                    <Title>Expiration date:</Title>
                     {moment(item.expirationDate).format('YYYY-MM-DD')}
                   </p>
                   {item.email && (
                     <p>
-                      <Title>Email:</Title>{' '}
+                      <Title>Email:</Title>
                       <HideShowContact email={item.email} />
                     </p>
                   )}
