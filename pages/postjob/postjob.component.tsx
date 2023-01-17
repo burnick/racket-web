@@ -14,6 +14,8 @@ import { JobService } from 'hooks/useJobService';
 import { Spin } from 'antd';
 import { MessageNotificationContext } from 'components/MessageNotificationContext';
 import { MessageNotificationContextType } from 'types';
+import consoleHelper from 'utils/consoleHelper';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 interface PostJobProps {
   uid: string;
@@ -65,6 +67,7 @@ const PostJobContent = ({
   address,
   categoriesData,
 }: PostJobProps) => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const { CreateJob } = JobService();
   const { setMessageText } = React.useContext(
     MessageNotificationContext
@@ -79,7 +82,9 @@ const PostJobContent = ({
 
   useEffect(() => {
     if (isError) {
-      setMessageText('Error: unable to save or only one Job Post per user');
+      setMessageText(
+        'Error: unable to save or wrong captcha or only one Job Post per user'
+      );
     }
   }, [isError, setMessageText]);
 
@@ -109,7 +114,14 @@ const PostJobContent = ({
 
     onSubmit: (data: JobProps) => {
       if (data) {
-        mutate(data);
+        if (!executeRecaptcha) {
+          consoleHelper('Execute recaptcha not yet available');
+          return;
+        }
+        executeRecaptcha('enquiryFormSubmit').then((gReCaptchaToken) => {
+          consoleHelper(gReCaptchaToken, 'response Google reCaptcha server');
+          mutate({ ...data, token: gReCaptchaToken });
+        });
       }
     },
   });

@@ -7,6 +7,7 @@ import PostJobComponent from './postjob.component';
 import { ManilaLatLong } from 'types';
 import Loading from 'components/Loading';
 import LocationMap from 'components/LocationMap';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 interface AppProps {
   userUid: string;
@@ -42,15 +43,24 @@ const LocationComponent = ({
         userRadius={userRadius}
         userLat={userLat}
       />
-
-      <PostJobComponent
-        uid={userUid}
-        lng={userLng}
-        lat={userLat}
-        address={address}
-        categoriesData={categoriesData}
-        isLoading={isLoading}
-      />
+      <GoogleReCaptchaProvider
+        reCaptchaKey={process.env.NEXT_RECAPTCHA_KEY as string}
+        scriptProps={{
+          async: false,
+          defer: false,
+          appendTo: 'head',
+          nonce: undefined,
+        }}
+      >
+        <PostJobComponent
+          uid={userUid}
+          lng={userLng}
+          lat={userLat}
+          address={address}
+          categoriesData={categoriesData}
+          isLoading={isLoading}
+        />
+      </GoogleReCaptchaProvider>
     </Container>
   );
 };

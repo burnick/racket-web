@@ -1,7 +1,10 @@
 import { useQuery, useMutation } from 'react-query';
-import useAxios from 'hooks/use-axios';
 import { JobProps } from 'types';
 import * as api from 'api/jobs';
+
+interface ExtendedJobProps extends JobProps {
+  token: string;
+}
 
 export const JobService = () => {
   const GetAllJobs = (props: {
@@ -24,7 +27,7 @@ export const JobService = () => {
   };
 
   const CreateJob = () => {
-    const CreateAJob = async (props: JobProps) => {
+    const CreateAJob = async (props: ExtendedJobProps) => {
       if (
         !props ||
         !props.uid ||
@@ -32,7 +35,8 @@ export const JobService = () => {
         !props.lat ||
         !props.lng ||
         !props.address ||
-        !props.expirationDate
+        !props.expirationDate ||
+        !props.token
       ) {
         throw new Error('missing jobs props');
       }
