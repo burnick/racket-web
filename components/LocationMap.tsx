@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { JobService } from 'hooks/useJobService';
 import Loading from './Loading';
+import consoleHelper from 'utils/consoleHelper';
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
 });
@@ -45,9 +46,7 @@ const LocationMap = ({
     address,
   });
 
-  const [radius, setRadius] = useState<number>(
-    userRadius ? userRadius : 100000
-  );
+  const [radius, setRadius] = useState<number>(userRadius);
 
   useEffect(() => {
     if (!isEqual(userRadius, radius) && location?.lng) {
@@ -57,7 +56,7 @@ const LocationMap = ({
 
   useEffect(() => {
     if (!isEqual(userRadius, radius) && location?.lng && userUid) {
-      console.log('updating location', userRadius, location, radius);
+      consoleHelper('updating location', userRadius, location, radius);
       mutate({
         uid: userUid,
         ...location,
