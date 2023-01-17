@@ -79,6 +79,7 @@ const LocationMap = ({
     return <Loading />;
   }
 
+  console.log(jobListing.data);
   return (
     <>
       <MapContainer bigMap={bigMap}>
@@ -89,7 +90,9 @@ const LocationMap = ({
           }}
           multipleMarkers={
             showJobLocations && jobListing?.data
-              ? jobListing.data?.map((job: JobProps) => job)
+              ? jobListing.data
+                  ?.map((job: JobProps) => job)
+                  .filter((job: JobProps) => job?.id)
               : []
           }
           setMarkers={setLocation}

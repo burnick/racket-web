@@ -90,6 +90,7 @@ const PostJob = () => {
           userLat={
             stateLocation?.lat ? stateLocation?.lat : coordinatesData?.lat
           }
+          address={stateLocation?.address}
         />
       )}
     </>
