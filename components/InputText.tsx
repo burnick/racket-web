@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import isUndefined from 'lodash/isUndefined';
 import { Input } from 'antd';
-import ClockCircleOutlined from '@ant-design/icons/ClockCircleOutlined';
+// import ClockCircleOutlined from '@ant-design/icons/ClockCircleOutlined';
 
 interface InputTextProps {
   placeholder?: string;
