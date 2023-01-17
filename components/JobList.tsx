@@ -93,38 +93,38 @@ const JobList = ({
             <List.Item>
               <PanelCard width={100} key={`panel-${item.id}`}>
                 <Content>
-                  <p>
+                  <ItemDetails>
                     <Title>Title:</Title>
                     {item.title}
-                  </p>
-                  <p>
+                  </ItemDetails>
+                  <ItemDetails>
                     <Title>Salary:</Title> {item.salary} per day
-                  </p>
-                  <p>
+                  </ItemDetails>
+                  <ItemDetails>
                     <Title>Type:</Title> {item.employmentType}
-                  </p>
-                  <p>
+                  </ItemDetails>
+                  <ItemDetails>
                     <Title>Address:</Title> {item.address}
-                  </p>
+                  </ItemDetails>
                   {item.phone && (
-                    <p>
+                    <ItemDetails>
                       <Title>Phone:</Title>
                       <HideShowContact phone={item.phone} />
-                    </p>
+                    </ItemDetails>
                   )}
-                  <p>
+                  <ItemDetails>
                     <Title>Expiration date:</Title>
                     {moment(item.expirationDate).format('YYYY-MM-DD')}
-                  </p>
+                  </ItemDetails>
                   {item.email && (
-                    <p>
+                    <ItemDetails>
                       <Title>Email:</Title>
                       <HideShowContact email={item.email} />
-                    </p>
+                    </ItemDetails>
                   )}
-                  <p>
+                  <ItemDetails>
                     <Title>Description:</Title>
-                  </p>
+                  </ItemDetails>
                   <p dangerouslySetInnerHTML={{ __html: item.description }} />
                 </Content>
               </PanelCard>
@@ -168,5 +168,7 @@ const NoListing = styled.div`
   margin-top: 20%;
   color: ${(props) => props.theme.colors.danger} !important;
 `;
+
+const ItemDetails = styled.div``;
 
 export default JobList;
