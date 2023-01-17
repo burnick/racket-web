@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import isUndefined from 'lodash/isUndefined';
 import { Input } from 'antd';
-// import ClockCircleOutlined from '@ant-design/icons/ClockCircleOutlined';
+import ClockCircleOutlined from '@ant-design/icons/ClockCircleOutlined';
 
 interface InputTextProps {
   placeholder?: string;
@@ -18,7 +18,13 @@ const InputText: React.FC<InputTextProps> = ({
   name,
   ...props
 }) => {
-  // const [isActive, setIsActive] = useState(false);
+  const renderSuffix = useCallback((errorMessage: string | undefined) => {
+    if (!isUndefined(errorMessage)) {
+      return <ClockCircleOutlined />;
+    }
+
+    return <span />;
+  }, []);
 
   return (
     <Container>
@@ -32,7 +38,7 @@ const InputText: React.FC<InputTextProps> = ({
         placeholder={!isUndefined(errorMessage) ? errorMessage : placeholder}
         type={'text'}
         status={!isUndefined(errorMessage) ? 'error' : ''}
-        //prefix={!isUndefined(errorMessage) ? <ClockCircleOutlined /> : null}
+        prefix={renderSuffix(errorMessage)}
       />
       <Error role="alert" arial-aria-live="assertive">
         <span>{errorMessage}</span>
