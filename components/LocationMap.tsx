@@ -87,7 +87,7 @@ const LocationMap = ({
             ...location,
           }}
           multipleMarkers={
-            showJobLocations && jobListing?.data
+            showJobLocations && jobListing && jobListing?.data
               ? jobListing.data
                   ?.map((job: JobProps) => job)
                   .filter((job: JobProps) => job?.id)

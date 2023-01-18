@@ -9,8 +9,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from 'store';
 import { PersistGate } from 'redux-persist/integration/react';
 import ErrorProvider from 'components/MessageNotificationContext';
-import MainPage from 'components/MainPage';
-import { useRouter } from 'next/router';
+import MainLayoutPage from 'components/MainLayoutPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,8 +33,6 @@ initializeApp({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
@@ -43,13 +40,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <ErrorProvider>
             <PersistGate loading={null} persistor={persistor}>
               <Hydrate state={pageProps.dehydratedState}>
-                {router.pathname.includes('/login') ? (
+                <MainLayoutPage>
                   <Component {...pageProps} />
-                ) : (
-                  <MainPage>
-                    <Component {...pageProps} />
-                  </MainPage>
-                )}
+                </MainLayoutPage>
               </Hydrate>
             </PersistGate>
           </ErrorProvider>

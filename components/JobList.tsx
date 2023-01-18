@@ -80,7 +80,7 @@ const JobList = ({
 
   return (
     <Container ref={elemRef}>
-      {jobListing?.data?.length <= 0 ? (
+      {jobListing && jobListing?.data?.length <= 0 ? (
         <NoListing>No job listing found!</NoListing>
       ) : (
         <List
@@ -88,7 +88,7 @@ const JobList = ({
           // footer={<div>Footer</div>}
           bordered
           itemLayout="vertical"
-          dataSource={jobListing?.data}
+          dataSource={jobListing && jobListing?.data}
           renderItem={(item: JobProps) => (
             <List.Item>
               <PanelCard width={100} key={`panel-${item.id}`}>

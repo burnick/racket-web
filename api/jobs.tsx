@@ -29,6 +29,11 @@ export const getJobs = async ({
   lat: number;
   radius: number;
 }) => {
+  if (!lat || !lng) {
+    console.error('missing props for job list');
+    return false;
+  }
+
   const data = await useAxios.get(
     `jobs?page=${page}&total=${total}&lng=${lng}&lat=${lat}&radius=${radius}`
   );
