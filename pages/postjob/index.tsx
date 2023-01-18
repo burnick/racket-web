@@ -8,6 +8,7 @@ import { ManilaLatLong } from 'types';
 import Loading from 'components/Loading';
 import LocationMap from 'components/LocationMap';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import AuthRoute from 'pages/authRoute';
 
 interface AppProps {
   userUid: string;
@@ -36,32 +37,34 @@ const LocationComponent = ({
   const { data: categoriesData, isLoading } = GetCategories();
 
   return (
-    <Container>
-      <LocationMap
-        userUid={userUid}
-        userLng={userLng}
-        userRadius={userRadius}
-        userLat={userLat}
-      />
-      <GoogleReCaptchaProvider
-        reCaptchaKey={process.env.NEXT_RECAPTCHA_KEY as string}
-        scriptProps={{
-          async: false,
-          defer: false,
-          appendTo: 'head',
-          nonce: undefined,
-        }}
-      >
-        <PostJobComponent
-          uid={userUid}
-          lng={userLng}
-          lat={userLat}
-          address={address}
-          categoriesData={categoriesData}
-          isLoading={isLoading}
+    <AuthRoute>
+      <Container>
+        <LocationMap
+          userUid={userUid}
+          userLng={userLng}
+          userRadius={userRadius}
+          userLat={userLat}
         />
-      </GoogleReCaptchaProvider>
-    </Container>
+        <GoogleReCaptchaProvider
+          reCaptchaKey={process.env.NEXT_RECAPTCHA_KEY as string}
+          scriptProps={{
+            async: false,
+            defer: false,
+            appendTo: 'head',
+            nonce: undefined,
+          }}
+        >
+          <PostJobComponent
+            uid={userUid}
+            lng={userLng}
+            lat={userLat}
+            address={address}
+            categoriesData={categoriesData}
+            isLoading={isLoading}
+          />
+        </GoogleReCaptchaProvider>
+      </Container>
+    </AuthRoute>
   );
 };
 
