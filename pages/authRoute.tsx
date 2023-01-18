@@ -19,7 +19,7 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = ({ children }) => {
   const onIdle = useCallback(() => {
     // Do some idle action like log out your user
     removeUser();
-    Router.push('/login');
+    Router.push('/');
   }, []);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = ({ children }) => {
       setIsLoggedIn(true);
     }
     if (!state || !state?.user || !state?.user.user?.uid) {
-      Router.push('/login');
+      Router.push('/');
     }
   }, [isLoggedIn, state.user, state]);
 
