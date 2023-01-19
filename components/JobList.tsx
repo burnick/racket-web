@@ -106,44 +106,6 @@ const JobList = ({
                   </Content>
                 }
               />
-
-              {/* <PanelCard width={100} key={`panel-${item.id}`}>
-                <Content>
-                  <ItemDetails>
-                    <Title>Title:</Title>
-                    {item.title}
-                  </ItemDetails>
-                  <ItemDetails>
-                    <Title>Salary:</Title> {item.salary} per day
-                  </ItemDetails>
-                  <ItemDetails>
-                    <Title>Type:</Title> {item.employmentType}
-                  </ItemDetails>
-                  <ItemDetails>
-                    <Title>Address:</Title> {item.address}
-                  </ItemDetails>
-                  {item.phone && (
-                    <ItemDetails>
-                      <Title>Phone:</Title>
-                      <HideShowContact phone={item.phone} />
-                    </ItemDetails>
-                  )}
-                  <ItemDetails>
-                    <Title>Expiration date:</Title>
-                    {moment(item.expirationDate).format('YYYY-MM-DD')}
-                  </ItemDetails>
-                  {item.email && (
-                    <ItemDetails>
-                      <Title>Email:</Title>
-                      <HideShowContact email={item.email} />
-                    </ItemDetails>
-                  )}
-                  <ItemDetails>
-                    <Title>Description:</Title>
-                  </ItemDetails>
-                  <p dangerouslySetInnerHTML={{ __html: item.description }} />
-                </Content>
-              </PanelCard> */}
             </List.Item>
           )}
         />
