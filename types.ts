@@ -35,6 +35,7 @@ export interface JobProps {
   lat: number;
   lng: number;
   expirationDate: Date;
+  imgUrl: string;
 }
 
 export type ButtonTypes =

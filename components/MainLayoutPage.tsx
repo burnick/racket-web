@@ -5,6 +5,7 @@ import Header from 'components/Header';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import styled from 'styled-components';
 import Menu from 'components/Menu';
+import { store } from 'store';
 
 const { Content, Footer } = Layout;
 interface MainLayoutPageProps {
@@ -12,6 +13,7 @@ interface MainLayoutPageProps {
 }
 
 const MainLayoutPage = ({ children }: MainLayoutPageProps) => {
+  const state = store.getState();
   return (
     <>
       <Head>
@@ -21,17 +23,21 @@ const MainLayoutPage = ({ children }: MainLayoutPageProps) => {
       </Head>
       <Layout style={{ minHeight: '100vh' }}>
         <Header />
-        <GoogleReCaptchaProvider
-          reCaptchaKey={process.env.NEXT_RECAPTCHA_KEY as string}
-          scriptProps={{
-            async: false,
-            defer: false,
-            appendTo: 'head',
-            nonce: undefined,
-          }}
-        >
+        {!state.user.user?.uid ? (
+          <GoogleReCaptchaProvider
+            reCaptchaKey={process.env.NEXT_RECAPTCHA_KEY as string}
+            scriptProps={{
+              async: false,
+              defer: false,
+              appendTo: 'head',
+              nonce: undefined,
+            }}
+          >
+            <Menu />
+          </GoogleReCaptchaProvider>
+        ) : (
           <Menu />
-        </GoogleReCaptchaProvider>
+        )}
         <ContentStyled>{children}</ContentStyled>
         <Footer>Footer</Footer>
       </Layout>

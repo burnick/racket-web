@@ -57,6 +57,14 @@ const validationSchema = yup.object({
     .min(moment())
     .max(moment().add(1, 'months').calendar())
     .required(),
+  imgUrl: yup
+    .string()
+    .matches(
+      // eslint-disable-next-line
+      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g,
+      'Enter correct url!'
+    )
+    .required('Please enter a image url'),
 });
 
 const PostJobContent = ({
@@ -108,6 +116,7 @@ const PostJobContent = ({
       lat: lat,
       lng: lng,
       description: '',
+      imgUrl: '',
       expirationDate: new Date(moment().add(1, 'months').calendar()),
     },
     validationSchema: validationSchema,
@@ -192,6 +201,15 @@ const PostJobContent = ({
             onChange={formik.handleChange}
             value={formik.values.link}
             errorMessage={formik.errors.link}
+          />
+        </InputContainer>
+        <InputContainer>
+          <InputText
+            placeholder="Image Url"
+            name="imgUrl"
+            onChange={formik.handleChange}
+            value={formik.values.imgUrl}
+            errorMessage={formik.errors.imgUrl}
           />
         </InputContainer>
         <InputContainer>

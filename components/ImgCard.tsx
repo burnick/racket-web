@@ -1,13 +1,14 @@
 import React from 'react';
 import { Card, Image } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons';
 
 interface CardProps {
   title: string;
   width?: number;
   loading?: boolean;
   bordered?: boolean;
-  imgUrl: string;
-  description?: string;
+  imgUrl?: string;
+  description?: React.ReactElement;
 }
 
 const { Meta } = Card;
@@ -17,17 +18,18 @@ const PanelCard = ({
   width = 240,
   loading = false,
 
-  description = '',
+  description,
   bordered = false,
   imgUrl,
 }: CardProps) => {
   return (
     <Card
-      hoverable
+      // hoverable
       bordered={bordered}
-      style={{ width }}
-      cover={<Image alt="example" src={imgUrl} />}
+      style={{ width, textAlign: 'start' }}
+      cover={<Image alt={title} src={imgUrl} />}
       loading={loading}
+      actions={[<EllipsisOutlined key="ellipsis" />]}
     >
       <Meta title={title} description={description} />
     </Card>

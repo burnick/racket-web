@@ -6,15 +6,16 @@ import React, {
   SetStateAction,
 } from 'react';
 import styled from 'styled-components';
-import PanelCard from 'components/PanelCard';
-import moment from 'moment';
+//import PanelCard from 'components/PanelCard';
+//import moment from 'moment';
 import consoleHelper from 'utils/consoleHelper';
 //import isEqual from 'lodash/isEqual';
-import HideShowContact from 'components/HideShowContact';
+//import HideShowContact from 'components/HideShowContact';
 import { List } from 'antd';
 import { JobService } from 'hooks/useJobService';
 import Loading from './Loading';
 import { JobProps } from 'types';
+import ImgCard from './ImgCard';
 
 interface JobListProps {
   lat: number;
@@ -91,7 +92,22 @@ const JobList = ({
           dataSource={jobListing && jobListing?.data}
           renderItem={(item: JobProps) => (
             <List.Item>
-              <PanelCard width={100} key={`panel-${item.id}`}>
+              <ImgCard
+                title={item.title.toUpperCase()}
+                imgUrl={item.imgUrl}
+                description={
+                  <Content>
+                    <ItemDetails>
+                      <Title>Salary:</Title> {item.salary} per day
+                    </ItemDetails>
+                    <ItemDetails>
+                      <Title>Type:</Title> {item.employmentType}
+                    </ItemDetails>
+                  </Content>
+                }
+              />
+
+              {/* <PanelCard width={100} key={`panel-${item.id}`}>
                 <Content>
                   <ItemDetails>
                     <Title>Title:</Title>
@@ -127,7 +143,7 @@ const JobList = ({
                   </ItemDetails>
                   <p dangerouslySetInnerHTML={{ __html: item.description }} />
                 </Content>
-              </PanelCard>
+              </PanelCard> */}
             </List.Item>
           )}
         />

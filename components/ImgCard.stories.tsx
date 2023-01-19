@@ -20,7 +20,7 @@ export const ShortTitle = Template.bind({});
 ShortTitle.args = {
   title: 'test',
   imgUrl: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-  description: 'www.instagram.com',
+  description: <>www.instagram.com</>,
 };
 
 export const LongTitle = Template.bind({});
@@ -29,5 +29,5 @@ LongTitle.args = {
   title:
     'Ipusm some really long title uis expected here to see how it will look',
   imgUrl: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-  description: 'www.instagram.com',
+  description: <>www.instagram.com</>,
 };
