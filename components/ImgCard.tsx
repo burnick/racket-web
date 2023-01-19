@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Image } from 'antd';
+import { Card, Image, Empty } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 
 interface CardProps {
@@ -27,7 +27,7 @@ const PanelCard = ({
       // hoverable
       bordered={bordered}
       style={{ width, textAlign: 'start' }}
-      cover={<Image alt={title} src={imgUrl} />}
+      cover={imgUrl ? <Image alt={title} src={imgUrl} /> : <Empty />}
       loading={loading}
       actions={[<EllipsisOutlined key="ellipsis" />]}
     >
