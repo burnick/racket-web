@@ -24,6 +24,8 @@ interface LocationMapProps {
   //jobListing?: JobProps[];
   showJobLocations?: boolean;
 }
+const { UpsertCoordinates } = CoordinateService();
+const { GetAllJobs } = JobService();
 
 const LocationMap = ({
   userUid,
@@ -36,15 +38,18 @@ const LocationMap = ({
 }: LocationMapProps) => {
   const [bigMap, setBigMap] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { UpsertCoordinates } = CoordinateService();
-  const { mutate, isError } = UpsertCoordinates();
-  const { GetAllJobs } = JobService();
+
+  const { mutate, isError, isSuccess } = UpsertCoordinates();
 
   const [location, setLocation] = useState({
     lat: userLat,
     lng: userLng,
     address,
   });
+
+  if (isSuccess) {
+    //setState for location
+  }
 
   const [radius, setRadius] = useState<number>(userRadius);
 

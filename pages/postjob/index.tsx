@@ -10,6 +10,8 @@ import LocationMap from 'components/LocationMap';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import AuthRoute from 'pages/authRoute';
 
+const { GetCategories } = CategoriesService();
+
 interface AppProps {
   userUid: string;
   userLat?: number;
@@ -32,8 +34,6 @@ const LocationComponent = ({
   address = ManilaLatLong.address,
   userRadius = 10000,
 }: AppProps) => {
-  const { GetCategories } = CategoriesService();
-
   const { data: categoriesData, isLoading } = GetCategories();
 
   return (
