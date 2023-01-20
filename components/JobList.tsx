@@ -77,7 +77,6 @@ const JobList = ({
   }, [handleNavigation]);
 
   const handleOnClick = useCallback((id: string | number | undefined) => {
-    console.log(id);
     if (id) Router.push(`/job/${id}`);
   }, []);
 

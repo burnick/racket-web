@@ -7,6 +7,8 @@ import Loading from 'components/Loading';
 import moment from 'moment';
 //import isEqual from 'lodash/isEqual';
 import HideShowContact from 'components/HideShowContact';
+import { Col, Row } from 'antd';
+
 const { FindJob } = JobService();
 const Job = () => {
   const router = useRouter();
@@ -20,44 +22,71 @@ const Job = () => {
 
   return (
     <Container>
-      <PanelCard>
+      <PanelCard width={80}>
         {isError ? (
           'Unknown Job'
         ) : (
           <Content>
-            <ItemDetails>
-              <Title>Title:</Title>
-              {item.title}
-            </ItemDetails>
-            <ItemDetails>
-              <Title>Salary:</Title> {item.salary} per day
-            </ItemDetails>
-            <ItemDetails>
-              <Title>Type:</Title> {item.employmentType}
-            </ItemDetails>
-            <ItemDetails>
-              <Title>Address:</Title> {item.address}
-            </ItemDetails>
+            <Row>
+              <Col span={12}>
+                <Title>Title:</Title>
+              </Col>
+              <Col span={12}>{item.title}</Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <Title>Employment Type:</Title>
+              </Col>
+              <Col span={12}>{item.employmentType}</Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <Title>Salary:</Title>
+              </Col>
+              <Col span={12}>{item.salary} Pesos per day</Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <Title>Address:</Title>
+              </Col>
+              <Col span={12}>{item.address}</Col>
+            </Row>
             {item.phone && (
-              <ItemDetails>
-                <Title>Phone:</Title>
-                <HideShowContact phone={item.phone} />
-              </ItemDetails>
+              <Row>
+                <Col span={12}>
+                  <Title>Phone:</Title>
+                </Col>
+                <Col span={12}>
+                  <HideShowContact phone={item.phone} />
+                </Col>
+              </Row>
             )}
-            <ItemDetails>
-              <Title>Expiration date:</Title>
-              {moment(item.expirationDate).format('YYYY-MM-DD')}
-            </ItemDetails>
             {item.email && (
-              <ItemDetails>
-                <Title>Email:</Title>
-                <HideShowContact email={item.email} />
-              </ItemDetails>
+              <Row>
+                <Col span={12}>
+                  <Title>Email:</Title>
+                </Col>
+                <Col span={12}>
+                  <HideShowContact email={item.email} />
+                </Col>
+              </Row>
             )}
-            <ItemDetails>
-              <Title>Description:</Title>
-            </ItemDetails>
-            <p dangerouslySetInnerHTML={{ __html: item.description }} />
+            <Row>
+              <Col span={12}>
+                <Title>Expiration date:</Title>
+              </Col>
+              <Col span={12}>
+                {moment(item.expirationDate).format('YYYY-MM-DD')}
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <Title>Description:</Title>
+              </Col>
+              <Col span={12}>
+                <p dangerouslySetInnerHTML={{ __html: item.description }} />
+              </Col>
+            </Row>
           </Content>
         )}
       </PanelCard>
@@ -81,9 +110,7 @@ const Container = styled.div`
 const ItemDetails = styled.div``;
 
 const Content = styled.div`
-  flex: 1;
-  flex-direction: column;
-  justify-content: start;
+  width: 100%;
 `;
 
 const Title = styled.div`
