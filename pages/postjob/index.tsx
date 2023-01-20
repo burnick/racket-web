@@ -34,7 +34,8 @@ const LocationComponent = ({
   address = ManilaLatLong.address,
   userRadius = 10000,
 }: AppProps) => {
-  const { data: categoriesData, isLoading } = GetCategories();
+  const { data: categoriesData, isLoading: isCategoriesLoading } =
+    GetCategories();
 
   return (
     <AuthRoute>
@@ -60,7 +61,7 @@ const LocationComponent = ({
             lat={userLat}
             address={address}
             categoriesData={categoriesData}
-            isLoading={isLoading}
+            isLoading={isCategoriesLoading}
           />
         </GoogleReCaptchaProvider>
       </Container>
