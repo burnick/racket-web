@@ -61,7 +61,7 @@ const validationSchema = yup.object({
     .string()
     .matches(
       // eslint-disable-next-line
-      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g,
+      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|jpeg)/g,
       'Enter correct url!'
     )
     .required('Please enter a image url'),
