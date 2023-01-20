@@ -51,21 +51,21 @@ const LocationMap = ({
   useEffect(() => {
     if (location?.address) {
       dispatch(addLocation({ ...location, radius }));
-      mutate({
-        uid: userUid,
-        ...location,
-        radius,
-      });
     }
-  }, [location, dispatch]);
-
-  useEffect(() => {
     if (!isEqual(userRadius, radius) && location?.lng) {
       dispatch(addLocation({ ...location, radius }));
     }
   }, [radius, location, dispatch, userRadius]);
 
   useEffect(() => {
+    if (location?.address) {
+      mutate({
+        uid: userUid,
+        ...location,
+        radius,
+      });
+    }
+
     if (!isEqual(userRadius, radius) && location?.lng && userUid) {
       consoleHelper('updating location', userRadius, location, radius);
       mutate({

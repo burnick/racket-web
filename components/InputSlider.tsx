@@ -48,7 +48,7 @@ const InputSlider = ({
   disabled?: boolean;
   onChange: (value: number) => void;
 }) => {
-  const MAX = 30000;
+  const MAX = 50000;
   const [sliderValue, setSliderValue] = useState(value);
 
   const handleOnChange = (value: number | null) => {
