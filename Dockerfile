@@ -4,10 +4,13 @@ FROM node:16-alpine
 RUN mkdir -p /usr/app/
 WORKDIR /usr/app
 
-# copy the generated modules and all other files to the container
-COPY ./ ./
 # copy the package.json files from local machine to the workdir in container
-#COPY package*.json ./
+COPY package*.json ./
+# COPY tsconfig.json file
+COPY tsconfig.json ./
+
+# copy the generated modules and all other files to the container
+COPY . .
 
 RUN npm install
 
@@ -18,12 +21,28 @@ ARG WDS_SOCKET_PORT
 ARG PORT 
 ARG API_URL
 ARG APP_SECRET
+ARG NEXT_RECAPTCHA_KEY
+ARG FIREBASE_API_KEY
+ARG FIREBASE_AUTHDOMAIN
+ARG FIREBASE_PROJECT_ID
+ARG FIREBASE_STORAGE_BUCKET
+ARG FIREBASE_MESSAGE_SENDER_ID
+ARG FIREBASE_APP_ID
+
 
 ENV NODE_ENV=$NODE_ENV
 ENV API_URL=$API_URL
 ENV WDS_SOCKET_PORT=$WDS_SOCKET_PORT
 ENV PORT=$PORT
 ENV APP_SECRET=$APP_SECRET
+ENV NEXT_RECAPTCHA_KEY=$NEXT_RECAPTCHA_KEY
+ENV FIREBASE_API_KEY=$FIREBASE_API_KEY
+ENV FIREBASE_AUTHDOMAIN=$FIREBASE_AUTHDOMAIN
+ENV FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+ENV FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET
+ENV FIREBASE_MESSAGE_SENDER_ID=$FIREBASE_MESSAGE_SENDER_ID
+ENV FIREBASE_APP_ID=$FIREBASE_APP_ID
+
 
 # our app is running on port 3000 within the container, so need to expose it
 EXPOSE 3000
