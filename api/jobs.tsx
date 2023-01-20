@@ -40,3 +40,14 @@ export const getJobs = async ({
 
   return data;
 };
+
+export const findJob = async (props: { id: string }) => {
+  if (!props.id) {
+    console.error('missing id for job ');
+    return false;
+  }
+
+  const data = await useAxios.get(`job?id=${props.id}`);
+
+  return data;
+};

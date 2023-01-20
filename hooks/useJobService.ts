@@ -7,6 +7,18 @@ interface ExtendedJobProps extends JobProps {
 }
 
 export const JobService = () => {
+  const FindJob = (props: { id: string }) => {
+    const getJob = async () => {
+      return await api.findJob(props);
+    };
+    return useQuery(['getJob', props], getJob, {
+      staleTime: 120000,
+      cacheTime: 120000,
+      refetchOnWindowFocus: false,
+      refetchInterval: 1800000,
+    });
+  };
+
   const GetAllJobs = (props: {
     page?: number;
     total?: number;
@@ -46,5 +58,5 @@ export const JobService = () => {
     return useMutation(CreateAJob);
   };
 
-  return { GetAllJobs, CreateJob };
+  return { GetAllJobs, CreateJob, FindJob };
 };

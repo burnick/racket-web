@@ -16,7 +16,8 @@ import { JobService } from 'hooks/useJobService';
 import Loading from './Loading';
 import { JobProps } from 'types';
 import ImgCard from './ImgCard';
-
+import Router from 'next/router';
+const { GetAllJobs } = JobService();
 interface JobListProps {
   lat: number;
   lng: number;
@@ -33,7 +34,7 @@ const JobList = ({
   setPage,
 }: JobListProps) => {
   const elemRef = React.useRef<HTMLDivElement | null>(null);
-  const { GetAllJobs } = JobService();
+
   const { data: jobListing, isLoading } = GetAllJobs({
     page,
     total: 50,
@@ -75,6 +76,11 @@ const JobList = ({
     };
   }, [handleNavigation]);
 
+  const handleOnClick = useCallback((id: string | number | undefined) => {
+    console.log(id);
+    if (id) Router.push(`/job/${id}`);
+  }, []);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -105,7 +111,12 @@ const JobList = ({
                     </ItemDetails>
                   </Content>
                 }
+                onClick={() => handleOnClick(item?.id)}
               />
+
+              {/* <PanelCard width={100} key={`panel-${item.id}`}>
+                
+              </PanelCard> */}
             </List.Item>
           )}
         />

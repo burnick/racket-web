@@ -6,6 +6,8 @@ enum Roles {
   USER = 'user',
 }
 
+type ID = string | number | undefined;
+
 export interface CurrentUserProps {
   user: UserCredential;
 }
@@ -21,7 +23,7 @@ export interface UserProps {
 }
 
 export interface JobProps {
-  id?: number;
+  id?: ID;
   uid: string;
   title: string;
   employmentType: string;
@@ -123,22 +125,22 @@ export enum JobTypes {
   PARTTIME = 'Part time',
 }
 
-export interface JobProps {
-  id?: number;
-  uid: string;
-  title: string;
-  employmentType: string;
-  category: string;
-  description: string;
-  salary: number;
-  link: string;
-  email: string;
-  address: string;
-  phone: string;
-  lat: number;
-  lng: number;
-  expirationDate: Date;
-}
+// export interface JobProps {
+//   id: number;
+//   uid: string;
+//   title: string;
+//   employmentType: string;
+//   category: string;
+//   description: string;
+//   salary: number;
+//   link: string;
+//   email: string;
+//   address: string;
+//   phone: string;
+//   lat: number;
+//   lng: number;
+//   expirationDate: Date;
+// }
 
 export type MessageNotificationContextType = {
   messageText: string;
