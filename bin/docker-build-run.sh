@@ -13,4 +13,4 @@ export $(grep -v '^#' .env | xargs) && docker build -t racket-web \
 --build-arg FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET \
 --build-arg FIREBASE_MESSAGE_SENDER_ID=$FIREBASE_MESSAGE_SENDER_ID \
 --build-arg FIREBASE_APP_ID=$FIREBASE_APP_ID \
---no-cache . && docker run --rm -it --network=host -p 8080:8080 racket-web
+--no-cache . && docker run --rm -it -p 8080:8080 racket-web
