@@ -1,15 +1,17 @@
 # pull the Node.js Docker image
-FROM node:19-alpine
+FROM node:16-alpine
 
+RUN mkdir -p /usr/app/
+WORKDIR /usr/app
+
+# copy the generated modules and all other files to the container
+COPY ./ ./
 # copy the package.json files from local machine to the workdir in container
-COPY package*.json ./
+#COPY package*.json ./
 
 RUN npm install
 
-# copy the generated modules and all other files to the container
-COPY . .
-
-RUN yarn install
+RUN npm run build
 
 ARG NODE_ENV
 ARG WDS_SOCKET_PORT
@@ -29,4 +31,4 @@ EXPOSE 3000
 #RUN npm run prisma
 
 # the command that starts our app
-CMD ["node","server"]
+CMD ["node","server.js"]
