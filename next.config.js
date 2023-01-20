@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  experimental: {},
+  // reactStrictMode: true,
+  // swcMinify: true,
+  experimental: { granularChunks: true },
   compiler: {
     styledComponents: {
       ssr: true,
