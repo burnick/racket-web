@@ -28,64 +28,64 @@ const Job = () => {
         ) : (
           <Content>
             <Row>
-              <Col span={12}>
+              <StyledCol span={12}>
                 <Title>Title:</Title>
-              </Col>
-              <Col span={12}>{item.title}</Col>
+              </StyledCol>
+              <StyledCol span={12}>{item.title}</StyledCol>
             </Row>
             <Row>
-              <Col span={12}>
+              <StyledCol span={12}>
                 <Title>Employment Type:</Title>
-              </Col>
-              <Col span={12}>{item.employmentType}</Col>
+              </StyledCol>
+              <StyledCol span={12}>{item.employmentType}</StyledCol>
             </Row>
             <Row>
-              <Col span={12}>
+              <StyledCol span={12}>
                 <Title>Salary:</Title>
-              </Col>
-              <Col span={12}>{item.salary} Pesos per day</Col>
+              </StyledCol>
+              <StyledCol span={12}>{item.salary} Pesos per day</StyledCol>
             </Row>
             <Row>
-              <Col span={12}>
+              <StyledCol span={12}>
                 <Title>Address:</Title>
-              </Col>
-              <Col span={12}>{item.address}</Col>
+              </StyledCol>
+              <StyledCol span={12}>{item.address}</StyledCol>
             </Row>
             {item.phone && (
               <Row>
-                <Col span={12}>
+                <StyledCol span={12}>
                   <Title>Phone:</Title>
-                </Col>
-                <Col span={12}>
+                </StyledCol>
+                <StyledCol span={12}>
                   <HideShowContact phone={item.phone} />
-                </Col>
+                </StyledCol>
               </Row>
             )}
             {item.email && (
               <Row>
-                <Col span={12}>
+                <StyledCol span={12}>
                   <Title>Email:</Title>
-                </Col>
-                <Col span={12}>
+                </StyledCol>
+                <StyledCol span={12}>
                   <HideShowContact email={item.email} />
-                </Col>
+                </StyledCol>
               </Row>
             )}
             <Row>
-              <Col span={12}>
+              <StyledCol span={12}>
                 <Title>Expiration date:</Title>
-              </Col>
-              <Col span={12}>
+              </StyledCol>
+              <StyledCol span={12}>
                 {moment(item.expirationDate).format('YYYY-MM-DD')}
-              </Col>
+              </StyledCol>
             </Row>
             <Row>
-              <Col span={12}>
+              <StyledCol span={12}>
                 <Title>Description:</Title>
-              </Col>
-              <Col span={12}>
+              </StyledCol>
+              <StyledCol span={12}>
                 <p dangerouslySetInnerHTML={{ __html: item.description }} />
-              </Col>
+              </StyledCol>
             </Row>
           </Content>
         )}
@@ -107,10 +107,9 @@ const Container = styled.div`
   overflow-y: auto;
 `;
 
-const ItemDetails = styled.div``;
-
 const Content = styled.div`
   width: 100%;
+  align-items: left;
 `;
 
 const Title = styled.div`
@@ -120,5 +119,9 @@ const Title = styled.div`
   font-size: 18px;
   width: 10%;
   margin-right: 10px;
+`;
+
+const StyledCol = styled(Col)`
+  text-align: left;
 `;
 export default Job;

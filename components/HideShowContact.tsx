@@ -30,7 +30,7 @@ const HideShowContact = ({
 };
 
 const Container = styled.div`
-  margin-left: 15%;
+  text-align: left;
 `;
 
 const ContactLink = styled.a`
