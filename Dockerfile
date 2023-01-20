@@ -4,6 +4,9 @@ FROM node:16-alpine
 RUN mkdir -p /usr/app/
 WORKDIR /usr/app
 
+# ADD BASH
+RUN apk add --no-cache bash
+
 # copy the package.json files from local machine to the workdir in container
 COPY package*.json ./
 # COPY tsconfig.json file
