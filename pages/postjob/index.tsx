@@ -83,7 +83,7 @@ const PostJob = () => {
         <LocationComponent
           userUid={stateUid}
           userLng={
-            stateLocation?.lng ? stateLocation?.lng : coordinatesData?.lng
+            coordinatesData?.lng ? coordinatesData?.lng : stateLocation?.lng
           }
           userRadius={
             stateLocation?.radius
@@ -91,9 +91,13 @@ const PostJob = () => {
               : coordinatesData?.radius
           }
           userLat={
-            stateLocation?.lat ? stateLocation?.lat : coordinatesData?.lat
+            coordinatesData?.lat ? coordinatesData?.lat : stateLocation?.lat
           }
-          address={stateLocation?.address}
+          address={
+            coordinatesData?.address
+              ? coordinatesData?.address
+              : stateLocation?.address
+          }
         />
       )}
     </>

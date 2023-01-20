@@ -49,6 +49,17 @@ const LocationMap = ({
   const [radius, setRadius] = useState<number>(userRadius);
 
   useEffect(() => {
+    if (location?.address) {
+      dispatch(addLocation({ ...location, radius }));
+      mutate({
+        uid: userUid,
+        ...location,
+        radius,
+      });
+    }
+  }, [location, dispatch]);
+
+  useEffect(() => {
     if (!isEqual(userRadius, radius) && location?.lng) {
       dispatch(addLocation({ ...location, radius }));
     }
