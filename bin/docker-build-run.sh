@@ -1,6 +1,6 @@
 #/bin/sh
 
-export $(grep -v '^#' .env | xargs) && docker build -t racket-web \
+export $(grep -v '^#' .env | xargs) && docker build -t arnelceledonio/racket-web \
 --build-arg PORT=$PORT  \
 --build-arg APP_SECRET=$APP_SECRET \
 --build-arg NODE_ENV=$NODE_ENV \
@@ -13,4 +13,4 @@ export $(grep -v '^#' .env | xargs) && docker build -t racket-web \
 --build-arg FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET \
 --build-arg FIREBASE_MESSAGE_SENDER_ID=$FIREBASE_MESSAGE_SENDER_ID \
 --build-arg FIREBASE_APP_ID=$FIREBASE_APP_ID \
---no-cache . && docker run --rm -it -p 8080:8080 racket-web
+--no-cache . && docker run --rm -it -p 8080:8080 arnelceledonio/racket-web
