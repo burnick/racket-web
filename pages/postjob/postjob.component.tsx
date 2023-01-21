@@ -16,6 +16,8 @@ import { MessageNotificationContext } from 'components/MessageNotificationContex
 import { MessageNotificationContextType } from 'types';
 import consoleHelper from 'utils/consoleHelper';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import CheckImageUrl from 'utils/checkImageUrl';
+import CheckSiteUrl from 'utils/checkSiteUrl';
 
 interface PostJobProps {
   uid: string;
@@ -29,6 +31,13 @@ interface PostJobProps {
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
+// yup.addMethod(yup.string, 'checkValidImageUrl', function (errorMessage) {
+//   return yup.test(`test-valid-image-url`, errorMessage, (value) => {
+//     const { path, createError } = this;
+
+//     return CheckImageUrl(value) || createError({ path, message: errorMessage });
+//   });
+// });
 const validationSchema = yup.object({
   title: yup.string().required().min(5, 'Min 5 characters'),
   category: yup.number().required(),
@@ -42,6 +51,10 @@ const validationSchema = yup.object({
       /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
       'Enter correct url!'
     )
+    .test('validator', 'link is not an site', (value) => {
+      if (value) return CheckSiteUrl(value);
+      return false;
+    })
     .required('Please enter website'),
   email: yup.string().email().required(),
   address: yup.string().required(),
@@ -59,11 +72,15 @@ const validationSchema = yup.object({
     .required(),
   imgUrl: yup
     .string()
-    .matches(
-      // eslint-disable-next-line
-      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|jpeg)/g,
-      'Enter correct url!'
-    )
+    // .matches(
+    //   // eslint-disable-next-line
+    //   /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|jpeg)/g,
+    //   'Enter correct url!'
+    // )
+    .test('validator', 'link is not an image', (value) => {
+      if (value) return CheckImageUrl(value);
+      return false;
+    })
     .required('Please enter a image url'),
 });
 
