@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { CategoriesService } from 'hooks/useCategoriesService';
 import { CoordinateService } from 'hooks/useCoordinateService';
 import PostJobComponent from './postjob.component';
-import { ManilaLatLong } from 'types';
+// import { ManilaLatLong } from 'types';
 import Loading from 'components/Loading';
 import LocationMap from 'components/LocationMap';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';

@@ -34,6 +34,11 @@ const Home = () => {
             userLat={
               stateLocation?.lat ? stateLocation?.lat : coordinatesData?.lat
             }
+            address={
+              stateLocation?.address
+                ? stateLocation?.address
+                : coordinatesData?.address
+            }
             showJobLocations={true}
           />
 

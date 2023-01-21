@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { addLocation } from 'store/slice/location';
 import { useDispatch } from 'react-redux';
-import { JobProps, ManilaLatLong } from 'types';
+import { JobProps } from 'types';
 import { CoordinateService } from 'hooks/useCoordinateService';
 import InputSlider from 'components/InputSlider';
 import dynamic from 'next/dynamic';
@@ -52,7 +52,7 @@ const LocationMap = ({
       //setState for location
       dispatch(addLocation({ ...location, radius }));
     }
-  }, [isSuccess]);
+  }, [isSuccess, dispatch, location, radius]);
 
   // useEffect(() => {
   //   if (location?.address) {
