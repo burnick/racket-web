@@ -92,6 +92,7 @@ const JobList = ({
           {jobListing &&
             jobListing?.data.map((item: JobProps) => (
               <ImgCard
+                key={item.id}
                 title={item.title.toUpperCase()}
                 imgUrl={item.imgUrl}
                 description={
