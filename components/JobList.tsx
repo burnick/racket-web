@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import consoleHelper from 'utils/consoleHelper';
 //import isEqual from 'lodash/isEqual';
 //import HideShowContact from 'components/HideShowContact';
-import { List } from 'antd';
 import { JobService } from 'hooks/useJobService';
 import Loading from './Loading';
 import { JobProps } from 'types';
@@ -89,21 +88,16 @@ const JobList = ({
       {jobListing && jobListing?.data?.length <= 0 ? (
         <NoListing>No job listing found!</NoListing>
       ) : (
-        <List
-          // header={<div>Header</div>}
-          // footer={<div>Footer</div>}
-          bordered
-          itemLayout="vertical"
-          dataSource={jobListing && jobListing?.data}
-          renderItem={(item: JobProps) => (
-            <List.Item>
+        <ListDetails>
+          {jobListing &&
+            jobListing?.data.map((item: JobProps) => (
               <ImgCard
                 title={item.title.toUpperCase()}
                 imgUrl={item.imgUrl}
                 description={
                   <Content>
                     <ItemDetails>
-                      <Title>Salary:</Title> {item.salary} per day
+                      <Title>Salary:</Title> {item.salary} pesos/day
                     </ItemDetails>
                     <ItemDetails>
                       <Title>Type:</Title> {item.employmentType}
@@ -112,13 +106,8 @@ const JobList = ({
                 }
                 onClick={() => handleOnClick(item?.id)}
               />
-
-              {/* <PanelCard width={100} key={`panel-${item.id}`}>
-                
-              </PanelCard> */}
-            </List.Item>
-          )}
-        />
+            ))}
+        </ListDetails>
       )}
     </Container>
   );
@@ -132,10 +121,7 @@ const Container = styled.div`
   overflow-y: auto;
 `;
 const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100px;
-  width: 100%;
+  max-height: 100px;
   justify-content: center;
   padding: 2%;
   overflow-x: hidden;
@@ -156,7 +142,13 @@ const NoListing = styled.div`
   margin-top: 20%;
   color: ${(props) => props.theme.colors.danger} !important;
 `;
-
 const ItemDetails = styled.div``;
+const ListDetails = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  overflow: hidden;
+  gap: 10px;
+`;
 
 export default JobList;

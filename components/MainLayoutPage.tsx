@@ -39,7 +39,7 @@ const MainLayoutPage = ({ children }: MainLayoutPageProps) => {
           <Menu />
         )}
         <ContentStyled>{children}</ContentStyled>
-        <Footer>Footer</Footer>
+        <FooterContainer>2023 All rights reserved</FooterContainer>
       </Layout>
     </>
   );
@@ -49,6 +49,19 @@ const ContentStyled = styled(Content)`
   margin-top: -20px
   padding: 10px;
   box-sizing: border-box;
+`;
+
+const FooterContainer = styled(Footer)`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  width: 100%;
+  padding: 10px;
+  color: ${(props) => props.theme.colors.white} !important;
+  background: ${(props) => props.theme.colors.primary} !important;
 `;
 
 export default MainLayoutPage;

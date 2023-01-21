@@ -28,7 +28,13 @@ const PanelCard = ({
       // hoverable
       bordered={bordered}
       style={{ width, textAlign: 'start' }}
-      cover={imgUrl ? <Image alt={title} src={imgUrl} /> : <Empty />}
+      cover={
+        imgUrl ? (
+          <Image alt={title} src={imgUrl} style={{ maxHeight: '150px' }} />
+        ) : (
+          <Empty />
+        )
+      }
       loading={loading}
       actions={[<EllipsisOutlined key="ellipsis" onClick={onClick} />]}
     >
