@@ -16,7 +16,7 @@ const { Meta } = Card;
 
 const PanelCard = ({
   title = 'test',
-  width = 240,
+  width = 360,
   loading = false,
   description,
   bordered = false,
