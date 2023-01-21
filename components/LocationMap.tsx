@@ -17,10 +17,10 @@ const OpenMaps = dynamic(() => import('components/OpenMaps'), {
 
 interface LocationMapProps {
   userUid: string;
-  userRadius?: number;
-  userLat?: number;
-  userLng?: number;
-  address?: string;
+  userRadius: number;
+  userLat: number;
+  userLng: number;
+  address: string;
   //jobListing?: JobProps[];
   showJobLocations?: boolean;
 }
@@ -29,16 +29,16 @@ const { GetAllJobs } = JobService();
 
 const LocationMap = ({
   userUid,
-  userLat = ManilaLatLong.lat,
-  userLng = ManilaLatLong.lng,
-  address = ManilaLatLong.address,
+  userLat,
+  userLng,
+  address,
   // jobListing,
   userRadius = 10000,
   showJobLocations = false,
 }: LocationMapProps) => {
   const [bigMap, setBigMap] = useState<boolean>(false);
   const dispatch = useDispatch();
-
+  const [radius, setRadius] = useState<number>(userRadius);
   const { mutate, isError, isSuccess } = UpsertCoordinates();
 
   const [location, setLocation] = useState({
@@ -47,20 +47,21 @@ const LocationMap = ({
     address,
   });
 
-  if (isSuccess) {
-    //setState for location
-  }
-
-  const [radius, setRadius] = useState<number>(userRadius);
-
   useEffect(() => {
-    if (location?.address) {
+    if (isSuccess) {
+      //setState for location
       dispatch(addLocation({ ...location, radius }));
     }
-    if (!isEqual(userRadius, radius) && location?.lng) {
-      dispatch(addLocation({ ...location, radius }));
-    }
-  }, [radius, location, dispatch, userRadius]);
+  }, [isSuccess]);
+
+  // useEffect(() => {
+  //   if (location?.address) {
+  //     dispatch(addLocation({ ...location, radius }));
+  //   }
+  //   if (!isEqual(userRadius, radius) && location?.lng) {
+  //     dispatch(addLocation({ ...location, radius }));
+  //   }
+  // }, [radius, location, dispatch, userRadius]);
 
   useEffect(() => {
     if (location?.address) {

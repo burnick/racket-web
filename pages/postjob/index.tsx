@@ -1,38 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState, store } from 'store';
 import styled from 'styled-components';
 import { CategoriesService } from 'hooks/useCategoriesService';
 import { CoordinateService } from 'hooks/useCoordinateService';
-import { store } from 'store';
 import PostJobComponent from './postjob.component';
 import { ManilaLatLong } from 'types';
 import Loading from 'components/Loading';
 import LocationMap from 'components/LocationMap';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import AuthRoute from 'pages/authRoute';
+// import consoleHelper from 'utils/consoleHelper';
 
 const { GetCategories } = CategoriesService();
+const { GetCoordinates } = CoordinateService();
 
 interface AppProps {
   userUid: string;
-  userLat?: number;
-  userLng?: number;
-  address?: string;
+  userLat: number;
+  userLng: number;
+  address: string;
 }
 
 interface AppProps {
   userUid: string;
-  userRadius?: number;
-  userLat?: number;
-  userLng?: number;
-  address?: string;
+  userRadius: number;
+  userLat: number;
+  userLng: number;
+  address: string;
 }
 
 const LocationComponent = ({
   userUid,
-  userLat = ManilaLatLong.lat,
-  userLng = ManilaLatLong.lng,
-  address = ManilaLatLong.address,
-  userRadius = 10000,
+  userLat,
+  userLng,
+  address,
+  userRadius,
 }: AppProps) => {
   const { data: categoriesData, isLoading: isCategoriesLoading } =
     GetCategories();
@@ -45,6 +48,7 @@ const LocationComponent = ({
           userLng={userLng}
           userRadius={userRadius}
           userLat={userLat}
+          address={address}
         />
         <GoogleReCaptchaProvider
           reCaptchaKey={process.env.NEXT_RECAPTCHA_KEY as string}
@@ -72,33 +76,33 @@ const LocationComponent = ({
 const PostJob = () => {
   const state = store.getState();
   const stateUid = state.user.user?.uid;
-  const stateLocation = state.location?.location;
-  const { GetCoordinates } = CoordinateService();
+  const stateLocation = useSelector(
+    (state: RootState) => state.location.location
+  );
   const { data: coordinatesData, isLoading } = GetCoordinates(stateUid);
+  const [newLocation, setNewLocation] = useState(coordinatesData);
+  useEffect(() => {
+    if (
+      stateLocation.address !== undefined &&
+      stateLocation.address !== coordinatesData.address
+    ) {
+      setNewLocation(stateLocation);
+    } else {
+      setNewLocation(coordinatesData);
+    }
+  }, [stateLocation, coordinatesData]);
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || (!newLocation && !newLocation?.uid) ? (
         <Loading />
       ) : (
         <LocationComponent
           userUid={stateUid}
-          userLng={
-            coordinatesData?.lng ? coordinatesData?.lng : stateLocation?.lng
-          }
-          userRadius={
-            stateLocation?.radius
-              ? stateLocation?.radius
-              : coordinatesData?.radius
-          }
-          userLat={
-            coordinatesData?.lat ? coordinatesData?.lat : stateLocation?.lat
-          }
-          address={
-            coordinatesData?.address
-              ? coordinatesData?.address
-              : stateLocation?.address
-          }
+          userLng={newLocation?.lng}
+          userRadius={newLocation.radius}
+          userLat={newLocation.lat}
+          address={newLocation.address}
         />
       )}
     </>
