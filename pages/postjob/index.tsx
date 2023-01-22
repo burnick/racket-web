@@ -79,18 +79,19 @@ const PostJob = () => {
   const stateLocation = useSelector(
     (state: RootState) => state.location.location
   );
-  const { data: coordinatesData, isLoading } = GetCoordinates(stateUid);
+  const {
+    data: coordinatesData,
+    isLoading,
+    isSuccess,
+  } = GetCoordinates(stateUid);
   const [newLocation, setNewLocation] = useState(coordinatesData);
   useEffect(() => {
-    if (
-      stateLocation.address !== undefined &&
-      stateLocation.address !== coordinatesData.address
-    ) {
+    if (!isSuccess) {
       setNewLocation(stateLocation);
     } else {
       setNewLocation(coordinatesData);
     }
-  }, [stateLocation, coordinatesData]);
+  }, [stateLocation, coordinatesData, isSuccess]);
 
   return (
     <>
