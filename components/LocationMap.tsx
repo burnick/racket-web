@@ -54,15 +54,6 @@ const LocationMap = ({
     }
   }, [dispatch, location, radius, userRadius]);
 
-  // useEffect(() => {
-  //   if (location?.address) {
-  //     dispatch(addLocation({ ...location, radius }));
-  //   }
-  //   if (!isEqual(userRadius, radius) && location?.lng) {
-  //     dispatch(addLocation({ ...location, radius }));
-  //   }
-  // }, [radius, location, dispatch, userRadius]);
-
   useEffect(() => {
     if (location?.address) {
       mutate({
