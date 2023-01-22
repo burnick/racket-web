@@ -102,8 +102,11 @@ const OpenMaps = ({
 };
 
 const MapContainerStyled = styled(MapContainer)`
-  //display: block;
+  display: block;
   width: 100%;
   height: 100%;
+  .leaflet-control-geocoder-form input {
+    color: black;
+  }
 `;
 export default React.memo(OpenMaps);

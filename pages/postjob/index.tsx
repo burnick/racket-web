@@ -10,6 +10,7 @@ import Loading from 'components/Loading';
 import LocationMap from 'components/LocationMap';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import AuthRoute from 'pages/authRoute';
+import consoleHelper from 'utils/consoleHelper';
 // import consoleHelper from 'utils/consoleHelper';
 
 const { GetCategories } = CategoriesService();
@@ -79,19 +80,17 @@ const PostJob = () => {
   const stateLocation = useSelector(
     (state: RootState) => state.location.location
   );
-  const {
-    data: coordinatesData,
-    isLoading,
-    isSuccess,
-  } = GetCoordinates(stateUid);
+  const { data: coordinatesData, isLoading } = GetCoordinates(stateUid);
   const [newLocation, setNewLocation] = useState(coordinatesData);
+
   useEffect(() => {
-    if (!isSuccess) {
+    consoleHelper('My Redux state has changed!', stateLocation);
+    if (stateLocation?.address) {
       setNewLocation(stateLocation);
     } else {
       setNewLocation(coordinatesData);
     }
-  }, [stateLocation, coordinatesData, isSuccess]);
+  }, [stateLocation, coordinatesData]);
 
   return (
     <>

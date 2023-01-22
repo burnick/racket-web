@@ -39,7 +39,7 @@ const LocationMap = ({
   const [bigMap, setBigMap] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [radius, setRadius] = useState<number>(userRadius);
-  const { mutate, isError, isSuccess } = UpsertCoordinates();
+  const { mutate, isError } = UpsertCoordinates();
 
   const [location, setLocation] = useState({
     lat: userLat,
@@ -48,11 +48,11 @@ const LocationMap = ({
   });
 
   useEffect(() => {
-    if (isSuccess) {
+    if (location?.lng || !isEqual(userRadius, radius)) {
       //setState for location
       dispatch(addLocation({ ...location, radius }));
     }
-  }, [isSuccess, dispatch, location, radius]);
+  }, [dispatch, location, radius, userRadius]);
 
   // useEffect(() => {
   //   if (location?.address) {
