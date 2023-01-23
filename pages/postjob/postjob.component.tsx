@@ -52,7 +52,9 @@ const validationSchema = yup.object({
       'Enter correct url!'
     )
     .test('validator', 'link is not an site', (value) => {
-      if (value) return CheckSiteUrl(value);
+      if (value) {
+        return CheckSiteUrl(value);
+      }
       return false;
     })
     .required('Please enter website'),
@@ -78,7 +80,9 @@ const validationSchema = yup.object({
     //   'Enter correct url!'
     // )
     .test('validator', 'link is not an image', (value) => {
-      if (value) return CheckImageUrl(value);
+      if (value) {
+        return CheckImageUrl(value);
+      }
       return false;
     })
     .required('Please enter a image url'),

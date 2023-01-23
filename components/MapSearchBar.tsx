@@ -51,7 +51,9 @@ const MapSearchBar = ({ setMarkers }: MapSearchBarProps) => {
         }) => {
           const latlng = e.geocode.center;
           const address = e.geocode.name.toString();
-          if (setMarkers) setMarkers({ ...latlng, address: address });
+          if (setMarkers) {
+            setMarkers({ ...latlng, address: address });
+          }
         }
       )
       .addTo(map);

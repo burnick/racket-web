@@ -52,7 +52,9 @@ const InputSlider = ({
   const [sliderValue, setSliderValue] = useState(value);
 
   const handleOnChange = (value: number | null) => {
-    if (value) onChange(value);
+    if (value) {
+      onChange(value);
+    }
   };
 
   return (

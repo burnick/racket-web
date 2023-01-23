@@ -111,7 +111,7 @@ const Login: React.FC = () => {
   );
 
   const onFinishFailed = (errorInfo: unknown) => {
-    console.log('Failed:', errorInfo);
+    consoleHelper('Failed:', errorInfo);
   };
 
   const handleReset = useCallback(() => {
