@@ -12,14 +12,14 @@ import {
   Circle,
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import LeafLet from 'leaflet';
 
 //import icon from 'leaflet/dist/images/marker-icon.png';
 // import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import MapSearchBar from 'components/MapSearchBar';
 import { MapComponentProps } from 'types';
 
-const DefaultIcon = L.icon({
+const DefaultIcon = LeafLet.icon({
   iconUrl: 'leaflet/images/marker-icon.png',
   shadowUrl: 'leaflet/images/marker-shadow.png',
   iconRetinaUrl: 'leaflet/images/marker-icon.png',
@@ -43,7 +43,7 @@ const MapComponent = ({
   useEffect(() => {
     (async function init() {
       // delete L.Icon.Default.prototype._getIconUrl;
-      L.Icon.Default.mergeOptions({
+      LeafLet.Icon.Default.mergeOptions({
         iconRetinaUrl: 'leaflet/images/marker-icon.png',
         iconUrl: 'leaflet/images/marker-icon.png',
         shadowUrl: 'leaflet/images/marker-shadow.png',

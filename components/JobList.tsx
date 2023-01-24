@@ -43,8 +43,8 @@ const JobList = ({
   });
 
   const handleNavigation = useCallback(
-    (e: Event) => {
-      const element = e.target as HTMLInputElement;
+    (event: Event) => {
+      const element = event.target as HTMLInputElement;
       const windowHeight =
         element && element.scrollHeight - element.clientHeight;
 

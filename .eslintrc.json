@@ -35,6 +35,7 @@
     /* Nesting ternary expressions can make code more difficult to understand. */
     "no-nested-ternary": "error", // ex. const  thing = foo ? bar : baz === qux ? someValue : anotherValue;
     /* enforces a maximum depth that blocks can be nested */
-    "max-depth": ["error", 2] //ex. if (boolean) { if (boolean) { if (boolean) {return true} } }
+    "max-depth": ["error", 2], //ex. if (boolean) { if (boolean) { if (boolean) {return true} } }
+    "id-length": ["error", { "min": 2, "exceptions": ["_"] }] // minimum identifier length ex. const a = 1;
   }
 }

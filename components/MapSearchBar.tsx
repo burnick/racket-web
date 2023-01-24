@@ -3,7 +3,7 @@ import { SetMarkerProps } from 'types';
 import { useMap } from 'react-leaflet';
 import 'leaflet-control-geocoder/dist/Control.Geocoder.js';
 import 'leaflet-control-geocoder/dist/Control.Geocoder.css';
-import L, { LatLng } from 'leaflet';
+import { LatLng } from 'leaflet';
 import { Geocoder, geocoders } from 'leaflet-control-geocoder';
 
 interface MapSearchBarProps extends SetMarkerProps {
@@ -38,7 +38,7 @@ const MapSearchBar = ({ setMarkers }: MapSearchBarProps) => {
     })
       .on(
         'markgeocode',
-        (e: {
+        (evt: {
           geocode: {
             center: LatLng;
             name:
@@ -49,8 +49,8 @@ const MapSearchBar = ({ setMarkers }: MapSearchBarProps) => {
               | L.Popup;
           };
         }) => {
-          const latlng = e.geocode.center;
-          const address = e.geocode.name.toString();
+          const latlng = evt.geocode.center;
+          const address = evt.geocode.name.toString();
           if (setMarkers) {
             setMarkers({ ...latlng, address: address });
           }
