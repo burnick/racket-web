@@ -11,7 +11,7 @@ const App = () => {
       <JobList
         lng={ManilaLatLong.lng as number}
         lat={ManilaLatLong.lat as number}
-        radius={30000}
+        radius={ManilaLatLong.radius as number}
         page={page}
         setPage={setPage}
       />

@@ -151,6 +151,7 @@ export enum ManilaLatLong {
   lat = 14.5995,
   lng = 120.9842,
   address = 'Metro Manila',
+  radius = 30000,
 }
 
 export interface ChatUsers {

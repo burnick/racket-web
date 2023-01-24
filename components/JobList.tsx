@@ -41,7 +41,6 @@ const JobList = ({
     lng,
     radius,
   });
-  //const [data, setData] = useState<JobProps[]>([]);
 
   const handleNavigation = useCallback(
     (e: Event) => {
