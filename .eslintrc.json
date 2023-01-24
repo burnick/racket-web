@@ -19,15 +19,22 @@
   },
   "plugins": ["react", "@typescript-eslint", "react-hooks"],
   "rules": {
+    /*
+     *  DO NOT TOUCH THIS UNLESS ALL DEVELOPES AGREE
+     */
     "prefer-const": "error", // Turn rule off
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "react/forbid-prop-types": "error",
-    "no-console": "error",
-    "curly": "error",
-    "no-nested-ternary": "error",
-    "max-depth": ["error", 2]
+    "no-console": "error", // ex. console.log(someValue)
+    "curly": "error", //ex. if (boolean) return true;
+    /* Some believe that the use of ternary operators leads to unclear code.*/
+    //"no-ternary": "error", // ex. const foo = isBar ? baz : qux;
+    /* Nesting ternary expressions can make code more difficult to understand. */
+    "no-nested-ternary": "error", // ex. const  thing = foo ? bar : baz === qux ? someValue : anotherValue;
+    /* enforces a maximum depth that blocks can be nested */
+    "max-depth": ["error", 2] //ex. if (boolean) { if (boolean) { if (boolean) {return true} } }
   }
 }
