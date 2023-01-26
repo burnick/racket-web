@@ -13,7 +13,7 @@ const Container = styled.div`
   color: #ffffff;
   top: 0;
   left: 0;
-  height: 100%;
+  min-height: 100vh;
   background-color: ${(props) =>
     hexToRgb(props.theme.colors.primary, 0.5)} !important;
   opacity: 0.5;

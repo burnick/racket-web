@@ -1,7 +1,14 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+} from '@tanstack/react-query';
 import { CoordinatesProps, LocationProps } from 'types';
 import consoleHelper from 'utils/consoleHelper';
 import * as api from 'api/coordinates';
+
+const queryClient = new QueryClient();
 
 export const CoordinateService = () => {
   const GetCoordinates = (uid: string) => {
@@ -12,16 +19,14 @@ export const CoordinateService = () => {
       return await api.findCoordinates(uid);
     };
 
-    return useQuery(['fetchAllJobs', uid], getCoordinates, {
-      staleTime: 120000,
-      cacheTime: 120000,
-      refetchOnWindowFocus: false,
-      refetchInterval: 1800000,
+    return useQuery({
+      queryKey: ['fetchAllCoordinates', uid],
+      queryFn: getCoordinates,
     });
   };
 
   const UpsertCoordinates = () => {
-    const pushCoodinates = async (props: LocationProps) => {
+    const pushCoordinates = async (props: LocationProps) => {
       if (
         !props?.uid ||
         !props?.lat ||
@@ -38,7 +43,15 @@ export const CoordinateService = () => {
       }
       return findLoc;
     };
-    return useMutation(pushCoodinates);
+    return useMutation({
+      mutationFn: pushCoordinates,
+      onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries({
+          queryKey: ['getUserCoordinates'],
+        });
+      },
+    });
   };
 
   return { UpsertCoordinates, GetCoordinates };

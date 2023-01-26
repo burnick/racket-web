@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { UserProps } from 'types';
 import consoleHelper from 'utils/consoleHelper';
 import * as api from 'api/users';

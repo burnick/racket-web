@@ -28,7 +28,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "react/forbid-prop-types": "error",
-    "no-console": "error", // ex. console.log(someValue)
+    "no-console": 1, //warning  ex. console.log(someValue)
     "curly": "error", //ex. if (boolean) return true;
     /* Some believe that the use of ternary operators leads to unclear code.*/
     //"no-ternary": "error", // ex. const foo = isBar ? baz : qux;

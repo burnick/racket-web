@@ -19,6 +19,16 @@ export const findUser = async (secret: string) => {
   return findUserData;
 };
 
+export const findUserById = async (uid: string) => {
+  if (!uid) {
+    console.error('missing value');
+    return false;
+  }
+
+  const { data: findUserData } = await useAxios.get(`users/${uid}`);
+  return findUserData;
+};
+
 export const createUser = async ({ user }: { user: UserProps }) => {
   if (!user.uid) {
     console.error('missing value');
