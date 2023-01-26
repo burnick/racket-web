@@ -24,7 +24,7 @@ interface LocationMapProps {
   //jobListing?: JobProps[];
   showJobLocations?: boolean;
 }
-const { UpsertCoordinates } = CoordinateService();
+const { UpsertCoordinates, UpsertRadius } = CoordinateService();
 const { GetAllJobs } = JobService();
 
 const LocationMap = ({
@@ -40,6 +40,7 @@ const LocationMap = ({
   const dispatch = useDispatch();
   const [radius, setRadius] = useState<number>(userRadius);
   const { mutate, isError } = UpsertCoordinates();
+  const { mutate: mutateRadius } = UpsertRadius();
 
   const [location, setLocation] = useState({
     lat: userLat,
@@ -55,23 +56,25 @@ const LocationMap = ({
   }, [dispatch, location, radius, userRadius]);
 
   useEffect(() => {
-    if (isEqual(userRadius, radius) && location?.address) {
+    if (!isEqual(userLat, location?.lat)) {
+      consoleHelper('updating location', location);
       mutate({
         uid: userUid,
         ...location,
         radius,
       });
     }
+  }, [radius, location, mutate, userLat, userUid, userRadius]);
 
+  useEffect(() => {
     if (!isEqual(userRadius, radius) && userUid) {
-      consoleHelper('updating location', userRadius, location, radius);
-      mutate({
+      consoleHelper('updating radius', userRadius, radius);
+      mutateRadius({
         uid: userUid,
-        ...location,
         radius,
       });
     }
-  }, [radius, location, mutate, userUid, userRadius]);
+  }, [radius, userUid, mutateRadius, userRadius]);
 
   const handleMapClick = useCallback(() => setBigMap((value) => !value), []);
 

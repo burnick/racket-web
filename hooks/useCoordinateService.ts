@@ -5,7 +5,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 import { CoordinatesProps, LocationProps } from 'types';
-import consoleHelper from 'utils/consoleHelper';
+//import consoleHelper from 'utils/consoleHelper';
 import * as api from 'api/coordinates';
 
 export const CoordinateService = () => {
@@ -54,5 +54,30 @@ export const CoordinateService = () => {
     });
   };
 
-  return { UpsertCoordinates, GetCoordinates };
+  const UpsertRadius = () => {
+    const queryClient = new QueryClient();
+    const pushCoordinateRadius = async (props: LocationProps) => {
+      if (!props?.uid || !props?.radius || props?.radius <= 0) {
+        //  consoleHelper(props);
+        throw new Error('missing location props');
+      }
+      const findLoc = await api.findCoordinates(props?.uid as string);
+      if (findLoc.radius !== props.radius) {
+        return await api.updateRadius(props);
+      }
+      return findLoc;
+    };
+
+    return useMutation({
+      mutationFn: pushCoordinateRadius,
+      onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries({
+          queryKey: ['getUserCoordinates'],
+        });
+      },
+    });
+  };
+
+  return { UpsertCoordinates, GetCoordinates, UpsertRadius };
 };

@@ -28,3 +28,16 @@ export const findCoordinates = async (uid: string) => {
   const { data } = await useAxios.get(`coordinates/${uid}`);
   return data;
 };
+
+export const updateRadius = async (props: LocationProps) => {
+  if (!props?.uid || !props?.radius || props?.radius <= 0) {
+    consoleHelper('missing coordinates props');
+    return false;
+  }
+
+  const { data } = await useAxios.post(`coordinates/radius`, {
+    uid: props?.uid,
+    radius: props?.radius,
+  });
+  return data;
+};

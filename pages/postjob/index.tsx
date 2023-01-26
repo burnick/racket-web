@@ -84,13 +84,13 @@ const PostJob = () => {
   const [newLocation, setNewLocation] = useState(coordinatesData);
 
   useEffect(() => {
-    if (stateLocation?.address) {
+    if (newLocation?.address !== stateLocation?.address) {
       consoleHelper('My Redux state has changed!', stateLocation);
       setNewLocation(stateLocation);
     } else {
       setNewLocation(coordinatesData);
     }
-  }, [stateLocation, coordinatesData]);
+  }, [stateLocation, coordinatesData, newLocation?.address]);
 
   return (
     <>
