@@ -6,7 +6,6 @@ import * as api from 'api/users';
 interface ExtraUserProps extends UserProps {
   token?: string;
 }
-const queryClient = new QueryClient();
 
 export const SignInService = () => {
   const GetUser = ({ secret }: { secret: string }) => {
@@ -37,6 +36,7 @@ export const SignInService = () => {
       }
       return api.createUser({ user: props });
     };
+    const queryClient = new QueryClient();
 
     return useMutation({
       mutationFn: createAUser,

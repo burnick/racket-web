@@ -6,8 +6,6 @@ interface ExtendedJobProps extends JobProps {
   token: string;
 }
 
-const queryClient = new QueryClient();
-
 export const JobService = () => {
   const FindJob = (props: { id: string }) => {
     const getJob = async () => {
@@ -65,7 +63,8 @@ export const JobService = () => {
       return await api.createJob(props);
     };
 
-    //return useMutation(CreateAJob);
+    const queryClient = new QueryClient();
+
     return useMutation({
       mutationFn: CreateAJob,
       onSuccess: () => {

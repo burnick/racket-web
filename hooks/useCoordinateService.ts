@@ -8,8 +8,6 @@ import { CoordinatesProps, LocationProps } from 'types';
 import consoleHelper from 'utils/consoleHelper';
 import * as api from 'api/coordinates';
 
-const queryClient = new QueryClient();
-
 export const CoordinateService = () => {
   const GetCoordinates = (uid: string) => {
     const getCoordinates = async () => {
@@ -43,6 +41,8 @@ export const CoordinateService = () => {
       }
       return findLoc;
     };
+    const queryClient = new QueryClient();
+
     return useMutation({
       mutationFn: pushCoordinates,
       onSuccess: () => {
