@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { findUserById } from 'api/users';
 import { findCoordinates } from 'api/coordinates';
 
@@ -8,6 +8,10 @@ export const InitialData = () => {
       return false;
     }
 
+    const queryClient = useQueryClient();
+
+    queryClient.invalidateQueries({ queryKey: ['getUserCoordinates'] });
+
     const { data: userData, status: userStatus } = useQuery({
       queryKey: ['fetchSingleUser', uid],
       queryFn: async () => {
@@ -16,6 +20,7 @@ export const InitialData = () => {
     });
 
     const userId = userData?.uid;
+
     // Then get  coordinates for this user
     const { data: coordinatesData, status: coordinateStatus } = useQuery({
       queryKey: ['getUserCoordinates'],
@@ -24,13 +29,13 @@ export const InitialData = () => {
       },
 
       // The query will not execute until the userId exists
-      //enabled: !!userId,
+      enabled: !!userId,
     });
 
     return {
       user: userData,
       coordinates: coordinatesData,
-      status: userStatus || coordinateStatus || false,
+      status: userStatus && coordinateStatus,
     };
   };
 

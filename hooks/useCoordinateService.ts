@@ -24,6 +24,7 @@ export const CoordinateService = () => {
   };
 
   const UpsertCoordinates = () => {
+    const queryClient = new QueryClient();
     const pushCoordinates = async (props: LocationProps) => {
       if (
         !props?.uid ||
@@ -32,7 +33,7 @@ export const CoordinateService = () => {
         !props?.radius ||
         props?.radius <= 0
       ) {
-        consoleHelper(props);
+        //  consoleHelper(props);
         throw new Error('missing location props');
       }
       const findLoc = await api.findCoordinates(props?.uid as string);
@@ -41,7 +42,6 @@ export const CoordinateService = () => {
       }
       return findLoc;
     };
-    const queryClient = new QueryClient();
 
     return useMutation({
       mutationFn: pushCoordinates,

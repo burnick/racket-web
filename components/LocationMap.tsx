@@ -55,7 +55,7 @@ const LocationMap = ({
   }, [dispatch, location, radius, userRadius]);
 
   useEffect(() => {
-    if (location?.address) {
+    if (isEqual(userRadius, radius) && location?.address) {
       mutate({
         uid: userUid,
         ...location,
@@ -63,7 +63,7 @@ const LocationMap = ({
       });
     }
 
-    if (!isEqual(userRadius, radius) && location?.lng && userUid) {
+    if (!isEqual(userRadius, radius) && userUid) {
       consoleHelper('updating location', userRadius, location, radius);
       mutate({
         uid: userUid,

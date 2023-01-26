@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { Col, Row, Slider, InputNumber } from 'antd';
 import customStyle from 'default.theme.json';
@@ -51,11 +51,14 @@ const InputSlider = ({
   const MAX = 50000;
   const [sliderValue, setSliderValue] = useState(value);
 
-  const handleOnChange = (value: number | null) => {
-    if (value) {
-      onChange(value);
-    }
-  };
+  const handleOnChange = useCallback(
+    (value: number | null) => {
+      if (value) {
+        onChange(value);
+      }
+    },
+    [onChange]
+  );
 
   return (
     <Container>
