@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, QueryClient } from '@tanstack/react-query';
 import { UserProps } from 'types';
 import consoleHelper from 'utils/consoleHelper';
 import * as api from 'api/users';
@@ -6,6 +6,7 @@ import * as api from 'api/users';
 interface ExtraUserProps extends UserProps {
   token?: string;
 }
+const queryClient = new QueryClient();
 
 export const SignInService = () => {
   const GetUser = ({ secret }: { secret: string }) => {
@@ -17,10 +18,14 @@ export const SignInService = () => {
       return await api.findUser(secret);
     };
 
-    return useQuery(['signInUser', secret], findUser, {
-      staleTime: Infinity,
-      cacheTime: Infinity,
-      refetchOnWindowFocus: false,
+    return useQuery({
+      queryKey: ['signInUser'],
+      queryFn: findUser,
+      // , {
+      //   staleTime: Infinity,
+      //   cacheTime: Infinity,
+      //   refetchOnWindowFocus: false,
+      // }
     });
   };
 
@@ -33,7 +38,15 @@ export const SignInService = () => {
       return api.createUser({ user: props });
     };
 
-    return useMutation(createAUser);
+    return useMutation({
+      mutationFn: createAUser,
+      onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries({
+          queryKey: ['signInUser'],
+        });
+      },
+    });
   };
 
   return { GetUser, AddUser };
