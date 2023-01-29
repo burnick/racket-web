@@ -1,0 +1,29 @@
+# YAML file
+
+# specify the Node.js version
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: 16.x
+   displayName: 'Install Node.js'  
+
+# build the React app
+- script: |
+    npm install
+    npm run build
+  displayName: 'Build the Racket Web App'
+
+# test the React app
+- script: |
+    npm test
+  displayName: 'Test the Racket Web App'
+
+# deploy the React app to Azure App Service
+- task: RacketWebApp
+  inputs:
+    azureSubscription: <azure-subscription-name>
+    appName: <web-app-name>
+    package: $(System.DefaultWorkingDirectory)/<build-output-folder>

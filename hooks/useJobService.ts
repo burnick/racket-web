@@ -1,6 +1,6 @@
 import { useQuery, useMutation, QueryClient } from '@tanstack/react-query';
 import { JobProps } from 'types';
-import * as api from 'api/jobs';
+import * as api from 'services/jobs';
 
 interface ExtendedJobProps extends JobProps {
   token: string;

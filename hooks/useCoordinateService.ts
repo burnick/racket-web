@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { CoordinatesProps, LocationProps } from 'types';
 //import consoleHelper from 'utils/consoleHelper';
-import * as api from 'api/coordinates';
+import * as api from 'services/coordinates';
 
 export const CoordinateService = () => {
   const GetCoordinates = (uid: string) => {

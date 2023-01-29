@@ -1,7 +1,7 @@
 import { useQuery, useMutation, QueryClient } from '@tanstack/react-query';
 import { UserProps } from 'types';
 import consoleHelper from 'utils/consoleHelper';
-import * as api from 'api/users';
+import * as api from 'services/users';
 
 interface ExtraUserProps extends UserProps {
   token?: string;

@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { findUserById } from 'api/users';
-import { findCoordinates } from 'api/coordinates';
+import { findUserById } from 'services/users';
+import { findCoordinates } from 'services/coordinates';
 
 export const InitialData = () => {
   const GetInitialData = (uid?: string) => {
