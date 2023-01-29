@@ -5,25 +5,25 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: 16.x
-   displayName: 'Install Node.js'  
+  - task: NodeTool@0
+    inputs:
+      versionSpec: 16.x
+    displayName: 'Install Node.js'
 
-# build the React app
-- script: |
-    npm install
-    npm run build
-  displayName: 'Build the Racket Web App'
+  # build the React app
+  - script: |
+      npm install
+      npm run build
+    displayName: 'Build the Racket Web App'
 
-# test the React app
-- script: |
-    npm test
-  displayName: 'Test the Racket Web App'
+  # test the React app
+  - script: |
+      npm test
+    displayName: 'Test the Racket Web App'
 
-# deploy the React app to Azure App Service
-- task: RacketWebApp
-  inputs:
-    azureSubscription: 'Azure subscription 1'
-    appName: racketWeb
-    package: $(System.DefaultWorkingDirectory)/<build-output-folder>
+  # deploy the React app to Azure App Service
+  - task: RacketWebApp
+    inputs:
+      azureSubscription: 'Azure subscription 1'
+      appName: racketWeb
+      package: $(System.DefaultWorkingDirectory)/<build-output-folder>
