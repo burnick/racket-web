@@ -16,18 +16,17 @@ steps:
       npm run build
     displayName: 'npm install and build'
   - task: ArchiveFiles@1
-      displayName: 'Archive files '
-      inputs:
-        rootFolder: '$(System.DefaultWorkingDirectory)'
-        includeRootFolder: false  
+    displayName: 'Archive files '
+    inputs:
+      rootFolder: '$(System.DefaultWorkingDirectory)'
+      includeRootFolder: false
 
   - task: CopyFiles@2
     displayName: 'Copy File to: $(TargetFolder)'
-      inputs:
-        SourceFolder: '$(Build.ArtifactStagingDirectory)'
-        Contents: '$(Build.BuildId).zip'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)\\ArtifactsToBePublished'
-    
+    inputs:
+      SourceFolder: '$(Build.ArtifactStagingDirectory)'
+      Contents: '$(Build.BuildId).zip'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\\ArtifactsToBePublished'
 
   - task: AzureRmWebAppDeployment@4
     inputs:
