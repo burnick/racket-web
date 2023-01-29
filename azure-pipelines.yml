@@ -22,11 +22,11 @@ steps:
         includeRootFolder: false  
 
   - task: CopyFiles@2
-  displayName: 'Copy File to: $(TargetFolder)'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)'
-      Contents: '$(Build.BuildId).zip'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\\ArtifactsToBePublished'
+    displayName: 'Copy File to: $(TargetFolder)'
+      inputs:
+        SourceFolder: '$(Build.ArtifactStagingDirectory)'
+        Contents: '$(Build.BuildId).zip'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)\\ArtifactsToBePublished'
     
 
   - task: AzureRmWebAppDeployment@4
