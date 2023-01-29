@@ -26,7 +26,7 @@ steps:
     inputs:
       SourceFolder: '$(Build.ArtifactStagingDirectory)'
       Contents: '$(Build.BuildId).zip'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\\ArtifactsToBePublished'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
   - task: AzureRmWebAppDeployment@4
     inputs:
