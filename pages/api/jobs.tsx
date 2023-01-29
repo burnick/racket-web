@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
-    case 'GET':
-      const { page, total, lng, lat, radius } = req.query;
+    case 'GET': {
+      // const { page, total, lng, lat, radius } = req.query;
       const jobs = [
         {
           title: 'title',
@@ -15,10 +15,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       ];
       res.status(200).json(jobs);
       break;
-    case 'POST':
+    }
+    case 'POST': {
       res.status(200).json({ hello: 'world' });
       break;
+    }
     default:
       res.status(405).json({ method: req.method });
+      break;
   }
 }
