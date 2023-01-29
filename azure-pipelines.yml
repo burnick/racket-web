@@ -1,31 +1,57 @@
-# YAML file
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-# specify the Node.js version
-pool:
-  vmImage: 'Ubuntu-16.04'
+name: Build and deploy Node.js app to Azure Web App - racketWeb
 
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: 16.x
-    displayName: 'Install Node.js'
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-  # build the React app
-  - script: |
-      npm install
-      npm run build
-    displayName: 'Build the Racket Web App'
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-  # test the React app
-  - script: |
-      npm test
-    displayName: 'Test the Racket Web App'
+    steps:
+      - uses: actions/checkout@v2
 
-  # deploy the React app to Azure App Service
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      ConnectionType: 'AzureRM'
-      appType: 'webAppLinux'
-      WebAppName: 'racketWeb'
-      packageForLinux: $(System.DefaultWorkingDirectory)/<build-output-folder>
-      StartupCommand: 'npm run start'
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path: .
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: node-app
+
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'racketWeb'
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_7fb5838b5d2549068784b3f9f13c3064 }}
+          package: .
+          StartupCommand: 'npm run start'
