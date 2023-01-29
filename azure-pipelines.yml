@@ -25,5 +25,5 @@ steps:
   - task: RacketWebApp
     inputs:
       azureSubscription: 'Azure subscription 1'
-      appName: racketWeb
+      appName: racketWeb@0
       package: $(System.DefaultWorkingDirectory)/<build-output-folder>
