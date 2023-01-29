@@ -24,6 +24,6 @@ steps:
 # deploy the React app to Azure App Service
 - task: RacketWebApp
   inputs:
-    azureSubscription: <azure-subscription-name>
-    appName: <web-app-name>
+    azureSubscription: 'Azure subscription 1'
+    appName: racketWeb
     package: $(System.DefaultWorkingDirectory)/<build-output-folder>
