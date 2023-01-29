@@ -22,7 +22,7 @@ steps:
     displayName: 'Test the Racket Web App'
 
   # deploy the React app to Azure App Service
-  - task: RacketWebApp
+  - task: RacketWebApp@0
     inputs:
       azureSubscription: 'Azure subscription 1'
       appName: racketWeb@0
