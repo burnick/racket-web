@@ -22,5 +22,5 @@ steps:
       azureSubscription: 'Azure subscription 1(29854bc5-5fe7-46e0-a758-1d1950748b0d)'
       appType: 'webAppLinux'
       WebAppName: 'racketWeb'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+      #packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
       StartupCommand: 'npm run start'

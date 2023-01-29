@@ -10,7 +10,8 @@
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "test-storybook": "test-storybook"
+    "test-storybook": "test-storybook",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.17.1",
@@ -21,6 +22,7 @@
     "@types/react-dom": "18.0.9",
     "antd": "^5.0.4",
     "axios": "^1.2.0",
+    "cypress": "^12.4.1",
     "eslint-config-next": "^13.0.5",
     "firebase": "^9.15.0",
     "formik": "^2.2.9",
