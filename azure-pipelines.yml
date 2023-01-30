@@ -14,26 +14,36 @@ steps:
   - script: |
       npm install
       npm run build
-    displayName: 'npm install and build'
+    displayName: 'Build NextJS App'
 
-  - task: ArchiveFiles@1
-    displayName: 'Archive files '
+  - task: AzureWebApp@1
     inputs:
-      rootFolder: '$(System.DefaultWorkingDirectory)'
-      includeRootFolder: false
-
-  - task: CopyFiles@2
-    displayName: 'Copy File to: $(TargetFolder)'
-    inputs:
-      SourceFolder: '$(Build.ArtifactStagingDirectory)'
-      Contents: '$(Build.BuildId).zip'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      ConnectionType: 'AzureRM'
       azureSubscription: 'Azure subscription 1(29854bc5-5fe7-46e0-a758-1d1950748b0d)'
       appType: 'webAppLinux'
-      WebAppName: 'racketWeb'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/*.zip'
-      StartupCommand: 'npm run start'
+      appName: 'racketWeb'
+      runtimeStack: 'NODE|16-lts'
+      startUpCommand: 'npm start'
+      deploymentMethod: 'zipDeploy'
+      package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    displayName: 'Deploy Next.js app to Azure'
+  # - task: ArchiveFiles@1
+  #   displayName: 'Archive files '
+  #   inputs:
+  #     rootFolder: '$(System.DefaultWorkingDirectory)'
+  #     includeRootFolder: false
+
+  # - task: CopyFiles@2
+  #   displayName: 'Copy File to: $(TargetFolder)'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)'
+  #     Contents: '$(Build.BuildId).zip'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  # - task: AzureRmWebAppDeployment@4
+  #   inputs:
+  #     ConnectionType: 'AzureRM'
+  #     azureSubscription: 'Azure subscription 1(29854bc5-5fe7-46e0-a758-1d1950748b0d)'
+  #     appType: 'webAppLinux'
+  #     WebAppName: 'racketWeb'
+  #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+  #     StartupCommand: 'npm run start'
