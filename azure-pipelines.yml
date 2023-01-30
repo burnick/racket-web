@@ -16,17 +16,6 @@ steps:
       npm run build
     displayName: 'Build NextJS App'
 
-  # - task: AzureWebApp@1
-  #   inputs:
-  #     azureSubscription: 'Azure subscription 1(29854bc5-5fe7-46e0-a758-1d1950748b0d)'
-  #     appType: 'webAppLinux'
-  #     appName: 'racketWeb'
-  #     runtimeStack: 'NODE|16-lts'
-  #     startUpCommand: 'npm start'
-  #     deploymentMethod: 'zipDeploy'
-  #     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-  #   displayName: 'Deploy Next.js app to Azure'
-
   - task: ArchiveFiles@1
     displayName: 'Archive files '
     inputs:
@@ -48,3 +37,14 @@ steps:
       WebAppName: 'racketWeb'
       packageForLinux: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
       StartupCommand: 'npm run start'
+
+  # - task: AzureWebApp@1
+  #   inputs:
+  #     azureSubscription: 'Azure subscription 1(29854bc5-5fe7-46e0-a758-1d1950748b0d)'
+  #     appType: 'webAppLinux'
+  #     appName: 'racketWeb'
+  #     runtimeStack: 'NODE|16-lts'
+  #     startUpCommand: 'npm start'
+  #     deploymentMethod: 'zipDeploy'
+  #     package: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
+  #   displayName: 'Deploy Next.js app to Azure'
