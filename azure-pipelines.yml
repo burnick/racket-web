@@ -15,32 +15,52 @@ steps:
       npm install
       npm run build
     displayName: 'Build NextJS App'
+    
 
   - task: ArchiveFiles@1
     displayName: 'Archive files '
     inputs:
-      rootFolder: '$(System.DefaultWorkingDirectory)/.next/'
+      rootFolder: '$(System.DefaultWorkingDirectory)'
       includeRootFolder: false
-      archiveType: 'zip'
-      verbose: true
-      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      replaceExistingArchive: true
 
   - task: CopyFiles@2
     displayName: 'Copy File to: $(TargetFolder)'
     inputs:
       SourceFolder: '$(Build.ArtifactStagingDirectory)'
       Contents: '$(Build.BuildId).zip'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'
 
-  - task: AzureRmWebAppDeployment@4
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: RacketWeb'
     inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'Azure subscription 1(29854bc5-5fe7-46e0-a758-1d1950748b0d)'
-      appType: 'webAppLinux'
-      WebAppName: 'racketWeb'
-      packageForLinux: '$(System.WorkFolder)/3/a/$(Build.BuildId).zip'
-      startupCommand: 'npm run start'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'
+
+
+  # - task: ArchiveFiles@1
+  #   displayName: 'Archive files '
+  #   inputs:
+  #     rootFolder: '$(System.DefaultWorkingDirectory)/.next/'
+  #     includeRootFolder: false
+  #     archiveType: 'zip'
+  #     verbose: true
+  #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+  #     replaceExistingArchive: true
+
+  # - task: CopyFiles@2
+  #   displayName: 'Copy File to: $(TargetFolder)'
+  #   inputs:
+  #     SourceFolder: '$(Build.ArtifactStagingDirectory)'
+  #     Contents: '$(Build.BuildId).zip'
+  #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  # - task: AzureRmWebAppDeployment@4
+  #   inputs:
+  #     ConnectionType: 'AzureRM'
+  #     azureSubscription: 'Azure subscription 1(29854bc5-5fe7-46e0-a758-1d1950748b0d)'
+  #     appType: 'webAppLinux'
+  #     WebAppName: 'racketWeb'
+  #     packageForLinux: '$(System.WorkFolder)/3/a/$(Build.BuildId).zip'
+  #     startupCommand: 'npm run start'
 
   # - task: AzureWebApp@1
   #   inputs:
