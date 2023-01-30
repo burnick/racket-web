@@ -169,3 +169,8 @@ export interface EmailProps {
   email: string;
   token: string;
 }
+
+export interface Theme {
+  theme: { colors: Record<string, string> };
+  error: string;
+}
