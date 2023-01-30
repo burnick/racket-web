@@ -41,7 +41,7 @@ steps:
       WebAppName: 'racketWeb'
       packageForLinux: '$(System.WorkFolder)/1/a/$(Build.BuildId).zip'
       #packageForLinux: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
-      StartupCommand: 'npm run start'
+      startupCommand: 'npm run start'
 
   # - task: AzureWebApp@1
   #   inputs:
