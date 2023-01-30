@@ -19,8 +19,12 @@ steps:
   - task: ArchiveFiles@1
     displayName: 'Archive files '
     inputs:
-      rootFolder: '$(System.DefaultWorkingDirectory)'
+      rootFolder: '$(System.DefaultWorkingDirectory)/.next/'
       includeRootFolder: false
+      archiveType: 'zip'
+      verbose: true
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      replaceExistingArchive: true
 
   - task: CopyFiles@2
     displayName: 'Copy File to: $(TargetFolder)'
@@ -35,7 +39,8 @@ steps:
       azureSubscription: 'Azure subscription 1(29854bc5-5fe7-46e0-a758-1d1950748b0d)'
       appType: 'webAppLinux'
       WebAppName: 'racketWeb'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
+      packageForLinux: '$(System.WorkFolder)/$(Build.BuildId).zip'
+      #packageForLinux: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
       StartupCommand: 'npm run start'
 
   # - task: AzureWebApp@1
@@ -46,5 +51,5 @@ steps:
   #     runtimeStack: 'NODE|16-lts'
   #     startUpCommand: 'npm start'
   #     deploymentMethod: 'zipDeploy'
-  #     package: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
+  #     package: '$(System.DefaultWorkingDirectory)/1/package/$(Build.BuildId).zip'
   #   displayName: 'Deploy Next.js app to Azure'
