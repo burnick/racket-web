@@ -13,7 +13,7 @@ steps:
 
   - script: |
       npm install
-    displayName: 'INstall Dependencies'
+    displayName: 'Install Dependencies'
 
   - script: |
       npm run build
