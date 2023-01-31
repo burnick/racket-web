@@ -20,7 +20,7 @@ steps:
     displayName: 'Install Dependencies'
 
   - script: |
-      yarn run export
+      yarn run build
     displayName: 'Build NextJS App'
 
   - task: CopyFiles@2
