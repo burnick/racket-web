@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "yarn config set script-shell \"/bin/bash\"; source ~/.nvm/nvm.sh; nvm use; next dev -p 8080",
-    "build": "next build",
+    "build": "yarn config set script-shell \"/bin/bash\"; source ~/.nvm/nvm.sh; nvm use; next build",
     "export": "NODE_ENV=production; next build && next export",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
@@ -36,7 +36,7 @@
     "react-google-recaptcha-v3": "^1.10.1",
     "react-idle-timer": "^5.4.2",
     "react-leaflet": "^4.2.0",
-    "react-quill": "^0.0.2",
+    "react-quill": "^2.0.0",
     "redux-persist-expire": "^1.1.1",
     "styled-components": "^5.3.6",
     "typescript": "4.9.3",
