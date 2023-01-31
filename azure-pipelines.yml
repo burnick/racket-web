@@ -20,10 +20,10 @@ steps:
     displayName: 'Install Dependencies'
 
   - task: Cache@2
-  displayName: 'Cache .next/cache'
-  inputs:
-    key: next | $(Agent.OS) | yarn.lock
-    path: '$(System.DefaultWorkingDirectory)/build/cache'
+    displayName: 'Cache .next/cache'
+    inputs:
+      key: next | $(Agent.OS) | yarn.lock
+      path: '$(System.DefaultWorkingDirectory)/build/cache'
 
   - script: |
       yarn run build
