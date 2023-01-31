@@ -11,12 +11,16 @@ steps:
       versionSpec: '16.x'
     displayName: 'Install Node.js'
 
+  - script: | 
+      npm install yarn -g 
+    displayName: 'Install yarn'
+    
   - script: |
-      npm install
+      yarn install
     displayName: 'Install Dependencies'
 
   - script: |
-      npm run build
+      yarn run build
     displayName: 'Build NextJS App'  
 
   - task: CopyFiles@2
