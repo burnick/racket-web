@@ -34,9 +34,7 @@ steps:
       replaceExistingArchive: true 
       archiveType: zip
       archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-
-  - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      artifact: drop    
+ 
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: RacketWeb'
