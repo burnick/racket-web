@@ -27,10 +27,16 @@ steps:
       TargetFolder: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'  
 
   - task: ArchiveFiles@1
-    displayName: 'Archive files '
+    displayName: 'Archive files'
     inputs:
       rootFolder: '$(System.DefaultWorkingDirectory)'
-      includeRootFolder: false  
+      includeRootFolder: false 
+      replaceExistingArchive: true 
+      archiveType: zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+
+  - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      artifact: drop    
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: RacketWeb'
