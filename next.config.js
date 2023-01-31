@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: true,
   //experimental: { granularChunks: true },
   images: { unoptimized: true },
+  distDir: 'build',
   compiler: {
     styledComponents: {
       ssr: true,
