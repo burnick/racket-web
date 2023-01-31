@@ -11,34 +11,33 @@ steps:
       versionSpec: '16.x'
     displayName: 'Install Node.js'
 
-  - script: | 
-      npm install yarn -g 
+  - script: |
+      npm install yarn -g
     displayName: 'Install yarn'
-    
+
   - script: |
       yarn install
     displayName: 'Install Dependencies'
 
   - script: |
-      yarn run build
-    displayName: 'Build NextJS App'  
+      yarn run export
+    displayName: 'Build NextJS App'
 
   - task: CopyFiles@2
     displayName: 'Copy File to: $(TargetFolder)'
     inputs:
       SourceFolder: '$(Build.ArtifactStagingDirectory)'
       Contents: '$(Build.BuildId).zip'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'  
+      TargetFolder: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'
 
   - task: ArchiveFiles@1
     displayName: 'Archive files'
     inputs:
       rootFolder: '$(System.DefaultWorkingDirectory)'
-      includeRootFolder: false 
-      replaceExistingArchive: true 
+      includeRootFolder: false
+      replaceExistingArchive: true
       archiveType: zip
       archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
- 
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: RacketWeb'
