@@ -19,6 +19,12 @@ steps:
       yarn install
     displayName: 'Install Dependencies'
 
+  - task: Cache@2
+  displayName: 'Cache .next/cache'
+  inputs:
+    key: next | $(Agent.OS) | yarn.lock
+    path: '$(System.DefaultWorkingDirectory)/build/cache'
+
   - script: |
       yarn run build
     displayName: 'Build NextJS App'
