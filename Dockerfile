@@ -1,5 +1,5 @@
 # pull the Node.js Docker image
-FROM node:16-alpine
+FROM node:18-alpine
 
 RUN mkdir -p /usr/app/
 WORKDIR /usr/app
@@ -50,7 +50,6 @@ ENV FIREBASE_APP_ID=$FIREBASE_APP_ID
 # our app is running on port 3000 within the container, so need to expose it
 EXPOSE 3000
 
-#RUN npm run prisma
 
 # the command that starts our app
 CMD ["node","server.js"]
