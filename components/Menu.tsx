@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { Popconfirm, Menu, Button } from 'antd';
-import { removeUser } from 'store/slice/user';
-import { removeLocation } from 'store/slice/location';
-import { useAppDispatch } from 'store/hooks';
+import { removeUser } from 'src/store/slice/user';
+import { removeLocation } from 'src/store/slice/location';
+import { useAppDispatch } from 'src/store/hooks';
 import Router from 'next/router';
-import { store } from 'store';
-import consoleHelper from 'utils/consoleHelper';
+import { store } from 'src/store';
+import consoleHelper from 'src/utils/consoleHelper';
 import { UserProps } from 'types';
 import {
   getAuth,
@@ -15,7 +15,7 @@ import {
   //onAuthStateChanged,
   signOut,
 } from 'firebase/auth';
-import { addUser } from 'store/slice/user';
+import { addUser } from 'src/store/slice/user';
 import {
   // AppstoreOutlined,
   // MailOutlined,

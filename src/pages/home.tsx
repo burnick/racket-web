@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { store } from 'store';
+import { store } from 'src/store';
 import { CoordinateService } from 'hooks/useCoordinateService';
 import Loading from 'components/Loading';
 import LocationMap from 'components/LocationMap';

@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import PanelCard from 'components/PanelCard';
 import { SignInService } from 'hooks/useSignInService';
-import { useAppDispatch } from 'store/hooks';
-import { addUser } from 'store/slice/user';
+import { useAppDispatch } from 'src/store/hooks';
+import { addUser } from 'src/store/slice/user';
 import Router from 'next/router';
 import { Spin } from 'antd';
 

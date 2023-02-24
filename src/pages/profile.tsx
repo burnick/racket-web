@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import AuthRoute from 'pages/authRoute';
+import AuthRoute from 'src/pages/authRoute';
 
 const Profile: React.FC = () => {
   return (

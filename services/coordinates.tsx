@@ -1,6 +1,6 @@
 import useAxios from 'hooks/use-axios';
 import { LocationProps } from 'types';
-import consoleHelper from 'utils/consoleHelper';
+import consoleHelper from 'src/utils/consoleHelper';
 
 export const addCoordinates = async (props: LocationProps) => {
   if (

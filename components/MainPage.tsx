@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import Head from 'next/head';
 import { Layout, Menu, Popconfirm } from 'antd';
-import Middleware from 'pages/authRoute';
-import { removeUser } from 'store/slice/user';
-import { removeLocation } from 'store/slice/location';
-import { useAppDispatch } from 'store/hooks';
+import Middleware from 'src/pages/authRoute';
+import { removeUser } from 'src/store/slice/user';
+import { removeLocation } from 'src/store/slice/location';
+import { useAppDispatch } from 'src/store/hooks';
 import Router from 'next/router';
 import Header from 'components/Header';
 import { getAuth, signOut } from 'firebase/auth';

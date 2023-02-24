@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState, store } from 'store';
+import { RootState, store } from 'src/store';
 import styled from 'styled-components';
 import { CategoriesService } from 'hooks/useCategoriesService';
 import { CoordinateService } from 'hooks/useCoordinateService';
@@ -9,8 +9,8 @@ import PostJobComponent from './postjob.component';
 import Loading from 'components/Loading';
 import LocationMap from 'components/LocationMap';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import AuthRoute from 'pages/authRoute';
-import consoleHelper from 'utils/consoleHelper';
+import AuthRoute from 'src/pages/authRoute';
+import consoleHelper from 'src/utils/consoleHelper';
 // import consoleHelper from 'utils/consoleHelper';
 
 const { GetCategories } = CategoriesService();
@@ -88,9 +88,9 @@ const PostJob = () => {
       consoleHelper('My Redux state has changed!', stateLocation);
       setNewLocation(stateLocation);
     } else {
-      setNewLocation(coordinatesData);
+      // setNewLocation(coordinatesData);
     }
-  }, [stateLocation, coordinatesData, newLocation?.address]);
+  }, [stateLocation?.address, newLocation?.address]);
 
   return (
     <>

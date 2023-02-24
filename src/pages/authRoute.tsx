@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Router from 'next/router';
-import { store } from 'store';
+import { store } from 'src/store';
 import { Spin } from 'antd';
 
 import { useIdleTimer } from 'react-idle-timer';
-import { removeUser } from 'store/slice/user';
+import { removeUser } from 'src/store/slice/user';
 import styled from 'styled-components';
 //import consoleHelper from 'utils/consoleHelper';
 

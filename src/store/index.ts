@@ -6,6 +6,7 @@ import locationReducer from './slice/location';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import expireReducer from 'redux-persist-expire';
+import { JobsAPI } from './store';
 
 const ONE_SECOND = 1;
 const ONE_MINUTE = ONE_SECOND * 60;
@@ -25,7 +26,7 @@ const userPersistConfig = {
   transforms: [
     // Create a transformer by passing the reducer key and configuration. Values
     // shown below are the available configurations with default values
-    expireReducer('user', {
+    expireReducer('users', {
       expireSeconds:
         process.env.NODE_ENV !== 'production' ? ONE_DAY : ONE_HOUR * 8,
       autoExpire: true,
@@ -51,11 +52,9 @@ export const store = configureStore({
   //   user: persistedReducer,
   // },
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => [
-    ...getDefaultMiddleware({
-      serializableCheck: false,
-    }),
-  ],
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(JobsAPI.middleware),
+
   devTools: process.env.NODE_ENV !== 'production',
 });
 

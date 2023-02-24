@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { fadeInDown } from 'react-animations';
 import React, { useEffect, useState, createContext, useCallback } from 'react';
-import hexToRgb from 'utils/hexToRgb';
+import hexToRgb from 'src/utils/hexToRgb';
 import isEmpty from 'lodash/isEmpty';
 import { MessageNotificationContextType } from 'types';
 import { CloseOutlined } from '@ant-design/icons';

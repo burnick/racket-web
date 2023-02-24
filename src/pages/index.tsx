@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ManilaLatLong } from 'types';
 import JobList from 'components/JobList';
-
+import { JobsAPI } from 'src/store/store';
 const App = () => {
   const [page, setPage] = useState<number>(0);
+  const { data } = JobsAPI.useGetAllJobsQuery();
+  console.log('======================', data);
 
   return (
     <Container>

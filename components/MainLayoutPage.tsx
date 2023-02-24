@@ -5,7 +5,7 @@ import Header from 'components/Header';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import styled from 'styled-components';
 import Menu from 'components/Menu';
-import { store } from 'store';
+import { store } from 'src/store';
 
 const { Content, Footer } = Layout;
 interface MainLayoutPageProps {

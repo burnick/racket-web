@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { addLocation } from 'store/slice/location';
+import { addLocation } from 'src/store/slice/location';
 import { useDispatch } from 'react-redux';
 import { JobProps } from 'types';
 import { CoordinateService } from 'hooks/useCoordinateService';
@@ -10,7 +10,7 @@ import isEqual from 'lodash/isEqual';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { JobService } from 'hooks/useJobService';
 import Loading from './Loading';
-import consoleHelper from 'utils/consoleHelper';
+import consoleHelper from 'src/utils/consoleHelper';
 const OpenMaps = dynamic(() => import('components/OpenMaps'), {
   ssr: false,
 });

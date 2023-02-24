@@ -14,10 +14,10 @@ import { JobService } from 'hooks/useJobService';
 import { Spin } from 'antd';
 import { MessageNotificationContext } from 'components/MessageNotificationContext';
 import { MessageNotificationContextType } from 'types';
-import consoleHelper from 'utils/consoleHelper';
+import consoleHelper from 'src/utils/consoleHelper';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import CheckImageUrl from 'utils/checkImageUrl';
-import CheckSiteUrl from 'utils/checkSiteUrl';
+import CheckImageUrl from 'src/utils/checkImageUrl';
+import CheckSiteUrl from 'src/utils/checkSiteUrl';
 
 interface PostJobProps {
   uid: string;

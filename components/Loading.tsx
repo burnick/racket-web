@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Spin } from 'antd';
-import hexToRgb from 'utils/hexToRgb';
+import hexToRgb from 'src/utils/hexToRgb';
 
 const Container = styled.div`
   position: relative;

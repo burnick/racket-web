@@ -8,7 +8,7 @@ import React, {
 import styled from 'styled-components';
 //import PanelCard from 'components/PanelCard';
 //import moment from 'moment';
-import consoleHelper from 'utils/consoleHelper';
+import consoleHelper from 'src/utils/consoleHelper';
 //import isEqual from 'lodash/isEqual';
 //import HideShowContact from 'components/HideShowContact';
 import { JobService } from 'hooks/useJobService';

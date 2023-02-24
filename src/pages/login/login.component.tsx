@@ -10,12 +10,12 @@ import {
   signInWithPopup,
   //onAuthStateChanged,
 } from 'firebase/auth';
-import { addUser } from 'store/slice/user';
-import { useAppDispatch } from 'store/hooks';
+import { addUser } from 'src/store/slice/user';
+import { useAppDispatch } from 'src/store/hooks';
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 import { SendEmailService } from 'hooks/useSendEmailService';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import consoleHelper from 'utils/consoleHelper';
+import consoleHelper from 'src/utils/consoleHelper';
 import Router from 'next/router';
 import { UserProps } from 'types';
 import { SignInService } from 'hooks/useSignInService';

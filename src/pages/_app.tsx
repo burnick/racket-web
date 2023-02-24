@@ -11,11 +11,12 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
-import { persistor, store } from 'store';
+import { persistor, store } from 'src/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import ErrorProvider from 'components/MessageNotificationContext';
 import MainLayoutPage from 'components/MainLayoutPage';
-
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import { JobsAPI } from 'src/store/store';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -44,17 +45,19 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <ErrorProvider>
-            <PersistGate loading={null} persistor={persistor}>
-              <Hydrate state={pageProps.dehydratedState}>
-                <MainLayoutPage>
-                  <Component {...pageProps} />
-                </MainLayoutPage>
-              </Hydrate>
-            </PersistGate>
-          </ErrorProvider>
-        </Provider>
+        <ApiProvider api={JobsAPI}>
+          <Provider store={store}>
+            <ErrorProvider>
+              <PersistGate loading={null} persistor={persistor}>
+                <Hydrate state={pageProps.dehydratedState}>
+                  <MainLayoutPage>
+                    <Component {...pageProps} />
+                  </MainLayoutPage>
+                </Hydrate>
+              </PersistGate>
+            </ErrorProvider>
+          </Provider>
+        </ApiProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );
